@@ -3,10 +3,12 @@ import 'package:fms_ditu/routes.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
