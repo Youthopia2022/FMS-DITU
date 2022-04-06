@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class body extends StatefulWidget {
-  const body({Key? key}) : super(key: key);
+class Body extends StatefulWidget {
+  const Body({Key? key}) : super(key: key);
 
   @override
-  State<body> createState() => _bodyState();
+  State<Body> createState() => _BodyState();
 }
 
-class _bodyState extends State<body> {
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
         child: Text("SignUp Screen")
     );
   }
