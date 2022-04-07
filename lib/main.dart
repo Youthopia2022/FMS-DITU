@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FMS DITU',
-      initialRoute: SignIn.routeName,
+      initialRoute: SignUp.routeName,
       routes: routes,
     );
   }
