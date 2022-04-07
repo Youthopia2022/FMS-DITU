@@ -11,21 +11,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # Add plugins here
   cupertino_icons: ^1.0.2
   group_button: ^4.8.0
   firebase_auth:
   firebase_core:
   firebase_storage:
+  google_nav_bar: ^5.0.6
+  url_launcher: ^6.0.20
+  line_icons: ^2.0.1
+  card_swiper: ^2.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# Add plugins here
   flutter_lints: ^1.0.0
   whatsapp_unilink: ^2.0.1+1
-  url_launcher: ^6.0.20
 #  flutter_open_whatsapp: ^0.1.2
 
 flutter:
