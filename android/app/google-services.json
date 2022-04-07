@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1015734805316",
+    "project_id": "fms-ditu",
+    "storage_bucket": "fms-ditu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015734805316:android:01d62532cd678321696d11",
+        "android_client_info": {
+          "package_name": "com.fms_ditu.fms_ditu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015734805316-g7rcl6jkhuf5mef9jd38l2qaa0jgi8as.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE92byOBuSBWnUFuh7wMS9GmQL5RYS-v4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015734805316-g7rcl6jkhuf5mef9jd38l2qaa0jgi8as.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
