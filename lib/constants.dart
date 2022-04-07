@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-// Don't use these colors. They will be changed in future
-const kPrimaryColor = Color(0xFF025ACF);
-const kPrimaryLightColor = Color(0xFFFFECDF);
-const kPrimaryGradientColor = Color(0xFFFFECDF);
-const kSecondaryColor = Color(0xFF979797);
-const kTextColor = Color(0xFF757575);
+const kContainerColorPrimary = Color(0xffffffff);
+const kContainerColorSecondary = Color(0xfff1f2f4);
+const kButtonColorSecondary = Color(0xffe8f1ff);
+const kTextColorDark = Color(0xFF110f21);
+const kIconColorDark = Color(0xFF110f21);
+const kIconColorLight = Color(0xFF9896a5);
+const kTextColorLight = Color(0xFF9896a5);
+const kBackgroundColor = Color(0xFFF3F2F7);
+const kButtonColorPrimary = Color(0xFF3f8cff);
 
 
-// Form Error
 final RegExp emailValidatorRegExp =
 RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 const String kEmailNullError = "Please Enter your email";
