@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kTextColorDark,
       ),
       title: 'FMS DITU',
-      initialRoute: dashboard.routeName,
+      initialRoute: SignUp.routeName,
       routes: routes,
     );
   }
