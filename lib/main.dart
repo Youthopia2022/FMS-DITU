@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'montserrat',
-        primaryColor: kTextColorDark
+        primaryColor: kTextColorDark,
       ),
       title: 'FMS DITU',
       initialRoute: dashboard.routeName,
