@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
@@ -32,19 +33,32 @@ class _BodyState extends State<Body> {
     }
   }
 
-  startAuthentication() async{
+  startAuthentication() async {
     final auth = FirebaseAuth.instance;
 
-    await auth.createUserWithEmailAndPassword(email: _email, password: _password).then((value) {
+    await auth
+        .createUserWithEmailAndPassword(email: _email, password: _password)
+        .then((value) {
       User? user = auth.currentUser;
       user!.sendEmailVerification();
 
-      timer = Timer.periodic(const Duration(seconds: 5), (timer){
+      timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
         user = auth.currentUser;
         user!.reload();
 
-        if(user!.emailVerified) {
-          Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => dashboard()));
+        if (user!.emailVerified) {
+          String uid = user!.uid;
+
+          await FirebaseFirestore.instance.collection("users").doc(uid).set({
+            "username": _username,
+            "email": _email,
+            "year": _year,
+            "branch": _branch,
+            "gender": _gender,
+            "college": _college,
+          });
+          Navigator.pushReplacement(
+              (context), MaterialPageRoute(builder: (context) => const dashboard()));
         }
       });
     });
@@ -144,9 +158,29 @@ class _BodyState extends State<Body> {
                     ),
               GroupButton(
                 buttons: const ["1st year", "2nd year", "3rd year", "4th year"],
-                onSelected: (i, selected) => (){
-                  _year = "${i+1}th year";
+                onSelected: (i, selected) {
+                  _year = "${i + 1} year";
                 },
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 2,
+                child: TextFormField(
+                  keyboardType: TextInputType.name,
+                  key: const ValueKey('branch'),
+                  style: const TextStyle(color: Colors.grey),
+                  decoration: const InputDecoration(
+                    labelText: "CSE/BCA/...",
+                  ),
+                  onSaved: (value) {
+                    _branch = value!;
+                  },
+                  validator: (value) {
+                    if (value?.isEmpty == true) {
+                      return "Incorrect branch";
+                    }
+                    return null;
+                  },
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 2,
