@@ -1,5 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
 import './BottomNavigationBar.dart';
 
 class body extends StatefulWidget {
@@ -18,17 +20,57 @@ class _bodyState extends State<body> {
     return Column(
       children:  [
         SizedBox(height: height*0.025),
+
         Container(
-          height: height/4,
+          height: height/3.5,
           width: width,
           child: Swiper(
             itemBuilder: (BuildContext context, int index) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  "https://www.hellokpop.com/wp-content/uploads/2018/09/asf_5.png",
-                  fit: BoxFit.fill,
-                ),
+              return Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      "https://www.hellokpop.com/wp-content/uploads/2018/09/asf_5.png",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed: () {
+                          print("object");
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(LineIcons.desktop),
+                        padding: EdgeInsets.all(5.0),
+                        shape: CircleBorder(),
+                      ),
+                      ClipOval(
+                        child: Material(
+                          color: Colors.blue, // Button color
+                          child: InkWell(
+                            splashColor: Colors.red, // Splash color
+                            onTap: () {},
+                            child: SizedBox(width: 56, height: 56, child: Icon(Icons.menu)),
+                          ),
+                        ),
+                      ),
+                      RawMaterialButton(
+                        onPressed: () {
+                          print("object");
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(LineIcons.desktop),
+                        padding: EdgeInsets.all(5.0),
+                        shape: CircleBorder(),
+                      ),
+                    ],
+                  ),
+                ],
               );
             },
             loop: true,
