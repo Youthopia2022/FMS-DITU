@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/routes.dart';
+import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
+import 'constants.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'montserrat',
+        primaryColor: kTextColorDark,
+      ),
       title: 'FMS DITU',
-      initialRoute: SignUp.routeName,
+      initialRoute: dashboard.routeName,
       routes: routes,
     );
   }
