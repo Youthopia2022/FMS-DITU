@@ -5,10 +5,11 @@ const kContainerColorSecondary = Color(0xfff1f2f4);
 const kButtonColorSecondary = Color(0xffe8f1ff);
 const kTextColorDark = Color(0xFF110f21);
 const kIconColorDark = Color(0xFF110f21);
-const kIconColorLight = Color(0xFF9896a5);
+const kErrorColor = Color(0xFFFB3838);
+const kIconColorLight = Color(0xFFD9D9D9);
 const kTextColorLight = Color(0xFF9896a5);
 const kBackgroundColor = Color(0xFFF3F2F7);
-const kButtonColorPrimary = Color(0xFF3f8cff);
+const kButtonColorPrimary = Color(0xFF7879F1);
 
 
 final RegExp emailValidatorRegExp =
