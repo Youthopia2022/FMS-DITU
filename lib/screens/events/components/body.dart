@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class body extends StatefulWidget {
-  const body({Key? key}) : super(key: key);
+class EventsBody extends StatefulWidget {
+  const EventsBody({Key? key}) : super(key: key);
 
   @override
-  State<body> createState() => _bodyState();
+  State<EventsBody> createState() => _EventsBodyState();
 }
 
-class _bodyState extends State<body> {
+class _EventsBodyState extends State<EventsBody> {
   @override
   Widget build(BuildContext context) {
     return const Center(
