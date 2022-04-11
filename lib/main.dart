@@ -6,6 +6,7 @@ import 'package:fms_ditu/screens/events/events.dart';
 import 'package:fms_ditu/screens/profile/profilePage.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
+import 'package:fms_ditu/sizeConfig.dart';
 import 'constants.dart';
 
 void main() async {
