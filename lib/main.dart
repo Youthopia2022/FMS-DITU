@@ -4,6 +4,7 @@ import 'package:fms_ditu/routes.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
+import 'package:fms_ditu/sizeConfig.dart';
 import 'constants.dart';
 
 void main() async{

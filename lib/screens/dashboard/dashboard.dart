@@ -22,7 +22,7 @@ class _dashboardState extends State<dashboard> {
   final List<Widget> _tabList = [
     const DashboardBody(),
     const EventsBody(),
-    const CartBody(),
+     CartBody(),
     const SignIn()
   ];
 

@@ -8,7 +8,7 @@ const kIconColorDark = Color(0xFF110f21);
 const kErrorColor = Color(0xFFFB3838);
 const kIconColorLight = Color(0xFFD9D9D9);
 const kTextColorLight = Color(0xFF9896a5);
-const kBackgroundColor = Color(0xFFF3F2F7);
+const kBackgroundColor = Color(0xFFE5E5E5);
 const kButtonColorPrimary = Color(0xFF7879F1);
 
 
