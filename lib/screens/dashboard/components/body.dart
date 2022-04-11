@@ -60,7 +60,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                               ),
                             ),
                             child: Image.network(
-                              "https://www.hellokpop.com/wp-content/uploads/2018/09/asf_5.png",
+                              "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/trippy-modern-creative-rock-concert-poster-design-template-a449ecc056eed70aa9e48b6f3f2e636f_screen.jpg",
                               fit: BoxFit.cover,
                               height: height / 2.5,
                               width: width / 1.3,
@@ -219,7 +219,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(
-                                      "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/trippy-modern-creative-rock-concert-poster-design-template-a449ecc056eed70aa9e48b6f3f2e636f_screen.jpg",
+                                      "https://marketplace.canva.com/EAE674LNif0/2/0/1131w/canva-club-cyber-party-night-promotion-poster-j-RytAB4ThY.jpg",
                                       fit: BoxFit.fill,
                                     )),
                               ),
