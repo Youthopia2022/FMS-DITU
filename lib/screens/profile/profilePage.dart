@@ -18,20 +18,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: ListView(
-          physics: const BouncingScrollPhysics(),
-          children: [
-            const ProfileWidget(
-              img: AssetImage("assets/images/male_icon.png"),
-            ),
-            const SizedBox(height: 24),
-            buildDetails(UserPreferences.myUser),
-            registeredEvents(),
-            logoutButton(),
-          ],
-        ),
+    return Scaffold(
+      body: ListView(
+        physics: const BouncingScrollPhysics(),
+        children: [
+          const ProfileWidget(
+            img: AssetImage("assets/images/male_icon.png"),
+          ),
+          const SizedBox(height: 24),
+          buildDetails(UserPreferences.myUser),
+          registeredEvents(),
+          logoutButton(),
+        ],
       ),
     );
   }
