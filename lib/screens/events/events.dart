@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/screens/events/components/body.dart';
 
-class events extends StatelessWidget {
-  const events({Key? key}) : super(key: key);
+class Events extends StatelessWidget {
+  const Events({Key? key}) : super(key: key);
 
-  static String routeName = "/events";
+  static String routeName = "/Events";
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(),
+    return const MaterialApp(
+      home: Scaffold(
         body: body(),
       ),
     );
