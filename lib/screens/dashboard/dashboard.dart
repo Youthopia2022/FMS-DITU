@@ -4,6 +4,7 @@ import 'package:fms_ditu/screens/dashboard/components/body.dart';
 
 import '../cart/components/body.dart';
 import '../events/components/body.dart';
+import '../profile/profilePage.dart';
 import '../signin/signin.dart';
 
 class dashboard extends StatefulWidget {
@@ -21,9 +22,9 @@ class _dashboardState extends State<dashboard> {
 
   final List<Widget> _tabList = [
     const DashboardBody(),
+    const ProfilePage(),
+    const CartBody(),
     const EventsBody(),
-     CartBody(),
-    const SignIn()
   ];
 
   void _update(int count) {

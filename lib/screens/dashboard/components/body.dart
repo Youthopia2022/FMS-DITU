@@ -23,16 +23,16 @@ class _DashboardBodyState extends State<DashboardBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: height * 0.015),
-          const Padding(
-            padding: EdgeInsets.only(left: 35, bottom: 10, top: 10),
-            child: Text(
-              "Top Events",
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: kTextColorDark),
-            ),
-          ),
+          // const Padding(
+          //   padding: EdgeInsets.only(left: 35, bottom: 10, top: 10),
+          //   child: Text(
+          //     "Top Events",
+          //     style: TextStyle(
+          //         fontSize: 24,
+          //         fontWeight: FontWeight.bold,
+          //         color: kTextColorDark),
+          //   ),
+          // ),
           Container(
             height: height / 2.28,
             width: width,
@@ -156,11 +156,10 @@ class _DashboardBodyState extends State<DashboardBody> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15, bottom: 10),
+            padding: EdgeInsets.only(left: 10, bottom: 10,right: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: height * 0.015),
                 const Padding(
                   padding: EdgeInsets.only(bottom: 10),
                   child: const Text(
@@ -170,11 +169,11 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ),
                 ),
                 Container(
-                  height: 140,
+                  height: height*0.18,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: 6,
+                    itemCount: 10,
                     itemBuilder: (BuildContext context, int index) =>
                         Row(
                           children: [
@@ -182,8 +181,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                             GestureDetector(
                                 onTap: () {},
                                 child: SizedBox(
-                                  width: 140,
-                                  height: 140,
+                                  width: height*0.18,
+                                  height: height*0.18,
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
                                       child: Image.network(
@@ -205,31 +204,74 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ),
                 ),
                 Container(
-                  height: 140,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 6,
-                    itemBuilder: (BuildContext context, int index) =>
-                        Row(
-                          children: [
-                            SizedBox(width: 4,),
-                            GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                  width: 140,
-                                  height: 140,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      child: Image.network(
-                                        "https://i.pinimg.com/originals/b5/36/d9/b536d9266780a79dd288ab2563cdce47.jpg",
-                                        fit: BoxFit.fill,
-                                      )),
-                                )),
-                          ],
-                        ),
+                  height: height*0.25,
+                  width: width,
+                  child: Center(
+                    child: ListView.builder(
+                      shrinkWrap: false,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 2,
+                      itemBuilder: (BuildContext context, int index) =>
+                          Row(
+                            children: [
+                              index==0?Container():SizedBox(width: width*0.02),
+                              GestureDetector(
+                                  onTap: () {},
+                                  child: Center(
+                                    child: Container(
+                                      height: height*0.25,
+                                      width: width*0.46,
+                                      decoration: BoxDecoration(
+                                          color: Colors.amber,
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                    ),
+                                  ),),
+                            ],
+                          ),
+                    ),
                   ),
                 ),
+                SizedBox(height: height * 0.015),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: const Text(
+                    "Informal",
+                    style: TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w500, color: kTextColorDark),
+                  ),
+                ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemCount: 34,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                  ),
+                  itemBuilder: (context, index) => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            print("Pressed $index");
+                          },
+                          child: Container(
+                            width: width*0.3,
+                            height: width*0.3,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.network(
+                                  "https://i.pinimg.com/originals/b5/36/d9/b536d9266780a79dd288ab2563cdce47.jpg",
+                                  fit: BoxFit.fill,
+                                )),
+                          )),
+                    ],
+                  ),
+                ),
+                SizedBox(height: height * 0.015),
+
               ],
             ),
           ),

@@ -21,6 +21,7 @@ dependencies:
   url_launcher: ^6.0.20
   line_icons: ^2.0.1
   card_swiper: ^2.0.3
+  pay: ^1.0.8
   cloud_firestore:
 
 dev_dependencies:

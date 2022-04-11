@@ -20,7 +20,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.green),
         body: ListView(
           physics: const BouncingScrollPhysics(),
           children: [

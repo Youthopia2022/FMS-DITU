@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fms_ditu/routes.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 import 'package:fms_ditu/screens/events/events.dart';
@@ -10,6 +11,11 @@ import 'package:fms_ditu/sizeConfig.dart';
 import 'constants.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());

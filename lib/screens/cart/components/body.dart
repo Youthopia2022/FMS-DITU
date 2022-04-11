@@ -240,7 +240,7 @@ class _CartBodyState extends State<CartBody> {
                 })),
         Container(
           width: width,
-          margin: EdgeInsets.only(left: 30, right: 30, bottom: 20, top: 10),
+          margin: EdgeInsets.only(left: width*0.15, right: width*0.15, bottom: 10, top: 10),
           decoration: BoxDecoration(
               color: kButtonColorPrimary,
               borderRadius: BorderRadius.circular(30)),
@@ -259,7 +259,7 @@ class _CartBodyState extends State<CartBody> {
                 SizedBox(
                   width: 7,
                 ),
-                Image.asset("assets/images/gpay.png",height: height * 0.035,color: Colors.white,)
+                Image.asset("assets/images/gpay.png",height: height * 0.025,color: Colors.white,)
               ],
             ),
           ),
