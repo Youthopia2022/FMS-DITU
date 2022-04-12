@@ -1,37 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/constants.dart';
+import 'package:fms_ditu/screens/signin/signin.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
-
+  const BottomNavBar({Key? key,required this.update}) : super(key: key);
+  final ValueChanged<int> update;
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Profile',
-      style: optionStyle,
-    ),
-    Text(
-      'Cart',
-      style: optionStyle,
-    ),
-    Text(
-      'More',
-      style: optionStyle,
-    ),
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,6 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
         child: GNav(
           rippleColor: kButtonColorSecondary,
+          backgroundColor: Colors.white,
           hoverColor: Colors.grey[100]!,
           gap: 8,
           activeColor: Colors.black,
@@ -56,22 +39,34 @@ class _BottomNavBarState extends State<BottomNavBar> {
           duration: Duration(milliseconds: 400),
           tabBackgroundColor: kButtonColorSecondary,
           color: Colors.black,
-          tabs: const [
+          tabs: [
             GButton(
               icon: LineIcons.home,
+              onPressed:() => widget.update(0),
               text: 'Home',
+              iconActiveColor: kIconColorDark,
+              iconColor: kIconColorLight,
             ),
             GButton(
               icon: LineIcons.user,
+              onPressed:() => widget.update(1),
               text: 'Profile',
+              iconActiveColor: kIconColorDark,
+              iconColor: kIconColorLight,
             ),
             GButton(
               icon: LineIcons.shoppingCart,
+              onPressed:() => widget.update(2),
               text: 'Cart',
+              iconActiveColor: kIconColorDark,
+              iconColor: kIconColorLight,
             ),
             GButton(
-              icon: IconData(0xf36e, fontFamily: 'MaterialIcons'),
+              icon: const IconData(0xf36e, fontFamily: 'MaterialIcons'),
+              onPressed:() => widget.update(3),
               text: 'More',
+              iconActiveColor: kIconColorDark,
+              iconColor: kIconColorLight,
             ),
           ],
           selectedIndex: _selectedIndex,
