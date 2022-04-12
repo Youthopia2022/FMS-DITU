@@ -267,19 +267,30 @@ class _CartBodyState extends State<CartBody> {
                       color: Colors.white,
                       fontWeight:
                       FontWeight
-                          .w600),
+                          .w500),
                 ),
-                GooglePayButton(
+                Container(
                   width: width*0.4,
-                  height: height*0.05,
-                  paymentConfigurationAsset: 'gpay.json',
-                  paymentItems: _paymentItems,
-                  style: GooglePayButtonStyle.white,
-                  type: GooglePayButtonType.pay,
-                  margin: const EdgeInsets.only(top: 10.0,bottom: 15),
-                  onPaymentResult: onGooglePayResult,
-                  loadingIndicator: const Center(
-                      child: LinearProgressIndicator()
+                  height: height*0.08,
+                  child: Expanded(
+                    child: GooglePayButton(
+                      paymentConfigurationAsset: 'gpay.json',
+                      paymentItems: _paymentItems,
+                      style: GooglePayButtonStyle.white,
+                      type: GooglePayButtonType.pay,
+                      margin: const EdgeInsets.only(top: 10.0,bottom: 15),
+                      onPaymentResult: onGooglePayResult,
+                      loadingIndicator: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            height: width*0.07,
+                              width: width*0.07,
+                              child: CircularProgressIndicator(color: Colors.white,strokeWidth: 2,)),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
