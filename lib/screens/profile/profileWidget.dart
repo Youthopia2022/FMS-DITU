@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
 import 'package:fms_ditu/screens/profile/userPreferences.dart';
 
@@ -30,7 +31,8 @@ class ProfileWidget extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 80,
-                backgroundImage: img, //add image according to gender recieved
+                backgroundImage: img,
+                backgroundColor: Colors.grey,
               ),
               const Padding(
                 padding: EdgeInsets.only(right: 10),
@@ -40,13 +42,17 @@ class ProfileWidget extends StatelessWidget {
                   Text(
                     user.id,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 24),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: kTextColorDark),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     user.name,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 24),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: kTextColorDark),
                   ),
                 ],
               )

@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'montserrat',
         primaryColor: kTextColorDark,
+        scaffoldBackgroundColor: kBackgroundColor,
       ),
       title: 'FMS DITU',
       initialRoute: dashboard.routeName,

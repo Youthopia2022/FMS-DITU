@@ -7,10 +7,8 @@ class Events extends StatelessWidget {
   static String routeName = "/Events";
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: body(),
-      ),
+    return const Scaffold(
+      body: body(),
     );
   }
 }

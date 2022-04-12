@@ -20,6 +20,7 @@ class _bodyState extends State<body> {
   int maxMembers = 4; //remove later //maxMembers - 1, 1 is the team leader
   bool isLeaderRequired = true; //remove later
   String eventName = "Cresendo"; //remove later
+  String organizer = "CodeGenX";
   String eventDescription =
       "Indian solo, Western solo, duet, instrumental, rapping+beatboxing"; //remove later
   String eventDate = "22nd April, 2022"; //remove later
@@ -97,58 +98,109 @@ class _bodyState extends State<body> {
               ),
               const SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Icon(
-                    Icons.calendar_today,
-                    // size: 14,
-                    color: Colors.green,
+                  Container(
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_today,
+                          // size: 14,
+                          color: Colors.green,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          eventDate,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              color: kTextColorDark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
-                    width: 4,
+                    width: 20,
                   ),
-                  Text(
-                    eventDate,
-                    style: const TextStyle(fontSize: 12, color: kTextColorDark),
+                  Container(
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.access_time,
+                          // size: 14,
+                          color: Colors.red,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          eventTime,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              color: kTextColorDark,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.monetization_on_rounded,
+                          color: Colors.amber,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          '\u{20B9}$eventFee',
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: kTextColorDark),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
-                    width: 4,
+                    width: 20,
                   ),
-                  const Icon(
-                    Icons.access_time,
-                    // size: 14,
-                    color: Colors.red,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    eventTime,
-                    style: const TextStyle(fontSize: 12, color: kTextColorDark),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  const Icon(
-                    Icons.monetization_on_rounded,
-                    color: Colors.amber,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    '\u{20B9}$eventFee',
-                    textAlign: TextAlign.end,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: kTextColorDark),
+                  Container(
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.handyman,
+                          color: Colors.blue,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          organizer,
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: kTextColorDark),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
-                child: Divider(color: kTextColorDark, thickness: 1.5),
+                child: Divider(color: kTextColorDark, thickness: 0.75),
               ),
             ]),
       );
@@ -241,7 +293,8 @@ class _bodyState extends State<body> {
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
             backgroundColor: kBackgroundColor,
-            content: ListView(children: [
+            content:
+                ListView(physics: const BouncingScrollPhysics(), children: [
               Column(
                 children: [
                   const SizedBox(
@@ -249,7 +302,7 @@ class _bodyState extends State<body> {
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "Enter participant details",
+                        "Participant Details",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 20,
@@ -267,33 +320,68 @@ class _bodyState extends State<body> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextFormField(
+                          style: const TextStyle(
+                              fontSize: 12, color: kTextColorDark),
                           cursorColor: kButtonColorPrimary,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             helperText: "Team Name",
-                            focusColor: kButtonColorPrimary,
-                            focusedBorder: UnderlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: kButtonColorPrimary),
+                                  const BorderSide(color: kButtonColorPrimary),
+                              borderRadius: BorderRadius.circular(40),
                             ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  const BorderSide(color: kButtonColorPrimary),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.person,
+                              color: kButtonColorPrimary,
+                            ),
+                            hintText: "Team Name",
+                            hintStyle:
+                                const TextStyle(color: kButtonColorPrimary),
+                            filled: true,
+                            fillColor: kButtonColorSecondary,
                           ),
                         ),
+                        SizedBox(height: 12),
                         isLeaderRequired
                             ? TextFormField(
+                                style: const TextStyle(
+                                    fontSize: 12, color: kTextColorDark),
                                 cursorColor: kButtonColorPrimary,
-                                decoration: const InputDecoration(
-                                  helperText: "Team Leader participant ID",
-                                  focusColor: kButtonColorPrimary,
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: kButtonColorPrimary),
+                                decoration: InputDecoration(
+                                  helperText: "Team Leader Participant ID",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: kButtonColorPrimary),
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: kButtonColorPrimary),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                    color: kButtonColorPrimary,
+                                  ),
+                                  hintText: "Team Leader Participant ID",
+                                  hintStyle: const TextStyle(
+                                      color: kButtonColorPrimary),
+                                  filled: true,
+                                  fillColor: kButtonColorSecondary,
                                 ),
                               )
                             : const SizedBox(height: 0, width: 0),
+                        const SizedBox(height: 12),
                         SizedBox(
                           height: 300,
                           width: 200,
                           child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
                               itemCount: _cardList.length,
                               itemBuilder: (context, index) {
                                 if (index <= maxMembers) {
@@ -316,6 +404,7 @@ class _bodyState extends State<body> {
                                 }
                               }),
                         ),
+                        const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -357,11 +446,25 @@ class _bodyState extends State<body> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          // ignore: deprecated_member_use
-                          child: RaisedButton(
-                            child: Text(message),
-                            onPressed: () {},
-                          ),
+                          child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                message,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 16),
+                                primary: kButtonColorPrimary,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    side: const BorderSide(
+                                        color: kButtonColorPrimary)),
+                                minimumSize: Size(
+                                    MediaQuery.of(context).size.width * 0.30,
+                                    MediaQuery.of(context).size.height * 0.05),
+                              )),
                         )
                       ],
                     ),
@@ -376,19 +479,34 @@ class _bodyState extends State<body> {
   }
 
   Widget _card() {
-    var container = Container(
-        height: 100,
-        margin: const EdgeInsets.only(top: 5, left: 8, right: 8),
-        child: Center(
-            child: TextFormField(
-          decoration: const InputDecoration(
-            hintText: "Enter participant ID",
-            focusColor: kButtonColorPrimary,
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: kButtonColorPrimary),
-            ),
+    var container = Center(
+        child: Padding(
+      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+      child: TextFormField(
+        cursorColor: kButtonColorPrimary,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(vertical: -10),
+          helperText: "Enter Participant ID",
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: kButtonColorPrimary),
+            borderRadius: BorderRadius.circular(40),
           ),
-        )));
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: kButtonColorPrimary),
+            borderRadius: BorderRadius.circular(40),
+          ),
+          prefixIcon: const Icon(
+            Icons.person,
+            color: kButtonColorPrimary,
+          ),
+          hintText: "Enter Participant ID",
+          hintStyle: const TextStyle(color: kButtonColorPrimary),
+          filled: true,
+          fillColor: kButtonColorSecondary,
+        ),
+        style: const TextStyle(fontSize: 12, color: kTextColorDark),
+      ),
+    ));
     return container;
   }
 
