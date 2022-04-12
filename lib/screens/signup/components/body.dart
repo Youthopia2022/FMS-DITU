@@ -42,11 +42,11 @@ class _BodyState extends State<Body> {
 
     await auth
         .createUserWithEmailAndPassword(email: _email, password: _password)
-        .then((value) {
+        .then((value) async {
       User? user = auth.currentUser;
-      user!.sendEmailVerification();
+      await user!.sendEmailVerification();
 
-      timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
         user = auth.currentUser;
         user!.reload();
 
@@ -59,7 +59,6 @@ class _BodyState extends State<Body> {
             "year": _year,
             "branch": _branch,
             "gender": _gender,
-            "college": _college,
           });
           Navigator.pushReplacement((context),
               MaterialPageRoute(builder: (context) => const dashboard()));
