@@ -30,6 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
         child: GNav(
           rippleColor: kButtonColorSecondary,
+          backgroundColor: Colors.white,
           hoverColor: Colors.grey[100]!,
           gap: 8,
           activeColor: Colors.black,
@@ -61,7 +62,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               iconColor: kIconColorLight,
             ),
             GButton(
-              icon: IconData(0xf36e, fontFamily: 'MaterialIcons'),
+              icon: const IconData(0xf36e, fontFamily: 'MaterialIcons'),
               onPressed:() => widget.update(3),
               text: 'More',
               iconActiveColor: kIconColorDark,

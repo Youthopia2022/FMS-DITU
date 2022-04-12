@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/screens/dashboard/components/BottomNavigationBar.dart';
 import 'package:fms_ditu/screens/dashboard/components/body.dart';
-import 'package:fms_ditu/screens/events/events.dart';
-import 'package:fms_ditu/screens/profile/profilePage.dart';
 
 import '../cart/components/body.dart';
 import '../events/components/body.dart';
+import '../profile/profilePage.dart';
 import '../signin/signin.dart';
 
 class dashboard extends StatefulWidget {
@@ -17,27 +16,28 @@ class dashboard extends StatefulWidget {
   State<dashboard> createState() => _dashboardState();
 }
 
-// ignore: camel_case_types
 class _dashboardState extends State<dashboard> {
+
   int _selectedIndex = 0;
 
   final List<Widget> _tabList = [
     const DashboardBody(),
     const ProfilePage(),
     const CartBody(),
-    const SignIn()
+    const EventsBody(),
   ];
 
   void _update(int count) {
     setState(() => _selectedIndex = count);
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(),
-            body: _tabList[_selectedIndex],
-            bottomNavigationBar: BottomNavBar(update: _update)));
+      child: Scaffold(
+        appBar: AppBar(),
+        body: _tabList[_selectedIndex],
+        bottomNavigationBar: BottomNavBar(update: _update)
+      )
+      );
   }
 }

@@ -7,10 +7,9 @@ class SignIn extends StatelessWidget {
   static String routeName = "/sign_in";
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
-        body: Body(),
+        body: SingleChildScrollView(child: Body()),
       ),
     );
   }

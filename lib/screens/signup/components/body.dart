@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
+import 'package:fms_ditu/screens/signin/signin.dart';
 import 'package:group_button/group_button.dart';
 
 class Body extends StatefulWidget {
@@ -21,13 +23,15 @@ class _BodyState extends State<Body> {
   late String _password;
   late String _year;
   late String _branch;
-  late String _college = "Other";
+  late String _college;
   late Timer timer;
+  late bool _showValidation = false;
 
   onSubmit() {
     final validate = _formKey.currentState!.validate();
 
     if (validate == true) {
+      _showValidation = true;
       _formKey.currentState!.save();
       startAuthentication();
     }
@@ -38,11 +42,11 @@ class _BodyState extends State<Body> {
 
     await auth
         .createUserWithEmailAndPassword(email: _email, password: _password)
-        .then((value) {
+        .then((value) async {
       User? user = auth.currentUser;
-      user!.sendEmailVerification();
+      await user!.sendEmailVerification();
 
-      timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
         user = auth.currentUser;
         user!.reload();
 
@@ -55,10 +59,9 @@ class _BodyState extends State<Body> {
             "year": _year,
             "branch": _branch,
             "gender": _gender,
-            "college": _college,
           });
-          Navigator.pushReplacement(
-              (context), MaterialPageRoute(builder: (context) => const dashboard()));
+          Navigator.pushReplacement((context),
+              MaterialPageRoute(builder: (context) => const dashboard()));
         }
       });
     });
@@ -66,23 +69,56 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Form(
+    return SingleChildScrollView(
+      child: Center(
+        child: Form(
           key: _formKey,
           child: Column(
             children: [
+              Container(
+                margin: const EdgeInsets.only(top: 40),
+                child: const Text(
+                  "Welcome to Youthopia!",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                      color: Colors.black
+                  ),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width / 1.5,
+                margin: const EdgeInsets.only(top: 20, bottom: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have an account?"),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              (context), SignIn.routeName, (route) => false);
+                        },
+                        child: const Text("Log In"))
+                  ],
+                ),
+              ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 1.3,
                 child: TextFormField(
                   keyboardType: TextInputType.name,
                   key: const ValueKey('username'),
                   style: const TextStyle(color: Colors.grey),
                   decoration: const InputDecoration(
-                    labelText: "username",
+                    contentPadding: EdgeInsets.symmetric(vertical: 17),
+                    hintText: "username",
+                    prefixIcon: Icon(Icons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
                   ),
                   validator: (value) {
                     if (value?.isEmpty == true) {
-                      return "Incorrect name";
+                      return kNamelNullError;
                     }
                     return null;
                   },
@@ -91,86 +127,95 @@ class _BodyState extends State<Body> {
                   },
                 ),
               ),
-              GroupButton(
-                  buttons: const ["Male", "Female", "Other"],
-                  onSelected: (i, selected) {
-                    if (i == 0) {
-                      _gender = "Male";
-                    } else if (i == 1) {
-                      _gender = "Female";
-                    } else {
-                      _gender = "Other";
-                    }
-                  }),
-              GroupButton(
-                  buttons: const ["DIT", "Other"],
-                  onSelected: (i, selected) {
-                    setState(() {
-                      if (i == 0) {
-                        _college = "DIT";
-                      } else {
-                        _college = "Other";
-                      }
-                    });
-                  }),
-              _college == "DIT"
-                  ? SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: TextFormField(
-                        keyboardType: TextInputType.name,
-                        key: const ValueKey('email'),
-                        style: const TextStyle(color: Colors.grey),
-                        decoration: const InputDecoration(
-                          labelText: "1000020104@dit.edu.in",
-                        ),
-                        onSaved: (value) {
-                          _email = value!;
-                        },
-                        validator: (value) {
-                          if (value?.isEmpty == true ||
-                              value?.contains('@') == false) {
-                            return "Incorrect email";
-                          }
-                          return null;
-                        },
-                      ),
-                    )
-                  : SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: TextFormField(
-                        keyboardType: TextInputType.name,
-                        key: const ValueKey('email'),
-                        style: const TextStyle(color: Colors.grey),
-                        decoration: const InputDecoration(
-                          labelText: "john@gmail.com",
-                        ),
-                        onSaved: (value) {
-                          _email = value!;
-                        },
-                        validator: (value) {
-                          if (value?.isEmpty == true ||
-                              value?.contains('@') == false) {
-                            return "Incorrect email";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-              GroupButton(
-                buttons: const ["1st year", "2nd year", "3rd year", "4th year"],
-                onSelected: (i, selected) {
-                  _year = "${i + 1} year";
-                },
+              const SizedBox(
+                height: 25,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 1.3,
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  key: const ValueKey('email'),
+                  style: const TextStyle(color: Colors.grey),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 17),
+                    hintText: "Email address",
+                    prefixIcon: Icon(Icons.email),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                  ),
+                  onSaved: (value) {
+                    _email = value!;
+                  },
+                  validator: (value) {
+                    if (value?.isEmpty == true) {
+                      return kEmailNullError;
+                    } else if (value?.contains('@') == false) {
+                      return kInvalidEmailError;
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.3,
+                child: TextFormField(
+                  keyboardType: TextInputType.name,
+                  key: const ValueKey('gender'),
+                  style: const TextStyle(color: Colors.grey),
+                  decoration: const InputDecoration(
+                      hintText: "Male",
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 17, horizontal: 20),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25)))),
+                  onSaved: (value) {
+                    _gender = value!;
+                  },
+                  validator: (value) {
+                    if (value?.isEmpty == true) {
+                      return "Incorrect gender";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                width: MediaQuery.of(context).size.width / 1.4,
+                child: GroupButton(
+                  buttons: const [
+                    "1st year",
+                    "2nd year",
+                    "3rd year",
+                    "4th year"
+                  ],
+                  onSelected: (i, selected) {
+                    _year = "${i + 1} year";
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  selectedColor: kButtonColorPrimary,
+                  isRadio: true,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.3,
                 child: TextFormField(
                   keyboardType: TextInputType.name,
                   key: const ValueKey('branch'),
                   style: const TextStyle(color: Colors.grey),
                   decoration: const InputDecoration(
-                    labelText: "CSE/BCA/...",
-                  ),
+                      hintText: "Branch Name",
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 17, horizontal: 20),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25)))),
                   onSaved: (value) {
                     _branch = value!;
                   },
@@ -182,17 +227,25 @@ class _BodyState extends State<Body> {
                   },
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 1.3,
                 child: TextFormField(
-                  keyboardType: TextInputType.name,
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
                   key: const ValueKey('password'),
                   style: const TextStyle(color: Colors.grey),
                   decoration: const InputDecoration(
-                    labelText: "password",
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 17, horizontal: 20),
+                    hintText: "Password",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
                   ),
                   validator: (value) {
-                    if (value?.isEmpty == true) {
+                    if (value?.isEmpty == true || value!.length < 6) {
                       return "generate strong password";
                     }
                     return null;
@@ -202,13 +255,80 @@ class _BodyState extends State<Body> {
                   },
                 ),
               ),
-              TextButton(
+              const SizedBox(
+                height: 25,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width / 2,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: kButtonColorPrimary,
+                ),
+                child: TextButton(
                   onPressed: () {
                     onSubmit();
                   },
-                  child: const Text("Submit")),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Submit",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_outlined,
+                        color: Colors.white,
+                        size: 29,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              if (_showValidation)
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "An ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "OTP ",
+                          style: TextStyle(
+                              color: kButtonColorPrimary,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "has been sent to your ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "email id.",
+                          style: TextStyle(
+                              color: kButtonColorPrimary,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                    const Text(
+                      "Please verify your account",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

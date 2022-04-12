@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const kContainerColorPrimary = Color(0xffffffff);
 const kContainerColorSecondary = Color(0xfff1f2f4);
-const kButtonColorPrimary = Color(0xFF7879F1);
+const kButtonColorPrimary = Color(0xFF444150);
 const kButtonColorSecondary = Color(0xffe8f1ff);
 const kTextColorDark = Color(0xFF444150);
 const kTextColorLight = Color(0xFF9896a5);

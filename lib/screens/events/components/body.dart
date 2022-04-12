@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 // ignore: camel_case_types
-class body extends StatefulWidget {
-  const body({Key? key}) : super(key: key);
+class EventsBody extends StatefulWidget {
+  const EventsBody({Key? key}) : super(key: key);
 
   @override
-  State<body> createState() => _bodyState();
+  State<EventsBody> createState() => _EventsBodyState();
 }
 
 // ignore: camel_case_types
-class _bodyState extends State<body> {
+class _EventsBodyState extends State<EventsBody> {
   var count = 0;
   bool written = false;
   final _formKey = GlobalKey<FormState>();
