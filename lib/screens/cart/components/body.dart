@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:pay/pay.dart';
 
 class CartBody extends StatefulWidget {
   const CartBody({Key? key}) : super(key: key);
@@ -10,6 +11,16 @@ class CartBody extends StatefulWidget {
 }
 
 class _CartBodyState extends State<CartBody> {
+  final _paymentItems = [
+    PaymentItem(
+      label: 'Total',
+      amount: '99.99',
+      status: PaymentItemStatus.final_price,
+    )
+  ];
+  void onGooglePayResult(paymentResult) {
+    debugPrint(paymentResult.toString());
+  }
   var height, width;
   @override
   Widget build(BuildContext context) {
@@ -238,28 +249,39 @@ class _CartBodyState extends State<CartBody> {
                     ],
                   );
                 })),
+
         Container(
           width: width,
-          margin: EdgeInsets.only(left: width*0.15, right: width*0.15, bottom: 10, top: 10),
           decoration: BoxDecoration(
               color: kButtonColorPrimary,
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),
           child: Padding(
-            padding: const EdgeInsets.only(top: 12,bottom: 12),
+            padding: const EdgeInsets.only(left: 15,right: 15,top: 5),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Pay ₹500 with",
+                  "₹2000",
                   style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
+                      fontSize: 22,
+                      color: Colors.white,
+                      fontWeight:
+                      FontWeight
+                          .w600),
                 ),
-                SizedBox(
-                  width: 7,
+                GooglePayButton(
+                  width: width*0.4,
+                  height: height*0.05,
+                  paymentConfigurationAsset: 'gpay.json',
+                  paymentItems: _paymentItems,
+                  style: GooglePayButtonStyle.white,
+                  type: GooglePayButtonType.pay,
+                  margin: const EdgeInsets.only(top: 10.0,bottom: 15),
+                  onPaymentResult: onGooglePayResult,
+                  loadingIndicator: const Center(
+                      child: LinearProgressIndicator()
+                  ),
                 ),
-                Image.asset("assets/images/gpay.png",height: height * 0.025,color: Colors.white,)
               ],
             ),
           ),
