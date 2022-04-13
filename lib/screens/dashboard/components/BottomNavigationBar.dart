@@ -5,8 +5,9 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key,required this.update}) : super(key: key);
+  const BottomNavBar({Key? key,required this.update,required this.openDrawer}) : super(key: key);
   final ValueChanged<int> update;
+  final ValueChanged<int> openDrawer;
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
@@ -63,7 +64,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
             GButton(
               icon: const IconData(0xf36e, fontFamily: 'MaterialIcons'),
-              onPressed:() => widget.update(3),
+              onPressed:() => widget.openDrawer(2),
               text: 'More',
               iconActiveColor: kIconColorDark,
               iconColor: kIconColorLight,
