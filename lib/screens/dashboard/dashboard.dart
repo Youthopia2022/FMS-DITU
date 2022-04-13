@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/components/BottomNavigationBar.dart';
+import 'package:fms_ditu/screens/dashboard/components/Drawer.dart';
 import 'package:fms_ditu/screens/dashboard/components/body.dart';
-import 'package:fms_ditu/screens/scoreboard/eventsSelection.dart';
 
 import '../cart/components/body.dart';
-import '../events/components/body.dart';
 import '../profile/profilePage.dart';
 
 class dashboard extends StatefulWidget {
@@ -17,25 +17,50 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
+
   int _selectedIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final List<Widget> _tabList = [
     const DashboardBody(),
     const ProfilePage(),
     const CartBody(),
-    const EventsBody(),
   ];
 
   void _update(int count) {
     setState(() => _selectedIndex = count);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(),
-            body: _tabList[_selectedIndex],
-            bottomNavigationBar: BottomNavBar(update: _update)));
+  void _openDrawer(int cnt) {
+    _scaffoldKey.currentState?.openEndDrawer();
   }
+
+    @override
+    Widget build(BuildContext context) {
+      return SafeArea(
+          child: Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              actions: <Widget>[
+                new Container(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10,top: 5,bottom: 5),
+                  child: Image.asset("assets/images/ditu.png",width: 40,),
+                ),
+              ],
+              backgroundColor: Colors.white,
+              leading: ClipOval(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10,top: 12,bottom: 12),
+                  child: Image.asset("assets/images/youthopia_small.png" ,),
+                ),
+              ),
+              title: Center(child: Text("Dashboard",style: TextStyle(color: kTextColorDark),)),
+            ),
+            body: _tabList[_selectedIndex],
+            bottomNavigationBar: BottomNavBar(update: _update, openDrawer: _openDrawer,),
+            endDrawer: SideDrawer()
+          )
+      );
+    }
 }

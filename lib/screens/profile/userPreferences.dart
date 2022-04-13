@@ -1,14 +1,14 @@
 import 'package:fms_ditu/screens/profile/user.dart';
 
 class UserPreferences {
-  static const myUser = User(
-    gender: 'Male',
-    name: 'Shubhi',
+  static const myUser = UserData(
+    gender: "Male",
+    name: "Ankit",
     id: '#5b5h',
-    phone: '7510006355',
+    phone: '1332131231',
     year: 3,
-    branch: 'CSE',
+    branch: "cse",
     college: 'DITU',
-    email: 'klslkda',
+    email: "dasdasdasd"
   );
 }

@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fms_ditu/routes.dart';
+import 'package:fms_ditu/screens/dashboard/components/body.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
+import 'package:fms_ditu/screens/event_entry/event_entry.dart';
 import 'package:fms_ditu/screens/events/events.dart';
 import 'package:fms_ditu/screens/profile/profilePage.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
@@ -34,7 +37,16 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kBackgroundColor,
       ),
       title: 'FMS DITU',
-      initialRoute: dashboard.routeName,
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasData) {
+            return const EventsEntry();
+          } else {
+            return const SignIn();
+          }
+        },
+      ),
       routes: routes,
     );
   }

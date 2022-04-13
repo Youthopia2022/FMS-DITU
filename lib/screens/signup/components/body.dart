@@ -60,8 +60,6 @@ class _BodyState extends State<Body> {
             "branch": _branch,
             "gender": _gender,
           });
-          Navigator.pushReplacement((context),
-              MaterialPageRoute(builder: (context) => const dashboard()));
         }
       });
     });
@@ -82,8 +80,7 @@ class _BodyState extends State<Body> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 28,
-                      color: Colors.black
-                  ),
+                      color: Colors.black),
                 ),
               ),
               Container(

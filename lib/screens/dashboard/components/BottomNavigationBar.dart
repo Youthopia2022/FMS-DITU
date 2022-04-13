@@ -5,8 +5,9 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key, required this.update}) : super(key: key);
+  const BottomNavBar({Key? key,required this.update,required this.openDrawer}) : super(key: key);
   final ValueChanged<int> update;
+  final ValueChanged<int> openDrawer;
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
@@ -35,35 +36,35 @@ class _BottomNavBarState extends State<BottomNavBar> {
           gap: 8,
           activeColor: Colors.black,
           iconSize: 24,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          duration: const Duration(milliseconds: 400),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          duration: Duration(milliseconds: 400),
           tabBackgroundColor: kButtonColorSecondary,
           color: Colors.black,
           tabs: [
             GButton(
               icon: LineIcons.home,
-              onPressed: () => widget.update(0),
+              onPressed:() => widget.update(0),
               text: 'Home',
               iconActiveColor: kIconColorDark,
               iconColor: kIconColorLight,
             ),
             GButton(
               icon: LineIcons.user,
-              onPressed: () => widget.update(1),
+              onPressed:() => widget.update(1),
               text: 'Profile',
               iconActiveColor: kIconColorDark,
               iconColor: kIconColorLight,
             ),
             GButton(
               icon: LineIcons.shoppingCart,
-              onPressed: () => widget.update(2),
+              onPressed:() => widget.update(2),
               text: 'Cart',
               iconActiveColor: kIconColorDark,
               iconColor: kIconColorLight,
             ),
             GButton(
               icon: const IconData(0xf36e, fontFamily: 'MaterialIcons'),
-              onPressed: () => widget.update(3),
+              onPressed:() => widget.openDrawer(2),
               text: 'More',
               iconActiveColor: kIconColorDark,
               iconColor: kIconColorLight,
