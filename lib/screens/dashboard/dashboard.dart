@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/screens/dashboard/components/BottomNavigationBar.dart';
 import 'package:fms_ditu/screens/dashboard/components/body.dart';
+import 'package:fms_ditu/screens/scoreboard/eventsSelection.dart';
 
 import '../cart/components/body.dart';
 import '../events/components/body.dart';
 import '../profile/profilePage.dart';
-import '../signin/signin.dart';
 
 class dashboard extends StatefulWidget {
   const dashboard({Key? key}) : super(key: key);
@@ -17,7 +17,6 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
-
   int _selectedIndex = 0;
 
   final List<Widget> _tabList = [
@@ -30,14 +29,13 @@ class _dashboardState extends State<dashboard> {
   void _update(int count) {
     setState(() => _selectedIndex = count);
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(),
-        body: _tabList[_selectedIndex],
-        bottomNavigationBar: BottomNavBar(update: _update)
-      )
-      );
+        child: Scaffold(
+            appBar: AppBar(),
+            body: _tabList[_selectedIndex],
+            bottomNavigationBar: BottomNavBar(update: _update)));
   }
 }

@@ -346,7 +346,7 @@ class _EventsBodyState extends State<EventsBody> {
                             fillColor: kButtonColorSecondary,
                           ),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         isLeaderRequired
                             ? TextFormField(
                                 style: const TextStyle(
