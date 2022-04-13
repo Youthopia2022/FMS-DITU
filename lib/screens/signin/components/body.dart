@@ -31,12 +31,8 @@ class _BodyState extends State<Body> {
 
   startAuthentication() async {
     final user = FirebaseAuth.instance;
-    await user
-        .signInWithEmailAndPassword(email: _email, password: _password)
-        .then((value) {
-      Navigator.pushReplacement(
-          (context), MaterialPageRoute(builder: (context) => dashboard()));
-    });
+    await user.signInWithEmailAndPassword(email: _email, password: _password);
+
   }
 
   @override

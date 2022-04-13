@@ -28,11 +28,11 @@ class _BodyState extends State<Body> {
   late bool _showValidation = false;
 
   onSubmit() {
-    final validate = _formKey.currentState?.validate();
+    final validate = _formKey.currentState!.validate();
 
     if (validate == true) {
       _showValidation = true;
-      _formKey.currentState?.save();
+      _formKey.currentState!.save();
       startAuthentication();
     }
   }
@@ -44,11 +44,11 @@ class _BodyState extends State<Body> {
         .createUserWithEmailAndPassword(email: _email, password: _password)
         .then((value) async {
       User? user = auth.currentUser;
-      await user?.sendEmailVerification();
+      await user!.sendEmailVerification();
 
       timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
         user = auth.currentUser;
-        await user?.reload();
+        user!.reload();
 
         if (user!.emailVerified) {
           String uid = user!.uid;
@@ -60,8 +60,6 @@ class _BodyState extends State<Body> {
             "branch": _branch,
             "gender": _gender,
           });
-          Navigator.pushReplacement((context),
-              MaterialPageRoute(builder: (context) => const dashboard()));
         }
       });
     });
@@ -82,8 +80,7 @@ class _BodyState extends State<Body> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 28,
-                      color: Colors.black
-                  ),
+                      color: Colors.black),
                 ),
               ),
               Container(

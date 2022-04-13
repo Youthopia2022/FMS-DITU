@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       ),
       title: 'FMS DITU',
       home: StreamBuilder(
-        stream: FirebaseAuth.instance.userChanges(),
+        stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             return const dashboard();

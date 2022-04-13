@@ -147,7 +147,6 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 setState(()  {
                   logOut();
-                  Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const SignIn()));
                 });
               },
               child: const Text(
