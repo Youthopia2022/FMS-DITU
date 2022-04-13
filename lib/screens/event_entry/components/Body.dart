@@ -22,18 +22,18 @@ class Body extends StatelessWidget {
               child: Text("Add Event Info(Brief)"),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const EventShort()),
-                );
-              },
-              child: Text("Add Event Info(Short)"),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(10),
+          //   child: ElevatedButton(
+          //     onPressed: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => const EventShort()),
+          //       );
+          //     },
+          //     child: Text("Add Event Info(Short)"),
+          //   ),
+          // ),
         ],
       ),
     );

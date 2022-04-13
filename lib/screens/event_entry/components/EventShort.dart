@@ -12,6 +12,7 @@ class _EventShortState extends State<EventShort> {
   TextEditingController minMemController = TextEditingController();
   TextEditingController maxMemController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
   String _eventName = '';
   String _feeDit = '';
   String _feeNonDit = '';
@@ -24,19 +25,20 @@ class _EventShortState extends State<EventShort> {
   bool? isTopEvent = false;
   DateTime _Date = DateTime.now();
   String dropdownvalue = 'Technical';
-  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
-
-  void _selectTime() async {
-    final TimeOfDay? newTime = await showTimePicker(
-      context: context,
-      initialTime: _time,
-    );
-    if (newTime != null) {
-      setState(() {
-        _time = newTime;
-      });
-    }
-  }
+  String _time = '';
+  // TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+  //
+  // void _selectTime() async {
+  //   final TimeOfDay? newTime = await showTimePicker(
+  //     context: context,
+  //     initialTime: _time,
+  //   );
+  //   if (newTime != null) {
+  //     setState(() {
+  //       _time = newTime;
+  //     });
+  //   }
+  // }
 
   // List of items in our dropdown menu
   var items = [
@@ -156,11 +158,22 @@ class _EventShortState extends State<EventShort> {
                     });
                   },
                 )),
-            ElevatedButton(
-              onPressed: _selectTime,
-              child: Text('Event Time: ${_time}'),
-            ),
 
+            Container(
+                margin: EdgeInsets.all(10),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: timeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Time(format: 6:00 AM)',
+                  ),
+                  onChanged: (text) {
+                    setState(() {
+                      _time = text;
+                    });
+                  },
+                )),
             SizedBox(height: 30,),
 
             ElevatedButton(

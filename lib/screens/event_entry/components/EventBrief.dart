@@ -17,9 +17,10 @@ class _EventBriefState extends State<EventBrief> {
   TextEditingController feeDitController = TextEditingController();
   TextEditingController feeNonDitController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
   String _eventName = '';
-  String _feeDit = '';
-  String _feeNonDit = '';
+  double _feeDit = 10;
+  double _feeNonDit = 10;
   String _about = '';
   String _venue = '';
   double _date = 22;
@@ -29,19 +30,20 @@ class _EventBriefState extends State<EventBrief> {
   bool? isTopEvent = false;
   DateTime _Date = DateTime.now();
   String dropdownvalue = 'Technical';
-  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+  // TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
 
-  void _selectTime() async {
-    final TimeOfDay? newTime = await showTimePicker(
-      context: context,
-      initialTime: _time,
-    );
-    if (newTime != null) {
-      setState(() {
-        _time = newTime;
-      });
-    }
-  }
+  String _time ='';
+  // void _selectTime() async {
+  //   final TimeOfDay? newTime = await showTimePicker(
+  //     context: context,
+  //     initialTime: _time,
+  //   );
+  //   if (newTime != null) {
+  //     setState(() {
+  //       _time = newTime;
+  //     });
+  //   }
+  // }
 
   // List of items in our dropdown menu
   var items = [
@@ -137,7 +139,6 @@ class _EventBriefState extends State<EventBrief> {
             Container(
                 margin: EdgeInsets.all(10),
                 child: TextField(
-                  keyboardType: TextInputType.number,
                   controller: clubController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -201,7 +202,7 @@ class _EventBriefState extends State<EventBrief> {
                   ),
                   onChanged: (text) {
                     setState(() {
-                      _feeDit = text;
+                      _feeDit = text as double;
                     });
                   },
                 )),
@@ -216,7 +217,7 @@ class _EventBriefState extends State<EventBrief> {
                   ),
                   onChanged: (text) {
                     setState(() {
-                      _feeNonDit = text;
+                      _feeNonDit = text as double;
                     });
                   },
                 )),
@@ -235,12 +236,22 @@ class _EventBriefState extends State<EventBrief> {
                     });
                   },
                 )),
-            ElevatedButton(
-              onPressed: _selectTime,
-              child: Text('Event Time: ${_time}'),
-            ),
-
             SizedBox(height: 30,),
+            Container(
+                margin: EdgeInsets.all(10),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: timeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Time(format: 6:00 AM)',
+                  ),
+                  onChanged: (text) {
+                    setState(() {
+                      _time = text;
+                    });
+                  },
+                )),
 
             ElevatedButton(
               onPressed: (){
