@@ -9,7 +9,7 @@ class ProfileWidget extends StatelessWidget {
 
   const ProfileWidget({Key? key, required this.img}) : super(key: key);
 
-  final User user = UserPreferences.myUser;
+  final UserData user = UserPreferences.myUser;
 
   @override
   Widget build(BuildContext context) {

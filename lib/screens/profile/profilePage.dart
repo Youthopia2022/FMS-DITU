@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/profileWidget.dart';
@@ -12,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  User user = UserPreferences.myUser;
+  UserData user = UserPreferences.myUser;
   List<String> names = [
     "Robo soccer",
     "Sherlocked"
@@ -41,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildDetails(User user) => Column(
+  Widget buildDetails(UserData user) => Column(
         children: [
           Text(
             "Mobile Number: ${user.phone}",
@@ -136,7 +137,9 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Align(
           alignment: Alignment.center,
           child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
               child: const Text(
                 "Logout",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),

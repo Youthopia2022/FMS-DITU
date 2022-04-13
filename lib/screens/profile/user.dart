@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class User{
+class UserData{
   final String gender;
   final String name;
   final String id;
@@ -10,7 +10,7 @@ class User{
   final String college;
   final String email;
 
-  const User({
+  const UserData({
     required this.gender,
     required this.name,
     required this.id,

@@ -1,7 +1,7 @@
 import 'package:fms_ditu/screens/profile/user.dart';
 
 class UserPreferences {
-  static const myUser = User(
+  static const myUser = UserData(
     gender: 'Male',
     name: 'Shubhi',
     id: '#5b5h',
