@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EventBrief extends StatefulWidget {
@@ -31,6 +32,28 @@ class _EventBriefState extends State<EventBrief> {
   DateTime _Date = DateTime.now();
   String dropdownvalue = 'Technical';
   // TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+
+  addTaskToFirebase() async {
+    var time = DateTime.now();
+
+    await FirebaseFirestore.instance
+        .collection('events')
+        .doc(time.toString())
+        .set({
+      'event name' : _eventName,
+      'about' : _about,
+      'venue' : _venue,
+      'time' : _time,
+      'min_member' : _minMem,
+      'max_member' : _maxMem,
+      'category' : dropdownvalue,
+      'club' : _club,
+      'isTopEvent' : isTopEvent,
+      'eventFeeDIT' : _feeDit,
+      'eventFeeNonDIT' : _feeNonDit,
+    });
+  }
+
 
   String _time ='';
   // void _selectTime() async {
@@ -240,7 +263,6 @@ class _EventBriefState extends State<EventBrief> {
             Container(
                 margin: EdgeInsets.all(10),
                 child: TextField(
-                  keyboardType: TextInputType.number,
                   controller: timeController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -256,6 +278,7 @@ class _EventBriefState extends State<EventBrief> {
             ElevatedButton(
               onPressed: (){
                 //Todo: Submit event data to firebase
+                addTaskToFirebase();
               },
               child: Text('Submit'),
             ),

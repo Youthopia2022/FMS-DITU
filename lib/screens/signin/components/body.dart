@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 import 'package:fms_ditu/screens/resetpassword/resetpassword.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
 
