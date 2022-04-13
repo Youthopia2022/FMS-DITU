@@ -4,6 +4,7 @@ import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/profileWidget.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
 import 'package:fms_ditu/screens/profile/userPreferences.dart';
+import 'package:fms_ditu/screens/signin/signin.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -13,6 +14,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  logOut() async{
+    await FirebaseAuth.instance.signOut();
+  }
+
+
   UserData user = UserPreferences.myUser;
   List<String> names = [
     "Robo soccer",
@@ -138,7 +145,9 @@ class _ProfilePageState extends State<ProfilePage> {
           alignment: Alignment.center,
           child: ElevatedButton(
               onPressed: () {
-                FirebaseAuth.instance.signOut();
+                setState(()  {
+                  logOut();
+                });
               },
               child: const Text(
                 "Logout",
