@@ -175,8 +175,7 @@ class _BodyState extends State<Body> {
                   const Text("Don't have an account?"),
                   TextButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            (context), SignUp.routeName, (route) => false);
+                       Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const SignUp()));
                       },
                       child: const Text("Sign up"))
                 ],
