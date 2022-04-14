@@ -14,11 +14,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-  logOut() async{
+  logOut() async {
     await FirebaseAuth.instance.signOut();
   }
-
 
   UserData user = UserPreferences.myUser;
   List<String> names = [
@@ -145,8 +143,10 @@ class _ProfilePageState extends State<ProfilePage> {
           alignment: Alignment.center,
           child: ElevatedButton(
               onPressed: () {
-                setState(()  {
+                setState(() {
                   logOut();
+                  Navigator.pushReplacement((context),
+                      MaterialPageRoute(builder: (context) => const SignIn()));
                 });
               },
               child: const Text(

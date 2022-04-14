@@ -31,7 +31,9 @@ class _BodyState extends State<Body> {
     final validate = _formKey.currentState!.validate();
 
     if (validate == true) {
-      _showValidation = true;
+      setState(() {
+        _showValidation = true;
+      });
       _formKey.currentState!.save();
       startAuthentication();
     }
@@ -48,7 +50,7 @@ class _BodyState extends State<Body> {
 
       timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
         user = auth.currentUser;
-        user!.reload();
+        await user!.reload();
 
         if (user!.emailVerified) {
           String uid = user!.uid;
@@ -60,6 +62,7 @@ class _BodyState extends State<Body> {
             "branch": _branch,
             "gender": _gender,
           });
+          Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const dashboard()));
         }
       });
     });
@@ -142,7 +145,7 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                   onSaved: (value) {
-                    _email = value!;
+                    _email = value.toString().trim();
                   },
                   validator: (value) {
                     if (value?.isEmpty == true) {

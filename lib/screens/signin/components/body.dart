@@ -4,6 +4,7 @@ import 'package:fms_ditu/screens/resetpassword/resetpassword.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
 
 import '../../../constants.dart';
+import '../../dashboard/dashboard.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _BodyState extends State<Body> {
   startAuthentication() async {
     final user = FirebaseAuth.instance;
     await user.signInWithEmailAndPassword(email: _email, password: _password);
+    Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const dashboard()));
 
   }
 
@@ -76,7 +78,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 onSaved: (value) {
-                  _email = value!;
+                  _email = value.toString().trim();
                 },
                 validator: (value) {
                   if (value?.isEmpty == true) {
