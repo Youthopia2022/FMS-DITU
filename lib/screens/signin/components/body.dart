@@ -76,7 +76,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 onSaved: (value) {
-                  _email = value!;
+                  _email = value.toString().trim();
                 },
                 validator: (value) {
                   if (value?.isEmpty == true) {

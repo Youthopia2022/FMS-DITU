@@ -24,6 +24,8 @@ dependencies:
   pay: ^1.0.8
   cloud_firestore:
   rive: ^0.8.4
+  animated_splash_screen: ^1.2.0
+  page_transition: ^2.0.5
 
 dev_dependencies:
   flutter_test:

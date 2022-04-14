@@ -13,12 +13,13 @@ class _EventBriefState extends State<EventBrief> {
   TextEditingController aboutController = TextEditingController();
   TextEditingController venueController = TextEditingController();
   TextEditingController minMemController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
   TextEditingController maxMemController = TextEditingController();
   TextEditingController clubController = TextEditingController();
   TextEditingController feeDitController = TextEditingController();
   TextEditingController feeNonDitController = TextEditingController();
   TextEditingController dateController = TextEditingController();
-  TextEditingController timeController = TextEditingController();
+  TextEditingController imageController = TextEditingController();
   String _eventName = '';
   double _feeDit = 10;
   double _feeNonDit = 10;
@@ -51,11 +52,14 @@ class _EventBriefState extends State<EventBrief> {
       'isTopEvent' : isTopEvent,
       'eventFeeDIT' : _feeDit,
       'eventFeeNonDIT' : _feeNonDit,
+      'date' : _date,
+      'image': _image,
     });
   }
 
 
   String _time ='';
+  String _image ='';
   // void _selectTime() async {
   //   final TimeOfDay? newTime = await showTimePicker(
   //     context: context,
@@ -274,6 +278,21 @@ class _EventBriefState extends State<EventBrief> {
                     });
                   },
                 )),
+            Container(
+                margin: EdgeInsets.all(10),
+                child: TextField(
+                  controller: imageController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Image',
+                  ),
+                  onChanged: (text) {
+                    setState(() {
+                      _image = text;
+                    });
+                  },
+                )),
+
 
             ElevatedButton(
               onPressed: (){
