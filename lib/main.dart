@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       title: 'FMS DITU',
       home: SafeArea(
         child: SplashScreen(
-            seconds: 6,
+            seconds: 2,
             navigateAfterSeconds: StreamBuilder(
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

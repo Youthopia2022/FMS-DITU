@@ -30,10 +30,11 @@ class _ProfilePageState extends State<ProfilePage> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
+          const SizedBox(height: 15),
           ProfileWidget(
-            img: (user.gender == "Male")
-                ? (const AssetImage("assets/images/male_icon.jpg"))
-                : (const AssetImage("assets/images/female_icon.jpg")),
+            avatarType: (user.gender == "Male")
+                ? "assets/rive/idleBoy.riv"
+                : "assets/rive/idleGirl.riv",
           ),
           const SizedBox(height: 24),
           buildDetails(user),
@@ -42,6 +43,9 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 32,
           ),
           logoutButton(),
+          const SizedBox(
+            height: 15,
+          ),
         ],
       ),
     );

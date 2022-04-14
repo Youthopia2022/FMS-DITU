@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fms_ditu/API/eventDetails.dart';
 
 class EventRecord {
