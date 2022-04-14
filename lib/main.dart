@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -37,16 +38,22 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kBackgroundColor,
       ),
       title: 'FMS DITU',
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasData) {
-            return const dashboard();
-          } else {
-            return const SignIn();
-          }
-        },
-      ),
+      home: AnimatedSplashScreen(
+          duration: 2000,
+          splash: Icons.home,
+          nextScreen: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasData) {
+                return const dashboard();
+              } else {
+                return const SignIn();
+              }
+            },
+          ),
+          splashTransition: SplashTransition.fadeTransition,
+          // pageTransitionType: PageTransitionType.scale,
+          backgroundColor: Colors.blue),
       routes: routes,
     );
   }
