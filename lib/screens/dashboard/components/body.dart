@@ -34,24 +34,109 @@ class _DashboardBodyState extends State<DashboardBody> {
             print("Snapshottt ${snapshot.data!.docs[0]['category']}");
             print(n);
             for (int i = 0; i < n; i++) {
+              if (docs[i]['isTopEvent'] == true) {
+                EventRecord.topEvent.add(EventDetails(
+                    docs[i]['event name'],
+                    docs[i]['venue'],
+                    docs[i]['about'],
+                    docs[i]['club'],
+                    docs[i]['date'].toString(),
+                    (1.0 * docs[i]['eventFeeDIT']),
+                    (1.0 * docs[i]['eventFeeNonDIT']),
+                    docs[i]['image'],
+                    docs[i]['isTopEvent'],
+                    (1.0 * docs[i]['max_member']),
+                    (1.0 * docs[i]['min_member']),
+                    docs[i]['time'],
+                    docs[i]['category']));
+              }
               if (docs[i]['category'] == "Technical") {
-                EventRecord.technicalEvent.add(
-                    EventDetails(
-                        docs[i]['event name'],
-                        docs[i]['venue'],
-                        docs[i]['about'],
-                        docs[i]['club'],
-                        docs[i]['date'],
-                        (1.0 * docs[i]['eventFeeDIT']),
-                        (1.0 * docs[i]['eventFeeNonDIT']),
-                        docs[i]['image'],
-                        docs[i]['isTopEvent'],
-                        (1.0 * docs[i]['max_member']),
-                        (1.0 * docs[i]['min_member']),
-                        docs[i]['time'],
-                        docs[i]['category']));
+                EventRecord.technicalEvent.add(EventDetails(
+                    docs[i]['event name'],
+                    docs[i]['venue'],
+                    docs[i]['about'],
+                    docs[i]['club'],
+                    docs[i]['date'].toString(),
+                    (1.0 * docs[i]['eventFeeDIT']),
+                    (1.0 * docs[i]['eventFeeNonDIT']),
+                    docs[i]['image'],
+                    docs[i]['isTopEvent'],
+                    (1.0 * docs[i]['max_member']),
+                    (1.0 * docs[i]['min_member']),
+                    docs[i]['time'],
+                    docs[i]['category']));
+              }
+              // else if (docs[i]['category'] == "Informal") {
+              //   EventRecord.informalEvent.add(
+              //       EventDetails(
+              //           docs[i]['event name'],
+              //           docs[i]['venue'],
+              //           docs[i]['about'],
+              //           docs[i]['club'],
+              //           docs[i]['date'].toString(),
+              //           (1.0 * docs[i]['eventFeeDIT']),
+              //           (1.0 * docs[i]['eventFeeNonDIT']),
+              //           docs[i]['image'],
+              //           docs[i]['isTopEvent'],
+              //           (1.0 * docs[i]['max_member']),
+              //           (1.0 * docs[i]['min_member']),
+              //           docs[i]['time'],
+              //           docs[i]['category']));
+              // }
+              else if (docs[i]['category'] == "Debate and Declamation" ||
+                  docs[i]['category'] == "Debate") {
+                EventRecord.debateEvent.add(EventDetails(
+                    docs[i]['event name'],
+                    docs[i]['venue'],
+                    docs[i]['about'],
+                    docs[i]['club'],
+                    docs[i]['date'].toString(),
+                    (1.0 * docs[i]['eventFeeDIT']),
+                    (1.0 * docs[i]['eventFeeNonDIT']),
+                    docs[i]['image'],
+                    docs[i]['isTopEvent'],
+                    (1.0 * docs[i]['max_member']),
+                    (1.0 * docs[i]['min_member']),
+                    docs[i]['time'],
+                    docs[i]['category']));
+              } else if (docs[i]['category'] == "Gaming") {
+                EventRecord.gamingEvent.add(EventDetails(
+                    docs[i]['event name'],
+                    docs[i]['venue'],
+                    docs[i]['about'],
+                    docs[i]['club'],
+                    docs[i]['date'].toString(),
+                    (1.0 * docs[i]['eventFeeDIT']),
+                    (1.0 * docs[i]['eventFeeNonDIT']),
+                    docs[i]['image'],
+                    docs[i]['isTopEvent'],
+                    (1.0 * docs[i]['max_member']),
+                    (1.0 * docs[i]['min_member']),
+                    docs[i]['time'],
+                    docs[i]['category']));
+              } else if (docs[i]['category'] == "Cultural") {
+                EventRecord.culturalEvent.add(EventDetails(
+                    docs[i]['event name'],
+                    docs[i]['venue'],
+                    docs[i]['about'],
+                    docs[i]['club'],
+                    docs[i]['date'].toString(),
+                    (1.0 * docs[i]['eventFeeDIT']),
+                    (1.0 * docs[i]['eventFeeNonDIT']),
+                    docs[i]['image'],
+                    docs[i]['isTopEvent'],
+                    (1.0 * docs[i]['max_member']),
+                    (1.0 * docs[i]['min_member']),
+                    docs[i]['time'],
+                    docs[i]['category']));
               }
             }
+            print(EventRecord.technicalEvent.length);
+            print(EventRecord.topEvent.length);
+            print(EventRecord.culturalEvent.length);
+            print(EventRecord.informalEvent.length);
+            print(EventRecord.gamingEvent.length);
+            print(EventRecord.debateEvent.length);
           }
           return SingleChildScrollView(
             child: Column(
