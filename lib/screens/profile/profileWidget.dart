@@ -4,6 +4,8 @@ import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
 import 'package:fms_ditu/screens/profile/userPreferences.dart';
 
+import 'package:rive/rive.dart';
+
 class ProfileWidget extends StatelessWidget {
   final ImageProvider<Object> img;
 
@@ -19,9 +21,10 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget buildImage() {
-    final image = Image(
-      image: img,
-    );
+    // const image = RiveAnimation.asset(
+    //   'assets/rive/men.riv',
+    //   animations: ['running'],
+    // );
     return Column(
       children: [
         Padding(
@@ -29,9 +32,13 @@ class ProfileWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 80,
-                backgroundImage: img,
+                child: RiveAnimation.asset(
+                  'assets/rive/avatar.riv',
+                  animations: ['running'],
+                ),
+                // backgroundImage: image,
                 backgroundColor: Colors.grey,
               ),
               const Padding(
