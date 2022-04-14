@@ -22,13 +22,18 @@ class _DashboardBodyState extends State<DashboardBody> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return FutureBuilder(
-        future: FirebaseFirestore.instance.collection("events").get(),
-        builder: (context, snapshot) {
+        future : FirebaseFirestore.instance.collection("events").get(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting){
             return loader();
           }
           else if(snapshot.hasData){
-            print("Snapshottt ${snapshot.data}");
+            final docs = snapshot.data!.docs;
+            int n = docs.length;
+            print("Snapshottt ${snapshot.data!.docs[0]['category']}");
+            print(n);
+
+            for(int i = 0; i < n; i++) {}
           }
         return SingleChildScrollView(
           child: Column(
