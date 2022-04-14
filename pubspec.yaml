@@ -23,6 +23,7 @@ dependencies:
   card_swiper: ^2.0.3
   pay: ^1.0.8
   cloud_firestore:
+  rive: ^0.8.4
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +38,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/rive/
     - assets/
 
   fonts:

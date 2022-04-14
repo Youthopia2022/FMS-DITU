@@ -37,16 +37,17 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kBackgroundColor,
       ),
       title: 'FMS DITU',
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasData) {
-            return const EventsEntry();
-          } else {
-            return const SignIn();
-          }
-        },
-      ),
+      home: dashboard(),
+      // home: StreamBuilder(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+      //     if (snapshot.hasData) {
+      //       return const dashboard();
+      //     } else {
+      //       return const SignIn();
+      //     }
+      //   },
+      // ),
       routes: routes,
     );
   }
