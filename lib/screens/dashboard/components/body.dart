@@ -131,12 +131,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['category']));
               }
             }
-            print(EventRecord.technicalEvent.length);
-            print(EventRecord.topEvent.length);
-            print(EventRecord.culturalEvent.length);
-            print(EventRecord.informalEvent.length);
-            print(EventRecord.gamingEvent.length);
-            print(EventRecord.debateEvent.length);
+            print("Tech ${EventRecord.technicalEvent.length}");
+            print("Top ${EventRecord.topEvent.length}");
+            print("Cul ${EventRecord.culturalEvent.length}");
+            print("infor ${EventRecord.informalEvent.length}");
+            print("game ${EventRecord.gamingEvent.length}");
+            print("debate ${EventRecord.debateEvent.length}");
           }
           return SingleChildScrollView(
             child: Column(
@@ -179,7 +179,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     ),
                                   ),
                                   child: Image.network(
-                                    "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/trippy-modern-creative-rock-concert-poster-design-template-a449ecc056eed70aa9e48b6f3f2e636f_screen.jpg",
+                                    EventRecord.topEvent[index].image,
                                     fit: BoxFit.cover,
                                     height: height / 2.5,
                                     width: width / 1.3,
@@ -204,7 +204,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     children: [
                                       Icon(LineIcons.calendar,
                                           color: Colors.white),
-                                      Text("22nd April",
+                                      Text(EventRecord.topEvent[index].date,
                                           style: TextStyle(color: Colors.white))
                                     ],
                                   ),
@@ -212,7 +212,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     children: [
                                       Icon(LineIcons.clock,
                                           color: Colors.white),
-                                      Text("10:00 AM",
+                                      Text(EventRecord.topEvent[index].time,
                                           style: TextStyle(color: Colors.white))
                                     ],
                                   )
@@ -254,7 +254,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                     itemHeight: height / 2.5,
                     itemWidth: width / 1.3,
                     layout: SwiperLayout.DEFAULT,
-                    itemCount: 10,
+                    itemCount: EventRecord.topEvent.length,
                     physics: BouncingScrollPhysics(),
                     viewportFraction: 0.8,
                     scale: 0.9,
@@ -280,7 +280,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: 10,
+                          itemCount: EventRecord.technicalEvent.length,
                           itemBuilder: (BuildContext context, int index) => Row(
                             children: [
                               SizedBox(
@@ -288,13 +288,15 @@ class _DashboardBodyState extends State<DashboardBody> {
                               ),
                               GestureDetector(
                                   onTap: () {},
-                                  child: SizedBox(
+                                  child: Container(
                                     width: width * 0.3,
                                     height: width * 0.3 * 1.4,
+                                    color: kButtonColorSecondary,
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
                                         child: Image.network(
-                                          "https://i.pinimg.com/originals/d4/49/5c/d4495c4e1fbd3bca820490cf20975f8d.jpg",
+                                          EventRecord
+                                              .technicalEvent[index].image,
                                           fit: BoxFit.fill,
                                         )),
                                   )),
@@ -320,7 +322,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: 2,
+                            itemCount: EventRecord.culturalEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -333,11 +335,13 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     child: Container(
                                       height: width * 0.46 * 1.4,
                                       width: width * 0.46,
+                                      color: kButtonColorSecondary,
                                       child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            "https://marketplace.canva.com/EAE674LNif0/2/0/1131w/canva-club-cyber-party-night-promotion-poster-j-RytAB4ThY.jpg",
+                                            EventRecord
+                                                .culturalEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),
@@ -362,7 +366,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       GridView.builder(
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
-                        itemCount: 34,
+                        itemCount: EventRecord.informalEvent.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
@@ -379,10 +383,11 @@ class _DashboardBodyState extends State<DashboardBody> {
                                 child: Container(
                                   width: width * 0.3,
                                   height: width * 0.3,
+                                  color: kButtonColorSecondary,
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
                                       child: Image.network(
-                                        "https://m.media-amazon.com/images/M/MV5BZWNkMzVkN2EtOGZkYi00MjYwLWE4YjItNDBlZTRkZmY2NDkxXkEyXkFqcGdeQXVyMjE2MDg1MDQ@._V1_.jpg",
+                                        EventRecord.informalEvent[index].image,
                                         fit: BoxFit.fill,
                                       )),
                                 )),
@@ -392,7 +397,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       SizedBox(height: height * 0.015),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Debate & Declamation",
                           style: TextStyle(
                               fontSize: 20,
@@ -407,7 +412,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: 3,
+                            itemCount: EventRecord.debateEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -420,11 +425,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     child: Container(
                                       height: width * 0.30 * 1.4,
                                       width: width * 0.30,
+                                      color: kButtonColorSecondary,
                                       child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/debate-design-template-74075a22d130b91c103d5a9eac326944_screen.jpg",
+                                            EventRecord.debateEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),
@@ -438,7 +444,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       SizedBox(height: height * 0.015),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Gaming",
                           style: TextStyle(
                               fontSize: 20,
@@ -453,7 +459,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: 2,
+                            itemCount: EventRecord.gamingEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -466,11 +472,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     child: Container(
                                       height: width * 0.46 * 1.4,
                                       width: width * 0.46,
+                                      color: kButtonColorSecondary,
                                       child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            "https://m.media-amazon.com/images/I/91A1IwuM9KL._AC_SY741_.jpg",
+                                            EventRecord.gamingEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),
@@ -488,7 +495,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         children: [
                           Container(
                             width: width * 0.55,
-                            child: Text(
+                            child: const Text(
                               "can't find what you're looking for?",
                               style: TextStyle(
                                   fontSize: 30,
@@ -499,7 +506,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           SizedBox(height: height * 0.015),
                           Container(
                             width: width * 0.6,
-                            child: Text(
+                            child: const Text(
                               "raise your query request and we will get back to you soon.",
                               style: TextStyle(
                                   fontSize: 14,
@@ -518,7 +525,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Raise query",
                                     style: TextStyle(
                                         fontSize: 14,
@@ -526,7 +533,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                         color: kTextColorDark),
                                   ),
                                   SizedBox(width: width * 0.01),
-                                  Icon(
+                                  const Icon(
                                     LineIcons.chevronCircleRight,
                                     size: 14,
                                   )

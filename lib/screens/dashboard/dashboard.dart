@@ -29,6 +29,12 @@ class _dashboardState extends State<dashboard> {
     const CartBody(), //CartBody()
   ];
 
+  final List<String> _headerList = [
+    'Dashboard',
+    'My Profile',
+    'My Cart'
+  ];
+
   void _update(int count) {
     setState(() => _selectedIndex = count);
   }
@@ -62,10 +68,10 @@ class _dashboardState extends State<dashboard> {
                   ),
                 ),
               ),
-              title: const Center(
+              title:  Center(
                   child: Text(
-                "Dashboard",
-                style: TextStyle(color: kTextColorDark),
+                    _headerList[_selectedIndex],
+                style: TextStyle(color: kTextColorDark,fontWeight: FontWeight.w600,fontSize: 18),
               )),
             ),
             body: _tabList[_selectedIndex],
