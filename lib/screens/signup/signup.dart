@@ -6,7 +6,7 @@ class SignUp extends StatelessWidget {
   static String routeName = "/sign_up";
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Scaffold(
         body: Body(),
       ),

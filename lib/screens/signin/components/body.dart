@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 import 'package:fms_ditu/screens/resetpassword/resetpassword.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
 
 import '../../../constants.dart';
+import '../../dashboard/dashboard.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -31,12 +30,9 @@ class _BodyState extends State<Body> {
 
   startAuthentication() async {
     final user = FirebaseAuth.instance;
-    await user
-        .signInWithEmailAndPassword(email: _email, password: _password)
-        .then((value) {
-      Navigator.pushReplacement(
-          (context), MaterialPageRoute(builder: (context) => dashboard()));
-    });
+    await user.signInWithEmailAndPassword(email: _email, password: _password);
+    Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const dashboard()));
+
   }
 
   @override
@@ -82,7 +78,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 onSaved: (value) {
-                  _email = value!;
+                  _email = value.toString().trim();
                 },
                 validator: (value) {
                   if (value?.isEmpty == true) {
@@ -175,8 +171,7 @@ class _BodyState extends State<Body> {
                   const Text("Don't have an account?"),
                   TextButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            (context), SignUp.routeName, (route) => false);
+                       Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const SignUp()));
                       },
                       child: const Text("Sign up"))
                 ],

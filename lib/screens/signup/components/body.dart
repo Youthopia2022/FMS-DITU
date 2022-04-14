@@ -31,7 +31,9 @@ class _BodyState extends State<Body> {
     final validate = _formKey.currentState!.validate();
 
     if (validate == true) {
-      _showValidation = true;
+      setState(() {
+        _showValidation = true;
+      });
       _formKey.currentState!.save();
       startAuthentication();
     }
@@ -42,13 +44,13 @@ class _BodyState extends State<Body> {
 
     await auth
         .createUserWithEmailAndPassword(email: _email, password: _password)
-        .then((value) {
+        .then((value) async {
       User? user = auth.currentUser;
-      user!.sendEmailVerification();
+      await user!.sendEmailVerification();
 
-      timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
         user = auth.currentUser;
-        user!.reload();
+        await user!.reload();
 
         if (user!.emailVerified) {
           String uid = user!.uid;
@@ -59,10 +61,8 @@ class _BodyState extends State<Body> {
             "year": _year,
             "branch": _branch,
             "gender": _gender,
-            "college": _college,
           });
-          Navigator.pushReplacement((context),
-              MaterialPageRoute(builder: (context) => const dashboard()));
+          Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const dashboard()));
         }
       });
     });
@@ -83,8 +83,7 @@ class _BodyState extends State<Body> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 28,
-                      color: Colors.black
-                  ),
+                      color: Colors.black),
                 ),
               ),
               Container(
@@ -146,7 +145,7 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                   onSaved: (value) {
-                    _email = value!;
+                    _email = value.toString().trim();
                   },
                   validator: (value) {
                     if (value?.isEmpty == true) {
