@@ -1,6 +1,7 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-
 
 class loader extends StatefulWidget {
   const loader({Key? key}) : super(key: key);
@@ -17,8 +18,8 @@ class _loaderState extends State<loader> {
     width = MediaQuery.of(context).size.width;
     return Center(
       child: Container(
-        height: height*0.2,
-        child: RiveAnimation.asset(
+        height: height * 0.2,
+        child: const RiveAnimation.asset(
           'assets/rive/men.riv',
           animations: ['running'],
         ),
