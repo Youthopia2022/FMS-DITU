@@ -19,7 +19,7 @@ class _loaderState extends State<loader> {
       child: Container(
         height: height*0.2,
         child: RiveAnimation.asset(
-          'assets/rive/men2.riv',
+          'assets/rive/men.riv',
           animations: ['running'],
         ),
       ),
