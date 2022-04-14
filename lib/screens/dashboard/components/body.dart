@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/API/eventDetails.dart';
 import 'package:fms_ditu/components/loader.dart';
+import 'package:fms_ditu/screens/cart/cart.dart';
+import 'package:fms_ditu/screens/events/events.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -252,6 +254,9 @@ class _DashboardBodyState extends State<DashboardBody> {
                             size: 5.0,
                             activeSize: 7)),
                     itemHeight: height / 2.5,
+                    onTap: (index) {
+
+                    },
                     itemWidth: width / 1.3,
                     layout: SwiperLayout.DEFAULT,
                     itemCount: EventRecord.topEvent.length,
@@ -287,7 +292,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                                 width: 4,
                               ),
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const Events()),
+                                    );
+                                  },
                                   child: Container(
                                     width: width * 0.3,
                                     height: width * 0.3 * 1.4,

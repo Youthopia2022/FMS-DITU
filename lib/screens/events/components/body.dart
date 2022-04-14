@@ -36,32 +36,34 @@ class _EventsBodyState extends State<EventsBody> {
     double height = size.height;
     double width = size.width;
 
-    return ListView(
-      physics: const BouncingScrollPhysics(),
-      children: [
-        Expanded(
-          child: Container(
-            color: (kBackgroundColor),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              buildEventPoster(height, width),
-              const SizedBox(height: 20.0),
-              buildEventDetails(),
-              const SizedBox(height: 8),
-              description(),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  addToCartButton(size),
-                  const SizedBox(width: 12),
-                  registerButton(size),
-                ],
-              )
-            ]),
+    return SafeArea(
+      child: ListView(
+        physics: const BouncingScrollPhysics(),
+        children: [
+          Expanded(
+            child: Container(
+              color: (kBackgroundColor),
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                buildEventPoster(height, width),
+                const SizedBox(height: 20.0),
+                buildEventDetails(),
+                const SizedBox(height: 8),
+                description(),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    addToCartButton(size),
+                    const SizedBox(width: 12),
+                    registerButton(size),
+                  ],
+                )
+              ]),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

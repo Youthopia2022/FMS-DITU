@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/constants.dart';
+import 'package:fms_ditu/screens/cart/cart.dart';
 import 'package:fms_ditu/screens/dashboard/components/BottomNavigationBar.dart';
 import 'package:fms_ditu/screens/dashboard/components/Drawer.dart';
 import 'package:fms_ditu/screens/dashboard/components/body.dart';
@@ -26,7 +27,8 @@ class _dashboardState extends State<dashboard> {
   final List<Widget> _tabList = [
     const DashboardBody(),
     const ProfilePage(), //ProfilePage()
-    const CartBody(), //CartBody()
+    const CartBody(),
+    const events()//CartBody()
   ];
 
   final List<String> _headerList = [
