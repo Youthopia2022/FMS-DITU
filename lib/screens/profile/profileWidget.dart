@@ -35,8 +35,8 @@ class ProfileWidget extends StatelessWidget {
               const CircleAvatar(
                 radius: 80,
                 child: RiveAnimation.asset(
-                  'assets/rive/avatar.riv',
-                  animations: ['running'],
+                  'assets/rive/male_icon.riv',
+                  // animations: ['running'],
                 ),
                 // backgroundImage: image,
                 backgroundColor: Colors.grey,
