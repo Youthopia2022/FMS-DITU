@@ -28,7 +28,6 @@ class _EventsBodyState extends State<EventsBody> {
   String eventFee = "400";
   String about =
       "kjhiu snfise flksehfkaes flkafkeb dad/lkhf,ms,fmlkfb a d.kAHFkj AFkJHFj DSM<niofweyfj d,mahdkug jhbbamwc.kjguydchycd.bjhyiduuuhjasbwskjhweiuvyxbUIWAN;OYRBCAWX;NY;EITYAB;WCIUYRBCU;IYN;IUjchgxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ,hguyxek76 675sl6estt,syts ytd uysd.iur s.idduyd fi.dlud.iuif u6lej/ .iuut;7rrjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjdddddddi.............................................. urry aoweu9q8euqbekjaw;o7e98q239 qCI IUWET RIJPRCO WIETR OWh'upir;oct'pocw rt;oicw owzyit";
-
   final List<Widget> _cardList = [];
   @override
   Widget build(BuildContext context) {
