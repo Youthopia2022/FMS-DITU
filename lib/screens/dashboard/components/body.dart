@@ -27,6 +27,9 @@ class _DashboardBodyState extends State<DashboardBody> {
           if(snapshot.connectionState == ConnectionState.waiting){
             return loader();
           }
+          else if(snapshot.hasData){
+            print("Snapshottt ${snapshot.data}");
+          }
         return SingleChildScrollView(
           child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,46 +91,41 @@ class _DashboardBodyState extends State<DashboardBody> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Icon(LineIcons.calendar,
-                                                color: Colors.white),
-                                            Text("22nd April",
-                                                style: TextStyle(color: Colors.white))
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(LineIcons.clock, color: Colors.white),
-                                            Text("10:00 AM",
-                                                style: TextStyle(color: Colors.white))
-                                          ],
-                                        )
+                                        Icon(LineIcons.calendar,
+                                            color: Colors.white),
+                                        Text("22nd April",
+                                            style: TextStyle(color: Colors.white))
                                       ],
                                     ),
-                                    Column(
+                                    Row(
                                       children: [
-                                        ClipOval(
-                                          child: Material(
-                                            color:
-                                                kContainerColorPrimary, // Button color
-                                            child: InkWell(
-                                              splashColor:
-                                                  kContainerColorSecondary, // Splash color
-                                              onTap: () {},
-                                              child: SizedBox(
-                                                  width: width * 0.11,
-                                                  height: width * 0.11,
-                                                  child: Icon(
-                                                      LineIcons.addToShoppingCart)),
-                                            ),
-                                          ),
-                                        ),
+                                        Icon(LineIcons.clock, color: Colors.white),
+                                        Text("10:00 AM",
+                                            style: TextStyle(color: Colors.white))
                                       ],
-                                    ),
+                                    )
+                                    // Column(
+                                    //   children: [
+                                    //     ClipOval(
+                                    //       child: Material(
+                                    //         color:
+                                    //             kContainerColorPrimary, // Button color
+                                    //         child: InkWell(
+                                    //           splashColor:
+                                    //               kContainerColorSecondary, // Splash color
+                                    //           onTap: () {},
+                                    //           child: SizedBox(
+                                    //               width: width * 0.11,
+                                    //               height: width * 0.11,
+                                    //               child: Icon(
+                                    //                   LineIcons.addToShoppingCart)),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ),
