@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/constants.dart';
+import 'package:fms_ditu/screens/cart/cart.dart';
 import 'package:fms_ditu/screens/dashboard/components/BottomNavigationBar.dart';
 import 'package:fms_ditu/screens/dashboard/components/Drawer.dart';
 import 'package:fms_ditu/screens/dashboard/components/body.dart';
@@ -26,7 +27,14 @@ class _dashboardState extends State<dashboard> {
   final List<Widget> _tabList = [
     const DashboardBody(),
     const ProfilePage(), //ProfilePage()
-    const CartBody(), //CartBody()
+    const CartBody(),
+    const events()//CartBody()
+  ];
+
+  final List<String> _headerList = [
+    'Dashboard',
+    'My Profile',
+    'My Cart'
   ];
 
   void _update(int count) {
@@ -62,10 +70,10 @@ class _dashboardState extends State<dashboard> {
                   ),
                 ),
               ),
-              title: const Center(
+              title:  Center(
                   child: Text(
-                "Dashboard",
-                style: TextStyle(color: kTextColorDark),
+                    _headerList[_selectedIndex],
+                style: TextStyle(color: kTextColorDark,fontWeight: FontWeight.w600,fontSize: 18),
               )),
             ),
             body: _tabList[_selectedIndex],

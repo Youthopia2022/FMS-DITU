@@ -12,6 +12,7 @@ import 'package:fms_ditu/screens/profile/profilePage.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
 import 'package:fms_ditu/sizeConfig.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'constants.dart';
 
 void main() async {
@@ -38,23 +39,31 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kBackgroundColor,
       ),
       title: 'FMS DITU',
-      home: AnimatedSplashScreen(
-          duration: 2000,
-          splash: Icons.home,
-          nextScreen: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasData) {
-                return const dashboard();
-              } else {
-                return const SignIn();
-              }
-            },
-          ),
-          splashTransition: SplashTransition.fadeTransition,
-          // pageTransitionType: PageTransitionType.scale,
-          backgroundColor: Colors.blue),
+      home: SafeArea(
+        child: SplashScreen(
+            seconds: 2,
+            navigateAfterSeconds: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.hasData) {
+                  return const dashboard();
+                } else {
+                  return const SignIn();
+                }
+              },
+            ),
+            title: const Text('Welcome to Youthopia\'22', style: TextStyle(fontSize: 18),),
+            image: new Image.asset('assets/images/youthopiaLogo.png'),
+            backgroundColor: Colors.white,
+            loadingText: Text("Ankit Jailwal | Ayush Santri | Shubhi Agarwal",style: TextStyle(fontSize: 10),),
+            styleTextUnderTheLoader: new TextStyle(),
+            photoSize: 100.0,
+            loaderColor: kTextColorDark
+        ),
+      ),
       routes: routes,
     );
   }
 }
+
+

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
@@ -25,43 +27,72 @@ class _EventsBodyState extends State<EventsBody> {
       "Indian solo, Western solo, duet, instrumental, rapping+beatboxing"; //remove later
   String eventDate = "22nd April, 2022"; //remove later
   String eventTime = "2:00 PM";
-  String eventFee = "400";
+  int eventFee = 400;
   String about =
       "kjhiu snfise flksehfkaes flkafkeb dad/lkhf,ms,fmlkfb a d.kAHFkj AFkJHFj DSM<niofweyfj d,mahdkug jhbbamwc.kjguydchycd.bjhyiduuuhjasbwskjhweiuvyxbUIWAN;OYRBCAWX;NY;EITYAB;WCIUYRBCU;IYN;IUjchgxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ,hguyxek76 675sl6estt,syts ytd uysd.iur s.idduyd fi.dlud.iuif u6lej/ .iuut;7rrjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjdddddddi.............................................. urry aoweu9q8euqbekjaw;o7e98q239 qCI IUWET RIJPRCO WIETR OWh'upir;oct'pocw rt;oicw owzyit";
-
   final List<Widget> _cardList = [];
+  final List<String> participantsDetail = ["124", "123", "5"];
+
+
+  late final String _imageURL = " ";
+  String teamName = "Pta nhi";
+
+
+  addToCartInFirestore() {
+    final auth = FirebaseAuth.instance;
+
+    User? user = auth.currentUser;
+
+    String uid = user!.uid;
+
+    var time = DateTime.now();
+    FirebaseFirestore.instance.collection("cart items").doc(uid).collection("my cart").doc(time.toString()).set({
+      "image" : _imageURL,
+      "about" : about,
+      "fee" : eventFee,
+      "date" : eventDate,
+      "time" : eventTime,
+      "timestamp" : time.toString(),
+      "team name" : teamName,
+      "participantID" : participantsDetail,
+    });
+
+
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
 
-    return ListView(
-      physics: const BouncingScrollPhysics(),
-      children: [
-        Expanded(
-          child: Container(
-            color: (kBackgroundColor),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              buildEventPoster(height, width),
-              const SizedBox(height: 20.0),
-              buildEventDetails(),
-              const SizedBox(height: 8),
-              description(),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  addToCartButton(size),
-                  const SizedBox(width: 12),
-                  registerButton(size),
-                ],
-              )
-            ]),
+    return SafeArea(
+      child: ListView(
+        physics: const BouncingScrollPhysics(),
+        children: [
+          Expanded(
+            child: Container(
+              color: (kBackgroundColor),
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                buildEventPoster(height, width),
+                const SizedBox(height: 20.0),
+                buildEventDetails(),
+                const SizedBox(height: 8),
+                description(),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    addToCartButton(size),
+                    const SizedBox(width: 12),
+                    registerButton(size),
+                  ],
+                )
+              ]),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -98,7 +129,7 @@ class _EventsBodyState extends State<EventsBody> {
               ),
               const SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     child: Row(
@@ -149,7 +180,7 @@ class _EventsBodyState extends State<EventsBody> {
               ),
               const SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     child: Row(
@@ -225,7 +256,7 @@ class _EventsBodyState extends State<EventsBody> {
             //add for failure
           } else {
             teamRegistrationPopUp("Add to cart");
-            //popup for adding team members and team leader, button for "add to cart"
+            //popup for adding team members and team leader, button for  "add to cart"
           }
         },
         child: const Text(
