@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/profileWidget.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
@@ -59,11 +60,15 @@ class _ProfilePageState extends State<ProfilePage> {
             //   print(doc);
             //   udList = doc.data() as Map<String, dynamic>;
             // });
+            EventRecord.name = udList['username'];
+            EventRecord.email = udList['email'];
+            EventRecord.gender = udList['gender'];
             return Scaffold(
               body: ListView(
                 physics: const BouncingScrollPhysics(),
                 children: [
                   // ignore: prefer_const_constructors
+                  const SizedBox(height: 5),
                   ProfileWidget(
                     name: udList['username'], gender: udList['gender'],
                     //udList['username'],
