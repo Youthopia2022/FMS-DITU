@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/API/event_records.dart';
 
 import '../../../constants.dart';
 
 // ignore: camel_case_types
 class EventsBody extends StatefulWidget {
-  const EventsBody({Key? key}) : super(key: key);
+  EventsBody({Key? key, required this.obj}) : super(key: key);
+
+  Map<String, dynamic> obj;
 
   @override
   State<EventsBody> createState() => _EventsBodyState();
@@ -14,6 +17,10 @@ class EventsBody extends StatefulWidget {
 
 // ignore: camel_case_types
 class _EventsBodyState extends State<EventsBody> {
+  static var auth = FirebaseAuth.instance;
+  static User? user = auth.currentUser;
+  String uid = user!.uid;
+
   var count = 0;
   bool written = false;
   final _formKey = GlobalKey<FormState>();
@@ -33,10 +40,8 @@ class _EventsBodyState extends State<EventsBody> {
   final List<Widget> _cardList = [];
   final List<String> participantsDetail = ["124", "123", "5"];
 
-
   late final String _imageURL = " ";
   String teamName = "Pta nhi";
-
 
   addToCartInFirestore() {
     final auth = FirebaseAuth.instance;
@@ -46,19 +51,23 @@ class _EventsBodyState extends State<EventsBody> {
     String uid = user!.uid;
 
     var time = DateTime.now();
-    FirebaseFirestore.instance.collection("cart items").doc(uid).collection("my cart").doc(time.toString()).set({
-      "image" : _imageURL,
-      "about" : about,
-      "fee" : eventFee,
-      "date" : eventDate,
-      "time" : eventTime,
-      "timestamp" : time.toString(),
-      "team name" : teamName,
-      "participantID" : participantsDetail,
+    FirebaseFirestore.instance
+        .collection("cart items")
+        .doc(uid)
+        .collection("my cart")
+        .doc(time.toString())
+        .set({
+      "image": _imageURL,
+      "about": about,
+      "fee": eventFee,
+      "date": eventDate,
+      "time": eventTime,
+      "timestamp": time.toString(),
+      "team name": teamName,
+      "participantID": participantsDetail,
     });
-
-
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/screens/profile/profilePage.dart';
 //import 'package:fms_ditu/screens/scoreboard/scoreboard.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
@@ -9,7 +10,9 @@ import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 final Map<String, WidgetBuilder> routes = {
   SignIn.routeName: (context) => const SignIn(),
   SignUp.routeName: (context) => const SignUp(),
-  Events.routeName: (context) => const Events(),
+  Events.routeName: (context) => Events(
+        obj: {},
+      ),
   dashboard.routeName: (context) => const dashboard(),
   ProfilePage.routeName: (context) => const ProfilePage(),
   //Scoreboard.routeName: (context) => const Scoreboard(),

@@ -21,6 +21,11 @@ class DashboardBody extends StatefulWidget {
 
 class _DashboardBodyState extends State<DashboardBody> {
   var height, width;
+
+  EventRecord obj = new EventRecord();
+
+  Map<String, dynamic> details = {};
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -37,7 +42,7 @@ class _DashboardBodyState extends State<DashboardBody> {
             print(n);
             for (int i = 0; i < n; i++) {
               if (docs[i]['isTopEvent'] == true) {
-                EventRecord.topEvent.add(EventDetails(
+                obj.topEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -51,9 +56,10 @@ class _DashboardBodyState extends State<DashboardBody> {
                     (1.0 * docs[i]['min_member']),
                     docs[i]['time'],
                     docs[i]['category']));
+                // eventDetails.addEntries(newEntries)
               }
               if (docs[i]['category'] == "Technical") {
-                EventRecord.technicalEvent.add(EventDetails(
+                obj.technicalEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -69,7 +75,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['category']));
               }
               // else if (docs[i]['category'] == "Informal") {
-              //   EventRecord.informalEvent.add(
+              //   obj.informalEvent.add(
               //       EventDetails(
               //           docs[i]['event name'],
               //           docs[i]['venue'],
@@ -87,7 +93,7 @@ class _DashboardBodyState extends State<DashboardBody> {
               // }
               else if (docs[i]['category'] == "Debate and Declamation" ||
                   docs[i]['category'] == "Debate") {
-                EventRecord.debateEvent.add(EventDetails(
+                obj.debateEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -102,7 +108,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['time'],
                     docs[i]['category']));
               } else if (docs[i]['category'] == "Gaming") {
-                EventRecord.gamingEvent.add(EventDetails(
+                obj.gamingEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -117,7 +123,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['time'],
                     docs[i]['category']));
               } else if (docs[i]['category'] == "Cultural") {
-                EventRecord.culturalEvent.add(EventDetails(
+                obj.culturalEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -133,12 +139,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['category']));
               }
             }
-            print("Tech ${EventRecord.technicalEvent.length}");
-            print("Top ${EventRecord.topEvent.length}");
-            print("Cul ${EventRecord.culturalEvent.length}");
-            print("infor ${EventRecord.informalEvent.length}");
-            print("game ${EventRecord.gamingEvent.length}");
-            print("debate ${EventRecord.debateEvent.length}");
+            print("Tech ${obj.technicalEvent.length}");
+            print("Top ${obj.topEvent.length}");
+            print("Cul ${obj.culturalEvent.length}");
+            print("infor ${obj.informalEvent.length}");
+            print("game ${obj.gamingEvent.length}");
+            print("debate ${obj.debateEvent.length}");
           }
           return SingleChildScrollView(
             child: Column(
@@ -181,7 +187,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     ),
                                   ),
                                   child: Image.network(
-                                    EventRecord.topEvent[index].image,
+                                    obj.topEvent[index].image,
                                     fit: BoxFit.cover,
                                     height: height / 2.5,
                                     width: width / 1.3,
@@ -204,18 +210,20 @@ class _DashboardBodyState extends State<DashboardBody> {
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(LineIcons.calendar,
+                                      const Icon(LineIcons.calendar,
                                           color: Colors.white),
-                                      Text(EventRecord.topEvent[index].date,
-                                          style: TextStyle(color: Colors.white))
+                                      Text(obj.topEvent[index].date,
+                                          style: const TextStyle(
+                                              color: Colors.white))
                                     ],
                                   ),
                                   Row(
                                     children: [
-                                      Icon(LineIcons.clock,
+                                      const Icon(LineIcons.clock,
                                           color: Colors.white),
-                                      Text(EventRecord.topEvent[index].time,
-                                          style: TextStyle(color: Colors.white))
+                                      Text(obj.topEvent[index].time,
+                                          style: const TextStyle(
+                                              color: Colors.white))
                                     ],
                                   )
                                   // Column(
@@ -255,24 +263,26 @@ class _DashboardBodyState extends State<DashboardBody> {
                             activeSize: 7)),
                     itemHeight: height / 2.5,
                     onTap: (index) {
-
+                      details.addAll(obj.topEvent[index]
+                          as Map<String, dynamic>); //navigator.push to events
                     },
                     itemWidth: width / 1.3,
                     layout: SwiperLayout.DEFAULT,
-                    itemCount: EventRecord.topEvent.length,
-                    physics: BouncingScrollPhysics(),
+                    itemCount: obj.topEvent.length,
+                    physics: const BouncingScrollPhysics(),
                     viewportFraction: 0.8,
                     scale: 0.9,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10, bottom: 10, right: 10),
+                  padding:
+                      const EdgeInsets.only(left: 10, bottom: 10, right: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Technical",
                           style: TextStyle(
                               fontSize: 20,
@@ -285,17 +295,22 @@ class _DashboardBodyState extends State<DashboardBody> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: EventRecord.technicalEvent.length,
+                          itemCount: obj.technicalEvent.length,
                           itemBuilder: (BuildContext context, int index) => Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 4,
                               ),
                               GestureDetector(
                                   onTap: () {
+                                    details.addAll(obj.technicalEvent[index]
+                                        as Map<String, dynamic>);
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const Events()),
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Events(obj: details),
+                                      ),
                                     );
                                   },
                                   child: Container(
@@ -305,8 +320,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
                                         child: Image.network(
-                                          EventRecord
-                                              .technicalEvent[index].image,
+                                          obj.technicalEvent[index].image,
                                           fit: BoxFit.fill,
                                         )),
                                   )),
@@ -317,7 +331,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       SizedBox(height: height * 0.015),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Cultural",
                           style: TextStyle(
                               fontSize: 20,
@@ -332,7 +346,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: EventRecord.culturalEvent.length,
+                            itemCount: obj.culturalEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -340,7 +354,11 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     ? Container()
                                     : SizedBox(width: width * 0.02),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    details.addAll(obj.culturalEvent[index]
+                                        as Map<String,
+                                            dynamic>); //navigator.puch to events
+                                  },
                                   child: Center(
                                     child: Container(
                                       height: width * 0.46 * 1.4,
@@ -350,8 +368,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            EventRecord
-                                                .culturalEvent[index].image,
+                                            obj.culturalEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),
@@ -365,7 +382,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       SizedBox(height: height * 0.015),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Informal",
                           style: TextStyle(
                               fontSize: 20,
@@ -375,8 +392,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                       ),
                       GridView.builder(
                         shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        itemCount: EventRecord.informalEvent.length,
+                        physics: const ScrollPhysics(),
+                        itemCount: obj.informalEvent.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
@@ -388,7 +405,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                           children: [
                             GestureDetector(
                                 onTap: () {
-                                  print("Pressed $index");
+                                  details.addAll(obj.informalEvent[index]
+                                      as Map<String, dynamic>);
                                 },
                                 child: Container(
                                   width: width * 0.3,
@@ -397,7 +415,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
                                       child: Image.network(
-                                        EventRecord.informalEvent[index].image,
+                                        obj.informalEvent[index].image,
                                         fit: BoxFit.fill,
                                       )),
                                 )),
@@ -422,7 +440,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: EventRecord.debateEvent.length,
+                            itemCount: obj.debateEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -430,7 +448,11 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     ? Container()
                                     : SizedBox(width: width * 0.02),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    details.addAll(obj.debateEvent[index]
+                                        as Map<String,
+                                            dynamic>); //navigator.push
+                                  },
                                   child: Center(
                                     child: Container(
                                       height: width * 0.30 * 1.4,
@@ -440,7 +462,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            EventRecord.debateEvent[index].image,
+                                            obj.debateEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),
@@ -469,7 +491,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: EventRecord.gamingEvent.length,
+                            itemCount: obj.gamingEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -477,7 +499,10 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     ? Container()
                                     : SizedBox(width: width * 0.02),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    details.addAll(obj.gamingEvent[index]
+                                        as Map<String, dynamic>); //navigator
+                                  },
                                   child: Center(
                                     child: Container(
                                       height: width * 0.46 * 1.4,
@@ -487,7 +512,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            EventRecord.gamingEvent[index].image,
+                                            obj.gamingEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),

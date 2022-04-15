@@ -40,7 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    // CollectionReference users = FirebaseFirestore.instance.collection('users');
     print(uid);
     return FutureBuilder(
         future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
@@ -49,14 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const loader();
           } else if (snapshot.hasData) {
-            // var data = snapshot.data!.docs;
-            // var value = data![data.indexOf(QueryDocumentSnapshot<Object?>uid)];
-            udList = snapshot.data!.data()
-                as Map<String, dynamic>; //.doc.forEach((doc)
-            // {
-            //   print(doc);
-            //   udList = doc.data() as Map<String, dynamic>;
-            // });
+            udList = snapshot.data!.data() as Map<String, dynamic>;
             return Scaffold(
               body: ListView(
                 physics: const BouncingScrollPhysics(),
@@ -110,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 16),
           Text(
-            "Mobile Number: ${docs['phone']!.toString()}",
+            "Mobile Number: ${docs['phone'].toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
