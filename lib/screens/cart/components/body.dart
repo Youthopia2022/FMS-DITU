@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fms_ditu/API/cartSum.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/payment/RazorPay.dart';
-import 'package:fms_ditu/screens/payment/UpiPay.dart';
-import 'package:fms_ditu/screens/payment/payment.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:pay/pay.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rive/rive.dart';
-// import 'package:upi_india/upi_india.dart';
 
 import '../../../components/loader.dart';
 
@@ -20,44 +20,18 @@ class CartBody extends StatefulWidget {
 }
 
 class _CartBodyState extends State<CartBody> {
-  final _paymentItems = [
-    PaymentItem(
-      label: 'Total',
-      amount: '99.99',
-      status: PaymentItemStatus.final_price,
-    )
-  ];
-  void onGooglePayResult(paymentResult) {
-    debugPrint(paymentResult.toString());
-  }
+  static const platform = const MethodChannel("razorpay_flutter");
 
-  // Future<UpiResponse>? _transaction;
-  // UpiIndia _upiIndia = UpiIndia();
-  // List<UpiApp>? apps;
-
+  late Razorpay _razorpay;
   @override
   void initState() {
     getUID();
-    // _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
-    //   setState(() {
-    //     apps = value;
-    //   });
-    // }).catchError((e) {
-    //   apps = [];
-    // });
     super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
-
-  // Future<UpiResponse> initiateTransaction(UpiApp app) async {
-  //   return _upiIndia.startTransaction(
-  //     app: app,
-  //     receiverUpiId: "ayushsantri222-1@okaxis",
-  //     receiverName: 'Ayush Santri',
-  //     transactionRefId: 'TestingUpiIndiaPlugin',
-  //     transactionNote: 'Not actual. Just an example.',
-  //     amount: 1.00,
-  //   );
-  // }
 
   var height, width;
   String uid = "";
@@ -68,6 +42,26 @@ class _CartBodyState extends State<CartBody> {
 
     uid = user!.uid;
     print(uid);
+  }
+
+  // var data = [
+  //   {
+  //     "fee": 40,
+  //   },
+  //   {
+  //     "fee": 40,
+  //   },
+  //   {
+  //     "fee": 40,
+  //   },
+  //   {
+  //     "fee": 40,
+  //   },
+  // ];
+  Future carSum(var data) async {
+    for(int i=0;i<data.length;i++){
+      CartSum.total +=  data[i]['fee'];
+    }
   }
 
   @override
@@ -84,8 +78,9 @@ class _CartBodyState extends State<CartBody> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const loader();
           } else {
+
             final docs = snapshot.data!.docs;
-            return docs.length != 0
+            return docs.length == 0
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -377,51 +372,20 @@ class _CartBodyState extends State<CartBody> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "₹2000",
+                                "₹${CartSum.total}",
                                 style: TextStyle(
                                     fontSize: 22,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
                               ),
 
-                              // Container(
-                              //   width: width*0.4,
-                              //   height: height*0.08,
-                              //   child: Expanded(
-                              //     child: GooglePayButton(
-                              //       paymentConfigurationAsset: 'gpay.json',
-                              //       paymentItems: _paymentItems,
-                              //       style: GooglePayButtonStyle.white,
-                              //       type: GooglePayButtonType.pay,
-                              //       margin: const EdgeInsets.only(top: 10.0,bottom: 15),
-                              //       onPaymentResult: onGooglePayResult,
-                              //       loadingIndicator: Padding(
-                              //         padding: const EdgeInsets.only(right: 15),
-                              //         child: Align(
-                              //           alignment: Alignment.centerRight,
-                              //           child: Container(
-                              //               height: width*0.07,
-                              //               width: width*0.07,
-                              //               child: CircularProgressIndicator(color: Colors.white,strokeWidth: 2,)),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
 
-
-                              //TODO: UPI Gateway
+                              //TODO: RazerPay Gateway
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 12, bottom: 12),
                                 child: FlatButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RazorPay()),
-                                    );
-                                  },
+                                  onPressed: openCheckout,
                                   child: Container(
                                     width: width * 0.4,
                                     height: height * 0.05,
@@ -455,5 +419,56 @@ class _CartBodyState extends State<CartBody> {
                   );
           }
         });
+
+  }
+
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  void openCheckout() async {
+    var options = {
+      'key': 'rzp_live_ILgsfZCZoFIKMb',
+      'amount': 100,
+      'name': 'Youthopia 2022',
+      'description': 'Robo Soccer',
+      'retry': {'enabled': true, 'max_count': 1},
+      'send_sms_hash': true,
+      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Error: e');
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print('Success Response: $response');
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print('Error Response: $response');
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print('External SDK Response: $response');
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        toastLength: Toast.LENGTH_SHORT);
   }
 }
