@@ -44,24 +44,12 @@ class _CartBodyState extends State<CartBody> {
     print(uid);
   }
 
-  var data = [
-    {
-      "fee": 40,
-    },
-    {
-      "fee": 40,
-    },
-    {
-      "fee": 40,
-    },
-    {
-      "fee": 40,
-    },
-  ];
   Future carSum(var data) async {
+    double total = 0;
     for(int i=0;i<data.length;i++){
-      CartSum.total +=  data[i]['fee'];
+      total +=  data[i]['fee'];
     }
+    CartSum.total = total;
   }
 
   @override
@@ -80,6 +68,7 @@ class _CartBodyState extends State<CartBody> {
           } else {
 
             final docs = snapshot.data!.docs;
+            carSum(docs);
             return docs.length == 0
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,7 +146,7 @@ class _CartBodyState extends State<CartBody> {
                                                                           5),
                                                               child:
                                                                   Image.network(
-                                                                "https://i.pinimg.com/736x/89/48/46/89484620b6843259ed3ee0705b3e80de.jpg",
+                                                                    docs[index]['image'],
                                                                 fit: BoxFit
                                                                     .cover,
                                                               ),
@@ -177,6 +166,7 @@ class _CartBodyState extends State<CartBody> {
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                 children: [
                                                                   Column(
                                                                     crossAxisAlignment:
@@ -186,7 +176,7 @@ class _CartBodyState extends State<CartBody> {
                                                                       Container(
                                                                         child:
                                                                             Text(
-                                                                          "Robo Soccer",
+                                                                              docs[index]['team name'],
                                                                           style: TextStyle(
                                                                               color: kTextColorDark,
                                                                               fontSize: 15,
@@ -194,6 +184,7 @@ class _CartBodyState extends State<CartBody> {
                                                                         ),
                                                                       ),
                                                                       Container(
+                                                                        height: height*0.068,
                                                                         width: width *
                                                                             0.4,
                                                                         child:
@@ -204,16 +195,13 @@ class _CartBodyState extends State<CartBody> {
                                                                           style: TextStyle(
                                                                               color: kTextColorLight,
                                                                               fontSize: 11,
+                                                                              overflow: TextOverflow.ellipsis,
                                                                               fontWeight: FontWeight.w500),
                                                                         ),
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                  SizedBox(
-                                                                    width:
-                                                                        width *
-                                                                            0.07,
-                                                                  ),
+
                                                                   ClipOval(
                                                                     child:
                                                                         Material(
@@ -253,6 +241,7 @@ class _CartBodyState extends State<CartBody> {
                                                                         CrossAxisAlignment
                                                                             .start,
                                                                     children: [
+
                                                                       Row(
                                                                         children: [
                                                                           Icon(
@@ -267,7 +256,7 @@ class _CartBodyState extends State<CartBody> {
                                                                                 5,
                                                                           ),
                                                                           Text(
-                                                                            "8:00 PM",
+                                                                            docs[index]['time'],
                                                                             style: TextStyle(
                                                                                 color: kTextColorLight,
                                                                                 fontSize: 12,
@@ -289,7 +278,7 @@ class _CartBodyState extends State<CartBody> {
                                                                                 5,
                                                                           ),
                                                                           Text(
-                                                                            "22nd April",
+                                                                            docs[index]['date'],
                                                                             style: TextStyle(
                                                                                 color: kTextColorLight,
                                                                                 fontSize: 12,
@@ -299,9 +288,6 @@ class _CartBodyState extends State<CartBody> {
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                  SizedBox(
-                                                                      width: width *
-                                                                          0.17),
                                                                   Container(
                                                                     decoration:
                                                                         BoxDecoration(
@@ -325,7 +311,7 @@ class _CartBodyState extends State<CartBody> {
                                                                               8),
                                                                       child:
                                                                           Text(
-                                                                        "₹500",
+                                                                        "₹${docs[index]['fee']}",
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 12,
@@ -433,9 +419,9 @@ class _CartBodyState extends State<CartBody> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_live_ILgsfZCZoFIKMb',
-      'amount': 100,
+      'amount': CartSum.total*100,
       'name': 'Youthopia 2022',
-      'description': 'Robo Soccer',
+      'description': 'Payment for youthopia event',
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},

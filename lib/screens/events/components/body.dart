@@ -37,7 +37,6 @@ class _EventsBodyState extends State<EventsBody> {
   late final String _imageURL = " ";
   String teamName = "Pta nhi";
 
-
   addToCartInFirestore() {
     final auth = FirebaseAuth.instance;
 

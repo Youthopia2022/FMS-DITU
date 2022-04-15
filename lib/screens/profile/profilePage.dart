@@ -52,8 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
           } else if (snapshot.hasData) {
             // var data = snapshot.data!.docs;
             // var value = data![data.indexOf(QueryDocumentSnapshot<Object?>uid)];
-            udList = snapshot.data!.data()
-                as Map<String, dynamic>;
+            udList = snapshot.data!.data() as Map<String, dynamic>;
             print('Listtt $udList}');
             //.doc.forEach((doc)
             // {
@@ -99,17 +98,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 24,
                 color: kTextColorDark),
           ),
-
           const SizedBox(height: 16),
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onTap: (){
+            onTap: () {
               const snackBar = SnackBar(
                 content: Text("ID copied to clipboard"),
               );
-              Clipboard.setData(ClipboardData(text: uid))
-                  .then((value) {
+              Clipboard.setData(ClipboardData(text: uid)).then((value) {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               });
             },
@@ -128,12 +125,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: kTextColorDark),
                   ),
                 ),
-                 Icon(Icons.copy,size: 20,)
+                Icon(
+                  Icons.copy,
+                  size: 20,
+                )
               ],
             ),
           ),
           const SizedBox(height: 16),
-
           Text(
             "Mobile Number: ${docs['phone number']!.toString()}",
             style: const TextStyle(
