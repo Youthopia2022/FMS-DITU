@@ -44,20 +44,20 @@ class _CartBodyState extends State<CartBody> {
     print(uid);
   }
 
-  // var data = [
-  //   {
-  //     "fee": 40,
-  //   },
-  //   {
-  //     "fee": 40,
-  //   },
-  //   {
-  //     "fee": 40,
-  //   },
-  //   {
-  //     "fee": 40,
-  //   },
-  // ];
+  var data = [
+    {
+      "fee": 40,
+    },
+    {
+      "fee": 40,
+    },
+    {
+      "fee": 40,
+    },
+    {
+      "fee": 40,
+    },
+  ];
   Future carSum(var data) async {
     for(int i=0;i<data.length;i++){
       CartSum.total +=  data[i]['fee'];
