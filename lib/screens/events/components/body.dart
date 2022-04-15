@@ -52,6 +52,7 @@ class _EventsBodyState extends State<EventsBody> {
       "fee" : eventFee,
       "date" : eventDate,
       "time" : eventTime,
+      "timestamp" : time.toString(),
       "team name" : teamName,
       "participantID" : participantsDetail,
     });
