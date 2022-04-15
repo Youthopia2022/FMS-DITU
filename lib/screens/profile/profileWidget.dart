@@ -7,11 +7,11 @@ import 'package:fms_ditu/screens/profile/userPreferences.dart';
 import 'package:rive/rive.dart';
 
 class ProfileWidget extends StatelessWidget {
-  const ProfileWidget({Key? key, required name, required gender})
+  ProfileWidget({Key? key, required this.name, required this.gender})
       : super(key: key);
 
-  static String name = name;
-  static String gender = gender;
+  final String gender;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,7 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget buildImage() {
+    print(name);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(10.0),

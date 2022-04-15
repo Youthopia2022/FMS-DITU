@@ -22,6 +22,9 @@ class _ProfilePageState extends State<ProfilePage> {
   static User? user = auth.currentUser;
   String uid = user!.uid;
 
+  final String name = "";
+  final String gender = "";
+
   int index = 0;
 
   logOut() async {
@@ -37,23 +40,30 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    // CollectionReference users = FirebaseFirestore.instance.collection('users');
+    print(uid);
     return FutureBuilder(
         future: FirebaseFirestore.instance.collection("users").get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const loader();
           } else if (snapshot.hasData) {
-            snapshot.data!.docs.forEach(
-                (doc) => {udList = doc.data() as Map<String, dynamic>});
+            // var data = snapshot.data!.docs;
+            // var value = data![data.indexOf(QueryDocumentSnapshot<Object?>uid)];
+            snapshot.data!.docs.forEach((doc) {
+              print(doc);
+              udList = doc.data() as Map<String, dynamic>;
+            });
             return Scaffold(
               body: ListView(
                 physics: const BouncingScrollPhysics(),
                 children: [
                   // ignore: prefer_const_constructors
                   ProfileWidget(
-                      name: "Shubhi", //udList['username'],
-                      gender: "Female" //udList['gender'],
-                      ),
+                    name: udList['username'], gender: udList['gender'],
+                    //udList['username'],
+                    //udList['gender'],
+                  ),
                   const SizedBox(height: 24),
                   buildDetails(udList),
                   registeredEvents(),
