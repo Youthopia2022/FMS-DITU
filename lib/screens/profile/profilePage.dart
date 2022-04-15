@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/profileWidget.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
 import 'package:fms_ditu/screens/profile/userPreferences.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
+
+import '../../components/loader.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -14,43 +18,86 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  static var auth = FirebaseAuth.instance;
+  static User? user = auth.currentUser;
+  String uid = user!.uid;
+
+  int index = 0;
+
   logOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  UserData user = UserPreferences.myUser;
-  List<String> names = [
-    "Robo soccer",
-    "Sherlocked"
-  ]; //list of registered events of individual participant, clickable button
+  List<String> names = ["Robo soccer", "Sherlocked"];
+
+  Map<String, dynamic> udList = {};
+
+  String copiedID = UserPreferences.myUser.id
+      .toString(); //list of registered events of individual participant, clickable button
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-            img: (user.gender == "Male")
-                ? (const AssetImage("assets/images/male_icon.jpg"))
-                : (const AssetImage("assets/images/female_icon.jpg")),
-          ),
-          const SizedBox(height: 24),
-          buildDetails(user),
-          registeredEvents(),
-          const SizedBox(
-            height: 32,
-          ),
-          logoutButton(),
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: FirebaseFirestore.instance.collection("users").get(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const loader();
+          } else if (snapshot.hasData) {
+            snapshot.data!.docs.forEach(
+                (doc) => {udList = doc.data() as Map<String, dynamic>});
+            return Scaffold(
+              body: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  // ignore: prefer_const_constructors
+                  ProfileWidget(
+                      name: "Shubhi", //udList['username'],
+                      gender: "Female" //udList['gender'],
+                      ),
+                  const SizedBox(height: 24),
+                  buildDetails(udList),
+                  registeredEvents(),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  logoutButton(),
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        });
   }
 
-  Widget buildDetails(UserData user) => Column(
+  Widget buildDetails(Map<String, dynamic> docs) => Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                docs['username'].toString(),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: kTextColorDark),
+              ),
+              IconButton(
+                  onPressed: () {
+                    const snackBar = SnackBar(
+                      content: Text("ID copied to clipboard"),
+                    );
+                    Clipboard.setData(ClipboardData(text: copiedID))
+                        .then((value) {
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    });
+                  },
+                  icon: const Icon(Icons.copy)),
+            ],
+          ),
+          const SizedBox(height: 16),
           Text(
-            "Mobile Number: ${user.phone}",
+            "Mobile Number: ${docs['phone']!.toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
@@ -61,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Year: ${user.year.toString()}",
+                "Year: ${docs['year'].toString()}",
                 style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 18,
@@ -72,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: VerticalDivider(),
               ),
               Text(
-                "Branch: ${user.branch.toString()}",
+                "Branch: ${docs['branch'].toString()}",
                 style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 18,
@@ -82,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 16),
           Text(
-            "College: ${user.college.toString()}",
+            "College: ${docs['college'].toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,

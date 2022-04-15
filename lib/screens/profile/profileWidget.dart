@@ -7,11 +7,11 @@ import 'package:fms_ditu/screens/profile/userPreferences.dart';
 import 'package:rive/rive.dart';
 
 class ProfileWidget extends StatelessWidget {
-  final ImageProvider<Object> img;
+  const ProfileWidget({Key? key, required name, required gender})
+      : super(key: key);
 
-  const ProfileWidget({Key? key, required this.img}) : super(key: key);
-
-  final UserData user = UserPreferences.myUser;
+  static String name = name;
+  static String gender = gender;
 
   @override
   Widget build(BuildContext context) {
@@ -21,52 +21,33 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget buildImage() {
-    // const image = RiveAnimation.asset(
-    //   'assets/rive/men.riv',
-    //   animations: ['running'],
-    // );
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const CircleAvatar(
-                radius: 80,
-                child: RiveAnimation.asset(
-                  'assets/rive/male_icon.riv',
-                  // animations: ['running'],
-                ),
-                // backgroundImage: image,
-                backgroundColor: Colors.grey,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 10),
-              ),
-              Column(
-                children: [
-                  Text(
-                    user.id,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: kTextColorDark),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    user.name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: kTextColorDark),
-                  ),
-                ],
-              )
-            ],
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          CircleAvatar(
+            radius: 100,
+            child: RiveAnimation.asset(
+              (gender == "Male")
+                  ? 'assets/rive/male_avatar_final.riv'
+                  : 'assets/rive/female_avatar_final.riv', //female animation not working
+              // animations: ['running'],
+            ),
+            backgroundColor: Colors.grey,
           ),
-        ),
-      ],
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              name,
+              // overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: kTextColorDark),
+            ),
+          )
+        ]),
+      ),
     );
   }
 }

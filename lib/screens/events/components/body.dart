@@ -377,7 +377,7 @@ class _EventsBodyState extends State<EventsBody> {
                               )
                             : const SizedBox(height: 0, width: 0),
                         const SizedBox(height: 12),
-                        SizedBox(
+                        Container(
                           height: 300,
                           width: 200,
                           child: ListView.builder(
