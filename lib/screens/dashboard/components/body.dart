@@ -68,23 +68,23 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['time'],
                     docs[i]['category']));
               }
-              // else if (docs[i]['category'] == "Informal") {
-              //   EventRecord.informalEvent.add(
-              //       EventDetails(
-              //           docs[i]['event name'],
-              //           docs[i]['venue'],
-              //           docs[i]['about'],
-              //           docs[i]['club'],
-              //           docs[i]['date'].toString(),
-              //           (1.0 * docs[i]['eventFeeDIT']),
-              //           (1.0 * docs[i]['eventFeeNonDIT']),
-              //           docs[i]['image'],
-              //           docs[i]['isTopEvent'],
-              //           (1.0 * docs[i]['max_member']),
-              //           (1.0 * docs[i]['min_member']),
-              //           docs[i]['time'],
-              //           docs[i]['category']));
-              // }
+              else if (docs[i]['category'] == "Informal") {
+                EventRecord.informalEvent.add(
+                    EventDetails(
+                        docs[i]['event name'],
+                        docs[i]['venue'],
+                        docs[i]['about'],
+                        docs[i]['club'],
+                        docs[i]['date'].toString(),
+                        (1.0 * docs[i]['eventFeeDIT']),
+                        (1.0 * docs[i]['eventFeeNonDIT']),
+                        docs[i]['image'],
+                        docs[i]['isTopEvent'],
+                        (1.0 * docs[i]['max_member']),
+                        (1.0 * docs[i]['min_member']),
+                        docs[i]['time'],
+                        docs[i]['category']));
+              }
               else if (docs[i]['category'] == "Debate and Declamation" ||
                   docs[i]['category'] == "Debate") {
                 EventRecord.debateEvent.add(EventDetails(
@@ -317,7 +317,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       SizedBox(height: height * 0.015),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Cultural",
                           style: TextStyle(
                               fontSize: 20,

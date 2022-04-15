@@ -52,18 +52,21 @@ class MyApp extends StatelessWidget {
                 }
               },
             ),
-            title: const Text('Welcome to Youthopia\'22', style: TextStyle(fontSize: 18),),
+            title: const Text(
+              'Welcome to Youthopia\'22',
+              style: TextStyle(fontSize: 18),
+            ),
             image: new Image.asset('assets/images/youthopiaLogo.png'),
             backgroundColor: Colors.white,
-            loadingText: Text("Ankit Jailwal | Ayush Santri | Shubhi Agarwal",style: TextStyle(fontSize: 10),),
+            loadingText: Text(
+              "Ankit Jailwal | Ayush Santri | Shubhi Agarwal",
+              style: TextStyle(fontSize: 10),
+            ),
             styleTextUnderTheLoader: new TextStyle(),
             photoSize: 100.0,
-            loaderColor: kTextColorDark
-        ),
+            loaderColor: kTextColorDark),
       ),
       routes: routes,
     );
   }
 }
-
-

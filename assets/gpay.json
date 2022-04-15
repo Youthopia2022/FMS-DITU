@@ -26,12 +26,12 @@
       }
     ],
     "merchantInfo": {
-      "merchantId": "01234567890123456789",
-      "merchantName": "Example Merchant Name"
+      "merchantId": "BCR2DN4T6DS47HBT",
+      "merchantName": "Ankit Jailwal"
     },
     "transactionInfo": {
-      "countryCode": "US",
-      "currencyCode": "USD"
+      "countryCode": "IN",
+      "currencyCode": "INR"
     }
   }
 }

@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/profileWidget.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
 import 'package:fms_ditu/screens/profile/userPreferences.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
+
+import '../../components/loader.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -14,47 +19,122 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  static var auth = FirebaseAuth.instance;
+  static User? user = auth.currentUser;
+  String uid = user!.uid;
+
+  final String name = "";
+  final String gender = "";
+
+  int index = 0;
+
   logOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  UserData user = UserPreferences.myUser;
-  List<String> names = [
-    "Robo soccer",
-    "Sherlocked"
-  ]; //list of registered events of individual participant, clickable button
+  List<String> names = ["Robo soccer", "Sherlocked"];
+
+  Map<String, dynamic> udList = {};
+
+  String copiedID = UserPreferences.myUser.id
+      .toString(); //list of registered events of individual participant, clickable button
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          const SizedBox(height: 15),
-          ProfileWidget(
-            avatarType: (user.gender == "Male")
-                ? "assets/rive/idleBoy.riv"
-                : "assets/rive/idleGirl.riv",
-          ),
-          const SizedBox(height: 24),
-          buildDetails(user),
-          registeredEvents(),
-          const SizedBox(
-            height: 32,
-          ),
-          logoutButton(),
-          const SizedBox(
-            height: 15,
-          ),
-        ],
-      ),
-    );
+    // CollectionReference users = FirebaseFirestore.instance.collection('users');
+    print("UID $uid");
+    return FutureBuilder(
+        future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const loader();
+          } else if (snapshot.hasData) {
+            // var data = snapshot.data!.docs;
+            // var value = data![data.indexOf(QueryDocumentSnapshot<Object?>uid)];
+            udList = snapshot.data!.data() as Map<String, dynamic>;
+            print('Listtt $udList}');
+            //.doc.forEach((doc)
+            // {
+            //   print(doc);
+            //   udList = doc.data() as Map<String, dynamic>;
+            // });
+            EventRecord.name = udList['username'];
+            EventRecord.email = udList['email'];
+            EventRecord.gender = udList['gender'];
+            return Scaffold(
+              body: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  // ignore: prefer_const_constructors
+                  const SizedBox(height: 5),
+                  ProfileWidget(
+                    name: udList['username'], gender: udList['gender'],
+                    //udList['username'],
+                    //udList['gender'],
+                  ),
+                  const SizedBox(height: 24),
+                  buildDetails(udList),
+                  registeredEvents(),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  logoutButton(),
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        });
   }
 
-  Widget buildDetails(UserData user) => Column(
+  Widget buildDetails(Map<String, dynamic> docs) => Column(
         children: [
           Text(
-            "Mobile Number: ${user.phone}",
+            docs['username'].toString(),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: kTextColorDark),
+          ),
+          const SizedBox(height: 16),
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              const snackBar = SnackBar(
+                content: Text("ID copied to clipboard"),
+              );
+              Clipboard.setData(ClipboardData(text: uid)).then((value) {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: Text(
+                    uid,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
+                        color: kTextColorDark),
+                  ),
+                ),
+                Icon(
+                  Icons.copy,
+                  size: 20,
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "Mobile Number: ${docs['phone number']!.toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
@@ -65,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Year: ${user.year.toString()}",
+                "Year: ${docs['year'].toString()}",
                 style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 18,
@@ -76,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: VerticalDivider(),
               ),
               Text(
-                "Branch: ${user.branch.toString()}",
+                "Branch: ${docs['branch'].toString()}",
                 style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 18,
@@ -86,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 16),
           Text(
-            "College: ${user.college.toString()}",
+            "College: ${docs['college'].toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,

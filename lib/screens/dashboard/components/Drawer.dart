@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/components/DrawerItem.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
+import 'package:rive/rive.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -18,8 +22,28 @@ class _SideDrawerState extends State<SideDrawer> {
   //   });
   // }
   var height, width;
+  static var auth = FirebaseAuth.instance;
+  static User? user = auth.currentUser;
+  String uid = user!.uid;
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
 
-  static const String url = "https://images.vexels.com/media/users/3/145908/raw/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg";
+  Future<void> getUserData() async {
+    if (EventRecord.gender.isEmpty ||
+        EventRecord.email.isEmpty ||
+        EventRecord.name.isEmpty) {
+      var userData =
+          await FirebaseFirestore.instance.collection("users").doc(uid).get();
+      var data = userData.data();
+      EventRecord.email = data?.entries.elementAt(5).value;
+      EventRecord.name = data?.entries.elementAt(6).value;
+      EventRecord.gender = data?.entries.elementAt(1).value;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -37,40 +61,73 @@ class _SideDrawerState extends State<SideDrawer> {
               padding: const EdgeInsets.fromLTRB(24.0, 80, 24, 0),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: width * 0.1,
-                        backgroundImage: NetworkImage(url),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Person name',
-                              style: TextStyle(
-                                  fontSize: 14, color: kTextColorDark)),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            width: width*0.4,
-                            child: Text(
-                              "ahsxkjasknjcacasjkn@gmail.com",
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
-                              style: TextStyle(color: kTextColorDark, fontSize: 14),
+                  FutureBuilder(
+                      future: getUserData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                              child: const CircularProgressIndicator(
+                            color: kTextColorDark,
+                          ));
+                        }
+                        return Row(
+                          children: [
+                            Container(
+                              width: width * 0.20,
+                              height: width * 0.20,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(width * 0.23),
+                                color: Colors.black,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: RiveAnimation.asset(
+                                  EventRecord.gender == "Male"
+                                      ? "assets/rive/idleBoy.riv"
+                                      : "assets/rive/idleGirl.riv",
+                                  animations: ['idlePreview'],
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                   SizedBox(
-                    height: height*0.045,
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(EventRecord.name,
+                                    style: TextStyle(
+                                        fontSize: 14, color: kTextColorDark)),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  width: width * 0.4,
+                                  child: Text(
+                                    EventRecord.email,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: TextStyle(
+                                        color: kTextColorDark, fontSize: 14),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      }),
+                  SizedBox(
+                    height: height * 0.045,
                   ),
                   const Divider(
                     thickness: 1,
@@ -78,7 +135,7 @@ class _SideDrawerState extends State<SideDrawer> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    height: height*0.045,
+                    height: height * 0.045,
                   ),
                   DrawerItem(
                     name: 'Leaderboard',
@@ -86,21 +143,21 @@ class _SideDrawerState extends State<SideDrawer> {
                     onPressed: () => onItemPressed(context, index: 0),
                   ),
                   SizedBox(
-                    height: height*0.03,
+                    height: height * 0.03,
                   ),
                   DrawerItem(
                       name: 'Meet our team',
                       icon: Icons.people,
                       onPressed: () => onItemPressed(context, index: 1)),
                   SizedBox(
-                    height: height*0.03,
+                    height: height * 0.03,
                   ),
                   DrawerItem(
                       name: 'Visit our website',
                       icon: Icons.web_sharp,
                       onPressed: () => onItemPressed(context, index: 2)),
                   SizedBox(
-                    height: height*0.04,
+                    height: height * 0.04,
                   ),
                   const Divider(
                     thickness: 1,
@@ -108,7 +165,7 @@ class _SideDrawerState extends State<SideDrawer> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    height: height*0.04,
+                    height: height * 0.04,
                   ),
                   DrawerItem(
                       name: 'Log out',
@@ -151,6 +208,7 @@ class _SideDrawerState extends State<SideDrawer> {
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;
       case 4:
+        FirebaseAuth.instance.signOut();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;

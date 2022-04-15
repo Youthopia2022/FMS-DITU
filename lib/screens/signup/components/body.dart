@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
@@ -19,12 +20,13 @@ class _BodyState extends State<Body> {
   final _formKey = GlobalKey<FormState>();
   late String _username;
   late String _email;
-  late String _gender;
+  late String _gender = "Male";
   late String _password;
   late String _year;
   late String _branch;
-  late String _college;
+  late String _college = "DIT";
   late Timer timer;
+  late String _phone;
   late bool _showValidation = false;
 
   onSubmit() {
@@ -61,12 +63,24 @@ class _BodyState extends State<Body> {
             "year": _year,
             "branch": _branch,
             "gender": _gender,
+            "phone number": _phone,
+            "college" : _college
           });
-          Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const dashboard()));
+          //set uid in DatabaseService
+          // DatabaseService(uid: uid);
+
+          EventRecord.name = _username;
+          EventRecord.email = _email;
+          EventRecord.gender = _gender;
+          Navigator.pushReplacement((context),
+              MaterialPageRoute(builder: (context) => const dashboard()));
         }
       });
     });
   }
+
+  var items = ['Male', 'Female', 'Others'];
+  var colleges = ['DIT', 'Other'];
 
   @override
   Widget build(BuildContext context) {
@@ -163,24 +177,89 @@ class _BodyState extends State<Body> {
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.3,
                 child: TextFormField(
-                  keyboardType: TextInputType.name,
-                  key: const ValueKey('gender'),
+                  keyboardType: TextInputType.phone,
+                  key: const ValueKey('phone'),
                   style: const TextStyle(color: Colors.grey),
+                  maxLength: 10,
                   decoration: const InputDecoration(
-                      hintText: "Male",
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 17, horizontal: 20),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(25)))),
+                    contentPadding: EdgeInsets.symmetric(vertical: 17),
+                    hintText: "Phone number",
+                    prefixIcon: Icon(Icons.phone),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                  ),
                   onSaved: (value) {
-                    _gender = value!;
+                    _phone = value!;
                   },
                   validator: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Incorrect gender";
+                    if (value?.isEmpty == true || value!.length < 10) {
+                      return "Enter a valid phone number";
                     }
                     return null;
                   },
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.3,
+                child: Row(
+                  children: [
+                    const Text(
+                      "Gender:  ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    DropdownButton(
+                      value: _gender,
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _gender = newValue!;
+                        });
+                      },
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.3,
+                child: Row(
+                  children: [
+                    const Text(
+                      "College:  ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    DropdownButton(
+                      value: _college,
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      items: colleges.map((String colleges) {
+                        return DropdownMenuItem(
+                          value: colleges,
+                          child: Text(colleges),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _college = newValue!;
+                        });
+                      },
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ],
                 ),
               ),
               Container(
