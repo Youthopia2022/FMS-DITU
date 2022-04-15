@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/components/DrawerItem.dart';
@@ -151,6 +152,7 @@ class _SideDrawerState extends State<SideDrawer> {
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;
       case 4:
+        FirebaseAuth.instance.signOut();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;
