@@ -59,8 +59,8 @@ class _CartBodyState extends State<CartBody> {
     },
   ];
   Future carSum(var data) async {
-    for(int i=0;i<data.length;i++){
-      CartSum.total +=  data[i]['fee'];
+    for (int i = 0; i < data.length; i++) {
+      CartSum.total += data[i]['fee'];
     }
   }
 
@@ -78,7 +78,6 @@ class _CartBodyState extends State<CartBody> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const loader();
           } else {
-
             final docs = snapshot.data!.docs;
             return docs.length == 0
                 ? Column(
@@ -379,7 +378,6 @@ class _CartBodyState extends State<CartBody> {
                                     fontWeight: FontWeight.w500),
                               ),
 
-
                               //TODO: RazerPay Gateway
                               Padding(
                                 padding:
@@ -419,10 +417,7 @@ class _CartBodyState extends State<CartBody> {
                   );
           }
         });
-
   }
-
-
 
   @override
   void dispose() {
