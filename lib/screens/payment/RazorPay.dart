@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fms_ditu/constants.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -18,7 +19,30 @@ class _RazorPayState extends State<RazorPay> {
   Widget build(BuildContext context) {
     return  Scaffold(
         appBar: AppBar(
-          title: const Text('Razorpay Sample App'),
+          actions: <Widget>[
+            Container(),
+            Padding(
+              padding: const EdgeInsets.only(right: 10, top: 5, bottom: 5),
+              child: Image.asset(
+                "assets/images/ditu.png",
+                width: 40,
+              ),
+            ),
+          ],
+          backgroundColor: Colors.white,
+          leading: ClipOval(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, top: 12, bottom: 12),
+              child: Image.asset(
+                "assets/images/youthopia_small.png",
+              ),
+            ),
+          ),
+          title:  Center(
+              child: Text(
+                'ajkskajsd',
+                style: TextStyle(color: kTextColorDark,fontWeight: FontWeight.w600,fontSize: 18),
+              )),
         ),
         body: Center(
             child: Row(

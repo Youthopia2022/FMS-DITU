@@ -47,7 +47,11 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
                   return const dashboard();
-                } else {
+                }
+                else if(snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                else {
                   return const SignIn();
                 }
               },
