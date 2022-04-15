@@ -16,37 +16,45 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: buildImage(),
+      child: buildImage(context),
     );
   }
 
-  Widget buildImage() {
+  Widget buildImage(BuildContext context) {
+      var height, width;
+      height = MediaQuery.of(context).size.height;
+      width = MediaQuery.of(context).size.width;
     print(name);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          CircleAvatar(
-            radius: 100,
-            child: RiveAnimation.asset(
-              (gender == "Male")
-                  ? 'assets/rive/male_avatar_final.riv'
-                  : 'assets/rive/female_avatar_final.riv', //female animation not working
-              // animations: ['running'],
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Container(
+            width: width * 0.45,
+            height: width * 0.45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(width * 0.23),
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
-            backgroundColor: Colors.grey,
+            child: Padding(
+              padding: const EdgeInsets.all(2),
+              child: RiveAnimation.asset(
+                gender=="Male"? "assets/rive/idleBoy.riv"
+                    : "assets/rive/idleGirl.riv",
+                animations: ['idlePreview'],
+              ),
+            ),
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              name,
-              // overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  color: kTextColorDark),
-            ),
-          )
+          SizedBox(
+            height: 15,
+          ),
         ]),
       ),
     );

@@ -82,28 +82,55 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildDetails(Map<String, dynamic> docs) => Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                docs['username'].toString(),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: kTextColorDark),
-              ),
-              IconButton(
-                  onPressed: () {
-                    const snackBar = SnackBar(
-                      content: Text("ID copied to clipboard"),
-                    );
-                    Clipboard.setData(ClipboardData(text: copiedID))
-                        .then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    });
-                  },
-                  icon: const Icon(Icons.copy)),
-            ],
+          Text(
+            udList['username'],
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: kTextColorDark),
+          ),
+          const SizedBox(height: 8),
+          FlatButton(
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: uid));
+              var snackBar = const SnackBar(
+                content: Text(
+                  'User ID copied!',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'montserrat',
+                      fontWeight: FontWeight.w600),
+                ),
+                duration: Duration(seconds: 1),
+                backgroundColor: kTextColorDark,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 200,
+                  child: Text(
+                    uid,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
+                        color: kTextColorDark),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                const Icon(
+                  Icons.copy,
+                  color: kTextColorDark,
+                  size: 18,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 16),
           Text(
