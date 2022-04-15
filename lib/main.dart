@@ -47,27 +47,26 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
                   return const dashboard();
-                }
-                else if(snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                else {
+                } else {
                   return const SignIn();
                 }
               },
             ),
-            title: const Text('Welcome to Youthopia\'22', style: TextStyle(fontSize: 18),),
+            title: const Text(
+              'Welcome to Youthopia\'22',
+              style: TextStyle(fontSize: 18),
+            ),
             image: new Image.asset('assets/images/youthopiaLogo.png'),
             backgroundColor: Colors.white,
-            loadingText: Text("Ankit Jailwal | Ayush Santri | Shubhi Agarwal",style: TextStyle(fontSize: 10),),
+            loadingText: Text(
+              "Ankit Jailwal | Ayush Santri | Shubhi Agarwal",
+              style: TextStyle(fontSize: 10),
+            ),
             styleTextUnderTheLoader: new TextStyle(),
             photoSize: 100.0,
-            loaderColor: kTextColorDark
-        ),
+            loaderColor: kTextColorDark),
       ),
       routes: routes,
     );
   }
 }
-
-
