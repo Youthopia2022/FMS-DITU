@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // CollectionReference users = FirebaseFirestore.instance.collection('users');
-    print(uid);
+    print("UID $uid");
     return FutureBuilder(
         future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
         builder:
@@ -52,7 +52,9 @@ class _ProfilePageState extends State<ProfilePage> {
             // var data = snapshot.data!.docs;
             // var value = data![data.indexOf(QueryDocumentSnapshot<Object?>uid)];
             udList = snapshot.data!.data()
-                as Map<String, dynamic>; //.doc.forEach((doc)
+                as Map<String, dynamic>;
+            print('Listtt $udList}');
+            //.doc.forEach((doc)
             // {
             //   print(doc);
             //   udList = doc.data() as Map<String, dynamic>;
@@ -85,32 +87,50 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildDetails(Map<String, dynamic> docs) => Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                docs['username'].toString(),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: kTextColorDark),
-              ),
-              IconButton(
-                  onPressed: () {
-                    const snackBar = SnackBar(
-                      content: Text("ID copied to clipboard"),
-                    );
-                    Clipboard.setData(ClipboardData(text: copiedID))
-                        .then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    });
-                  },
-                  icon: const Icon(Icons.copy)),
-            ],
+          Text(
+            docs['username'].toString(),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: kTextColorDark),
+          ),
+
+          const SizedBox(height: 16),
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: (){
+              const snackBar = SnackBar(
+                content: Text("ID copied to clipboard"),
+              );
+              Clipboard.setData(ClipboardData(text: uid))
+                  .then((value) {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: Text(
+                    uid,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
+                        color: kTextColorDark),
+                  ),
+                ),
+                 Icon(Icons.copy,size: 20,)
+              ],
+            ),
           ),
           const SizedBox(height: 16),
+
           Text(
-            "Mobile Number: ${docs['phone']!.toString()}",
+            "Mobile Number: ${docs['phone number']!.toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
