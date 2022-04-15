@@ -22,8 +22,8 @@ class _ProfilePageState extends State<ProfilePage> {
   static User? user = auth.currentUser;
   String uid = user!.uid;
 
-  final String name = "";
-  final String gender = "";
+  final String name = ""; //check
+  final String gender = ""; //check
 
   int index = 0;
 

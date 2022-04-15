@@ -22,9 +22,9 @@ class DashboardBody extends StatefulWidget {
 class _DashboardBodyState extends State<DashboardBody> {
   var height, width;
 
-  EventRecord obj = new EventRecord();
+  // EventRecord EventRecord() = new EventRecord();
 
-  Map<String, dynamic> details = {};
+  // Map<String, dynamic> details = {};
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _DashboardBodyState extends State<DashboardBody> {
             print(n);
             for (int i = 0; i < n; i++) {
               if (docs[i]['isTopEvent'] == true) {
-                obj.topEvent.add(EventDetails(
+                EventRecord.topEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -59,7 +59,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                 // eventDetails.addEntries(newEntries)
               }
               if (docs[i]['category'] == "Technical") {
-                obj.technicalEvent.add(EventDetails(
+                EventRecord.technicalEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -75,7 +75,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['category']));
               }
               // else if (docs[i]['category'] == "Informal") {
-              //   obj.informalEvent.add(
+              //   EventRecord().informalEvent.add(
               //       EventDetails(
               //           docs[i]['event name'],
               //           docs[i]['venue'],
@@ -93,7 +93,7 @@ class _DashboardBodyState extends State<DashboardBody> {
               // }
               else if (docs[i]['category'] == "Debate and Declamation" ||
                   docs[i]['category'] == "Debate") {
-                obj.debateEvent.add(EventDetails(
+                EventRecord.debateEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -108,7 +108,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['time'],
                     docs[i]['category']));
               } else if (docs[i]['category'] == "Gaming") {
-                obj.gamingEvent.add(EventDetails(
+                EventRecord.gamingEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -123,7 +123,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['time'],
                     docs[i]['category']));
               } else if (docs[i]['category'] == "Cultural") {
-                obj.culturalEvent.add(EventDetails(
+                EventRecord.culturalEvent.add(EventDetails(
                     docs[i]['event name'],
                     docs[i]['venue'],
                     docs[i]['about'],
@@ -139,12 +139,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                     docs[i]['category']));
               }
             }
-            print("Tech ${obj.technicalEvent.length}");
-            print("Top ${obj.topEvent.length}");
-            print("Cul ${obj.culturalEvent.length}");
-            print("infor ${obj.informalEvent.length}");
-            print("game ${obj.gamingEvent.length}");
-            print("debate ${obj.debateEvent.length}");
+            print("Tech ${EventRecord.technicalEvent.length}");
+            print("Top ${EventRecord.topEvent.length}");
+            print("Cul ${EventRecord.culturalEvent.length}");
+            print("infor ${EventRecord.informalEvent.length}");
+            print("game ${EventRecord.gamingEvent.length}");
+            print("debate ${EventRecord.debateEvent.length}");
           }
           return SingleChildScrollView(
             child: Column(
@@ -187,7 +187,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     ),
                                   ),
                                   child: Image.network(
-                                    obj.topEvent[index].image,
+                                    EventRecord.topEvent[index].image,
                                     fit: BoxFit.cover,
                                     height: height / 2.5,
                                     width: width / 1.3,
@@ -212,7 +212,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     children: [
                                       const Icon(LineIcons.calendar,
                                           color: Colors.white),
-                                      Text(obj.topEvent[index].date,
+                                      Text(EventRecord.topEvent[index].date,
                                           style: const TextStyle(
                                               color: Colors.white))
                                     ],
@@ -221,7 +221,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     children: [
                                       const Icon(LineIcons.clock,
                                           color: Colors.white),
-                                      Text(obj.topEvent[index].time,
+                                      Text(EventRecord.topEvent[index].time,
                                           style: const TextStyle(
                                               color: Colors.white))
                                     ],
@@ -263,12 +263,17 @@ class _DashboardBodyState extends State<DashboardBody> {
                             activeSize: 7)),
                     itemHeight: height / 2.5,
                     onTap: (index) {
-                      details.addAll(obj.topEvent[index]
-                          as Map<String, dynamic>); //navigator.push to events
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Events(list: EventRecord.topEvent[index]),
+                          ));
+                      //navigator.push to events
                     },
                     itemWidth: width / 1.3,
                     layout: SwiperLayout.DEFAULT,
-                    itemCount: obj.topEvent.length,
+                    itemCount: EventRecord.topEvent.length,
                     physics: const BouncingScrollPhysics(),
                     viewportFraction: 0.8,
                     scale: 0.9,
@@ -295,7 +300,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: obj.technicalEvent.length,
+                          itemCount: EventRecord.technicalEvent.length,
                           itemBuilder: (BuildContext context, int index) => Row(
                             children: [
                               const SizedBox(
@@ -303,13 +308,15 @@ class _DashboardBodyState extends State<DashboardBody> {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    details.addAll(obj.technicalEvent[index]
-                                        as Map<String, dynamic>);
+                                    // details.addAll(EventRecord.technicalEvent[index]
+                                    //     as Map<String, dynamic>);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            Events(obj: details),
+                                        builder: (context) => Events(
+                                          list:
+                                              EventRecord.technicalEvent[index],
+                                        ), //correct it
                                       ),
                                     );
                                   },
@@ -320,7 +327,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
                                         child: Image.network(
-                                          obj.technicalEvent[index].image,
+                                          EventRecord
+                                              .technicalEvent[index].image,
                                           fit: BoxFit.fill,
                                         )),
                                   )),
@@ -346,7 +354,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: obj.culturalEvent.length,
+                            itemCount: EventRecord.culturalEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -355,9 +363,17 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     : SizedBox(width: width * 0.02),
                                 GestureDetector(
                                   onTap: () {
-                                    details.addAll(obj.culturalEvent[index]
-                                        as Map<String,
-                                            dynamic>); //navigator.puch to events
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Events(
+                                            list: EventRecord
+                                                .culturalEvent[index],
+                                          ),
+                                        ));
+                                    // details.addAll(EventRecord.culturalEvent[index]
+                                    //     as Map<String,
+                                    //         dynamic>); //navigator.puch to events
                                   },
                                   child: Center(
                                     child: Container(
@@ -368,7 +384,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            obj.culturalEvent[index].image,
+                                            EventRecord
+                                                .culturalEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),
@@ -393,7 +410,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        itemCount: obj.informalEvent.length,
+                        itemCount: EventRecord.informalEvent.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
@@ -405,8 +422,16 @@ class _DashboardBodyState extends State<DashboardBody> {
                           children: [
                             GestureDetector(
                                 onTap: () {
-                                  details.addAll(obj.informalEvent[index]
-                                      as Map<String, dynamic>);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Events(
+                                          list:
+                                              EventRecord.informalEvent[index],
+                                        ),
+                                      ));
+                                  // details.addAll(EventRecord.informalEvent[index]
+                                  //     as Map<String, dynamic>);
                                 },
                                 child: Container(
                                   width: width * 0.3,
@@ -415,7 +440,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
                                       child: Image.network(
-                                        obj.informalEvent[index].image,
+                                        EventRecord.informalEvent[index].image,
                                         fit: BoxFit.fill,
                                       )),
                                 )),
@@ -440,7 +465,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: obj.debateEvent.length,
+                            itemCount: EventRecord.debateEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -449,9 +474,17 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     : SizedBox(width: width * 0.02),
                                 GestureDetector(
                                   onTap: () {
-                                    details.addAll(obj.debateEvent[index]
-                                        as Map<String,
-                                            dynamic>); //navigator.push
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Events(
+                                            list:
+                                                EventRecord.debateEvent[index],
+                                          ),
+                                        ));
+                                    // details.addAll(EventRecord.debateEvent[index]
+                                    //     as Map<String,
+                                    //         dynamic>); //navigator.push
                                   },
                                   child: Center(
                                     child: Container(
@@ -462,7 +495,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            obj.debateEvent[index].image,
+                                            EventRecord
+                                                .debateEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),
@@ -491,7 +525,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           child: ListView.builder(
                             shrinkWrap: false,
                             scrollDirection: Axis.horizontal,
-                            itemCount: obj.gamingEvent.length,
+                            itemCount: EventRecord.gamingEvent.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 Row(
                               children: [
@@ -500,8 +534,16 @@ class _DashboardBodyState extends State<DashboardBody> {
                                     : SizedBox(width: width * 0.02),
                                 GestureDetector(
                                   onTap: () {
-                                    details.addAll(obj.gamingEvent[index]
-                                        as Map<String, dynamic>); //navigator
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Events(
+                                            list:
+                                                EventRecord.gamingEvent[index],
+                                          ),
+                                        ));
+                                    // details.addAll(EventRecord.gamingEvent[index]
+                                    //     as Map<String, dynamic>); //navigator
                                   },
                                   child: Center(
                                     child: Container(
@@ -512,7 +554,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            obj.gamingEvent[index].image,
+                                            EventRecord
+                                                .gamingEvent[index].image,
                                             fit: BoxFit.fill,
                                           )),
                                     ),

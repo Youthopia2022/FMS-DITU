@@ -1,15 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/API/eventDetails.dart';
 import 'package:fms_ditu/API/event_records.dart';
 
 import '../../../constants.dart';
 
 // ignore: camel_case_types
 class EventsBody extends StatefulWidget {
-  EventsBody({Key? key, required this.obj}) : super(key: key);
+  EventsBody({Key? key, required this.list}) : super(key: key);
 
-  Map<String, dynamic> obj;
+  // Map<String, dynamic> obj;
+
+  final EventDetails list;
 
   @override
   State<EventsBody> createState() => _EventsBodyState();
@@ -24,31 +28,38 @@ class _EventsBodyState extends State<EventsBody> {
   var count = 0;
   bool written = false;
   final _formKey = GlobalKey<FormState>();
-  bool isSoloAllowed = false; //remove later
-  int minMembers = 3; //remove later
-  int maxMembers = 4; //remove later //maxMembers - 1, 1 is the team leader
-  bool isLeaderRequired = true; //remove later
-  String eventName = "Cresendo"; //remove later
-  String organizer = "CodeGenX";
-  String eventDescription =
-      "Indian solo, Western solo, duet, instrumental, rapping+beatboxing"; //remove later
-  String eventDate = "22nd April, 2022"; //remove later
-  String eventTime = "2:00 PM";
-  int eventFee = 400;
-  String about =
-      "kjhiu snfise flksehfkaes flkafkeb dad/lkhf,ms,fmlkfb a d.kAHFkj AFkJHFj DSM<niofweyfj d,mahdkug jhbbamwc.kjguydchycd.bjhyiduuuhjasbwskjhweiuvyxbUIWAN;OYRBCAWX;NY;EITYAB;WCIUYRBCU;IYN;IUjchgxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ,hguyxek76 675sl6estt,syts ytd uysd.iur s.idduyd fi.dlud.iuif u6lej/ .iuut;7rrjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjdddddddi.............................................. urry aoweu9q8euqbekjaw;o7e98q239 qCI IUWET RIJPRCO WIETR OWh'upir;oct'pocw rt;oicw owzyit";
+
+  static late int minMembers;
+  static late int maxMembers; //maxMembers - 1, 1 is the team leader
+  static late String eventName;
+  static late String organizer;
+  static late String eventDescription;
+  static late String eventDate;
+  static late String eventTime;
+  static late double eventFee;
+  static late String about;
+  var college;
+
   final List<Widget> _cardList = [];
   final List<String> participantsDetail = ["124", "123", "5"];
 
   late final String _imageURL = " ";
-  String teamName = "Pta nhi";
+  String teamName = "Pta nhi"; //remove
 
-  addToCartInFirestore() {
+  addToCartInFirestore() async {
     final auth = FirebaseAuth.instance;
 
     User? user = auth.currentUser;
 
     String uid = user!.uid;
+
+    //for getting college name, for event fee
+    var collection = FirebaseFirestore.instance.collection('users');
+    var docSnapshot = await collection.doc('some_id').get();
+    if (docSnapshot.exists) {
+      Map<String, dynamic> data = docSnapshot.data()!;
+      college = data["college"];
+    }
 
     var time = DateTime.now();
     FirebaseFirestore.instance
@@ -69,10 +80,31 @@ class _EventsBodyState extends State<EventsBody> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    eventName = widget.list.name;
+    about = widget.list.about;
+    eventDescription = widget.list.venue;
+    organizer = widget.list.club;
+    minMembers = (widget.list.min).toInt();
+    maxMembers = (widget.list.max).toInt();
+    eventName = widget.list.name;
+    eventDate = widget.list.date;
+    eventTime = widget.list.time;
+    eventFee = (college == "DIT")
+        ? (widget.list.eventFeeDit)
+        : (widget.list.eventFeeNonDit);
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
+
+    bool isSoloAllowed = (maxMembers == 1) ? true : false;
+    bool isLeaderRequired = (maxMembers == 1) ? false : true;
 
     return SafeArea(
       child: ListView(
@@ -92,9 +124,9 @@ class _EventsBodyState extends State<EventsBody> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    addToCartButton(size),
+                    addToCartButton(size, isSoloAllowed, isLeaderRequired),
                     const SizedBox(width: 12),
-                    registerButton(size),
+                    registerButton(size, isSoloAllowed, isLeaderRequired),
                   ],
                 )
               ]),
@@ -177,6 +209,7 @@ class _EventsBodyState extends State<EventsBody> {
                         ),
                         Text(
                           eventTime,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               fontSize: 12,
                               color: kTextColorDark,
@@ -257,14 +290,16 @@ class _EventsBodyState extends State<EventsBody> {
         ],
       );
 
-  Widget addToCartButton(Size size) => ElevatedButton(
+  Widget addToCartButton(
+          Size size, bool isSoloAllowed, bool isLeaderRequired) =>
+      ElevatedButton(
         onPressed: () {
           if (isSoloAllowed) {
             //add event to cart
             infoPopUp("Succesfully added to cart");
             //add for failure
           } else {
-            teamRegistrationPopUp("Add to cart");
+            teamRegistrationPopUp("Add to cart", isLeaderRequired);
             //popup for adding team members and team leader, button for  "add to cart"
           }
         },
@@ -280,13 +315,14 @@ class _EventsBodyState extends State<EventsBody> {
                 side: const BorderSide(color: kButtonColorPrimary))),
       );
 
-  Widget registerButton(Size size) => ElevatedButton(
+  Widget registerButton(Size size, bool isSoloAllowed, bool isLeaderRequired) =>
+      ElevatedButton(
         onPressed: () {
           if (isSoloAllowed) {
             infoPopUp("Redirecting to payments page");
             //add for failure
           } else {
-            teamRegistrationPopUp("Make Payment");
+            teamRegistrationPopUp("Make Payment", isLeaderRequired);
             //popup for adding team members and team leader, with a button for "Make payment"
           }
         },
@@ -326,7 +362,7 @@ class _EventsBodyState extends State<EventsBody> {
             ));
   }
 
-  dynamic teamRegistrationPopUp(String message) {
+  dynamic teamRegistrationPopUp(String message, bool isLeaderRequired) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -548,6 +584,12 @@ class _EventsBodyState extends State<EventsBody> {
       ),
     ));
     return container;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DoubleProperty('eventFee', eventFee));
   }
 
 // class Question extends StatefulWidget {
