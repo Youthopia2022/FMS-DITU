@@ -6,7 +6,6 @@ import 'package:fms_ditu/screens/payment/RazorPay.dart';
 import 'package:fms_ditu/screens/payment/UpiPay.dart';
 import 'package:fms_ditu/screens/payment/payment.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:pay/pay.dart';
 import 'package:rive/rive.dart';
 // import 'package:upi_india/upi_india.dart';
 
@@ -20,13 +19,13 @@ class CartBody extends StatefulWidget {
 }
 
 class _CartBodyState extends State<CartBody> {
-  final _paymentItems = [
-    PaymentItem(
-      label: 'Total',
-      amount: '99.99',
-      status: PaymentItemStatus.final_price,
-    )
-  ];
+  // final _paymentItems = [
+  //   PaymentItem(
+  //     label: 'Total',
+  //     amount: '99.99',
+  //     status: PaymentItemStatus.final_price,
+  //   )
+  // ];
   void onGooglePayResult(paymentResult) {
     debugPrint(paymentResult.toString());
   }
@@ -408,7 +407,6 @@ class _CartBodyState extends State<CartBody> {
                               //     ),
                               //   ),
                               // ),
-
 
                               //TODO: UPI Gateway
                               Padding(
