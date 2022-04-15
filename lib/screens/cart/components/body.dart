@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_ditu/constants.dart';
+import 'package:fms_ditu/screens/payment/RazorPay.dart';
+import 'package:fms_ditu/screens/payment/UpiPay.dart';
 import 'package:fms_ditu/screens/payment/payment.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pay/pay.dart';
 import 'package:rive/rive.dart';
-import 'package:upi_india/upi_india.dart';
+// import 'package:upi_india/upi_india.dart';
 
 import '../../../components/loader.dart';
 
@@ -29,33 +31,33 @@ class _CartBodyState extends State<CartBody> {
     debugPrint(paymentResult.toString());
   }
 
-  Future<UpiResponse>? _transaction;
-  UpiIndia _upiIndia = UpiIndia();
-  List<UpiApp>? apps;
+  // Future<UpiResponse>? _transaction;
+  // UpiIndia _upiIndia = UpiIndia();
+  // List<UpiApp>? apps;
 
   @override
   void initState() {
     getUID();
-    _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
-      setState(() {
-        apps = value;
-      });
-    }).catchError((e) {
-      apps = [];
-    });
+    // _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
+    //   setState(() {
+    //     apps = value;
+    //   });
+    // }).catchError((e) {
+    //   apps = [];
+    // });
     super.initState();
   }
 
-  Future<UpiResponse> initiateTransaction(UpiApp app) async {
-    return _upiIndia.startTransaction(
-      app: app,
-      receiverUpiId: "ayushsantri222-1@okaxis",
-      receiverName: 'Ayush Santri',
-      transactionRefId: 'TestingUpiIndiaPlugin',
-      transactionNote: 'Not actual. Just an example.',
-      amount: 1.00,
-    );
-  }
+  // Future<UpiResponse> initiateTransaction(UpiApp app) async {
+  //   return _upiIndia.startTransaction(
+  //     app: app,
+  //     receiverUpiId: "ayushsantri222-1@okaxis",
+  //     receiverName: 'Ayush Santri',
+  //     transactionRefId: 'TestingUpiIndiaPlugin',
+  //     transactionNote: 'Not actual. Just an example.',
+  //     amount: 1.00,
+  //   );
+  // }
 
   var height, width;
   String uid = "";
@@ -83,7 +85,7 @@ class _CartBodyState extends State<CartBody> {
             return const loader();
           } else {
             final docs = snapshot.data!.docs;
-            return docs.length == 0
+            return docs.length != 0
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +97,7 @@ class _CartBodyState extends State<CartBody> {
                           child: RiveAnimation.asset('assets/rive/cart.riv'),
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Your cart is empty",
                         style: TextStyle(
                             color: kTextColorDark,
@@ -381,6 +383,34 @@ class _CartBodyState extends State<CartBody> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
                               ),
+
+                              // Container(
+                              //   width: width*0.4,
+                              //   height: height*0.08,
+                              //   child: Expanded(
+                              //     child: GooglePayButton(
+                              //       paymentConfigurationAsset: 'gpay.json',
+                              //       paymentItems: _paymentItems,
+                              //       style: GooglePayButtonStyle.white,
+                              //       type: GooglePayButtonType.pay,
+                              //       margin: const EdgeInsets.only(top: 10.0,bottom: 15),
+                              //       onPaymentResult: onGooglePayResult,
+                              //       loadingIndicator: Padding(
+                              //         padding: const EdgeInsets.only(right: 15),
+                              //         child: Align(
+                              //           alignment: Alignment.centerRight,
+                              //           child: Container(
+                              //               height: width*0.07,
+                              //               width: width*0.07,
+                              //               child: CircularProgressIndicator(color: Colors.white,strokeWidth: 2,)),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+
+
+                              //TODO: UPI Gateway
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 12, bottom: 12),
@@ -389,7 +419,7 @@ class _CartBodyState extends State<CartBody> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Payment()),
+                                          builder: (context) => RazorPay()),
                                     );
                                   },
                                   child: Container(
