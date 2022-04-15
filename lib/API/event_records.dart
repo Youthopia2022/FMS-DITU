@@ -8,6 +8,9 @@ class EventRecord {
   static List<EventDetails> debateEvent = [];
   static List<EventDetails> gamingEvent = [];
   static List<EventDetails> topEvent = [];
+  static String name = "";
+  static String email = "";
+  static String gender = "";
 
   factory EventRecord() {
     return _singleton;

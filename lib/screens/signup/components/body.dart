@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
@@ -68,6 +69,9 @@ class _BodyState extends State<Body> {
           //set uid in DatabaseService
           // DatabaseService(uid: uid);
 
+          EventRecord.name = _username;
+          EventRecord.email = _email;
+          EventRecord.gender = _gender;
           Navigator.pushReplacement((context),
               MaterialPageRoute(builder: (context) => const dashboard()));
         }

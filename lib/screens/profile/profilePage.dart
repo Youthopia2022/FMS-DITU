@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/profileWidget.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
@@ -22,8 +23,8 @@ class _ProfilePageState extends State<ProfilePage> {
   static User? user = auth.currentUser;
   String uid = user!.uid;
 
-  final String name = ""; //check
-  final String gender = ""; //check
+  final String name = "";
+  final String gender = "";
 
   int index = 0;
 
@@ -40,7 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(uid);
+    // CollectionReference users = FirebaseFirestore.instance.collection('users');
+    print("UID $uid");
     return FutureBuilder(
         future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
         builder:
@@ -48,12 +50,24 @@ class _ProfilePageState extends State<ProfilePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const loader();
           } else if (snapshot.hasData) {
+            // var data = snapshot.data!.docs;
+            // var value = data![data.indexOf(QueryDocumentSnapshot<Object?>uid)];
             udList = snapshot.data!.data() as Map<String, dynamic>;
+            print('Listtt $udList}');
+            //.doc.forEach((doc)
+            // {
+            //   print(doc);
+            //   udList = doc.data() as Map<String, dynamic>;
+            // });
+            EventRecord.name = udList['username'];
+            EventRecord.email = udList['email'];
+            EventRecord.gender = udList['gender'];
             return Scaffold(
               body: ListView(
                 physics: const BouncingScrollPhysics(),
                 children: [
                   // ignore: prefer_const_constructors
+                  const SizedBox(height: 5),
                   ProfileWidget(
                     name: udList['username'], gender: udList['gender'],
                     //udList['username'],
@@ -77,32 +91,50 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildDetails(Map<String, dynamic> docs) => Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                docs['username'].toString(),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: kTextColorDark),
-              ),
-              IconButton(
-                  onPressed: () {
-                    const snackBar = SnackBar(
-                      content: Text("ID copied to clipboard"),
-                    );
-                    Clipboard.setData(ClipboardData(text: copiedID))
-                        .then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    });
-                  },
-                  icon: const Icon(Icons.copy)),
-            ],
+          Text(
+            docs['username'].toString(),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: kTextColorDark),
+          ),
+          const SizedBox(height: 16),
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              const snackBar = SnackBar(
+                content: Text("ID copied to clipboard"),
+              );
+              Clipboard.setData(ClipboardData(text: uid)).then((value) {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: Text(
+                    uid,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
+                        color: kTextColorDark),
+                  ),
+                ),
+                Icon(
+                  Icons.copy,
+                  size: 20,
+                )
+              ],
+            ),
           ),
           const SizedBox(height: 16),
           Text(
-            "Mobile Number: ${docs['phone'].toString()}",
+            "Mobile Number: ${docs['phone number']!.toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
