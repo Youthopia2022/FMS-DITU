@@ -17,7 +17,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   late String _email;
   late String _password;
-  bool _loader = true;
+  bool _loader = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -37,6 +37,10 @@ class _BodyState extends State<Body> {
       Navigator.pushReplacement((context),
           MaterialPageRoute(builder: (context) => const dashboard()));
     } catch (err) {
+      setState(() {
+        _loader = !_loader;
+      });
+      print(err);
       Fluttertoast.showToast(msg: "Invalid credentials. Please try again");
     }
   }
