@@ -21,7 +21,9 @@ class SignIn extends StatelessWidget {
                     Widget child,
                     ){
                   final connected = connectivity != ConnectivityResult.none;
-                  return !connected?NoInternet():SingleChildScrollView();
+                  return !connected?NoInternet():SingleChildScrollView(
+                    child: Body(),
+                  );
                 },
                 child: Container()
             );
