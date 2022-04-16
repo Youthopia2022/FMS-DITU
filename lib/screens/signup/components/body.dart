@@ -91,13 +91,24 @@ class _BodyState extends State<Body> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 40),
-                child: const Text(
-                  "Welcome to Youthopia!",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                      color: Colors.black),
+                margin: const EdgeInsets.only(left: 30, top: 50),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: RichText(
+                      text: const TextSpan(
+                        text: "Welcome to",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: Colors.black,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: '\nYouthopia!',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 50)),
+                        ],
+                      )),
                 ),
               ),
               Container(
