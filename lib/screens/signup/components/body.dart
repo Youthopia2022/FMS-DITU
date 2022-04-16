@@ -195,7 +195,7 @@ class _BodyState extends State<Body> {
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 17),
                     hintText: "Phone number",
-                    prefixIcon: Icon(Icons.phone),
+                    prefixIcon: Icon(Icons.whatsapp),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
