@@ -116,9 +116,6 @@ class _BodyState extends State<Body> {
                       borderRadius: BorderRadius.all(Radius.circular(25))),
                 ),
                 validator: (value) {
-                  if (value?.isEmpty == true || value!.length < 6) {
-                    return "generate strong password";
-                  }
                   return null;
                 },
                 onSaved: (value) {
