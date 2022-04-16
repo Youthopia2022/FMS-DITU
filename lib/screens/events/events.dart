@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:fms_ditu/API/eventDetails.dart';
 import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/screens/events/components/body.dart';
 
+import '../../components/NoInternet.dart';
 import '../../constants.dart';
 
 class Events extends StatelessWidget {
@@ -44,7 +46,21 @@ class Events extends StatelessWidget {
               style: TextStyle(color: kTextColorDark,fontWeight: FontWeight.w600,fontSize: 18),
             )),
       ),
-      body: EventsBody(list: list),
+      body: Builder(
+        builder: (BuildContext context) {
+          return OfflineBuilder(
+              connectivityBuilder: (
+                  BuildContext context,
+                  ConnectivityResult connectivity,
+                  Widget child,
+                  ){
+                final connected = connectivity != ConnectivityResult.none;
+                return !connected?NoInternet():EventsBody(list: list);
+              },
+              child: Container()
+          );
+        },
+      ),
     );
   }
 }

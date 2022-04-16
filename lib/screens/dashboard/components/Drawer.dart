@@ -27,11 +27,6 @@ class _SideDrawerState extends State<SideDrawer> {
   static var auth = FirebaseAuth.instance;
   static User? user = auth.currentUser;
   String uid = user!.uid;
-  @override
-  void initState() {
-    getUserData();
-    super.initState();
-  }
 
   static const _websiteUrl = "http://youthopia.dituniversity.co.in/";
   static const _instaUrl = "https://www.instagram.com/ditu.youthopia/";
