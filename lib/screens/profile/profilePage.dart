@@ -229,6 +229,9 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 setState(() {
                   logOut();
+                  EventRecord.email = "";
+                  EventRecord.name = "";
+                  EventRecord.gender = "";
                   Navigator.pushReplacement((context),
                       MaterialPageRoute(builder: (context) => const SignIn()));
                 });

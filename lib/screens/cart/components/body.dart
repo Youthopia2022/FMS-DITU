@@ -123,7 +123,7 @@ class _CartBodyState extends State<CartBody> {
                                               top: 10,
                                               bottom: 10,
                                               left: 15,
-                                              right: 20),
+                                              right: 15),
                                           child: Column(
                                             children: [
                                               Column(
@@ -162,165 +162,176 @@ class _CartBodyState extends State<CartBody> {
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             children: [
-                                                              Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Container(
-                                                                        child:
-                                                                            Text(
-                                                                              docs[index]['team name'],
-                                                                          style: TextStyle(
-                                                                              color: kTextColorDark,
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.w600),
+                                                              SizedBox(
+                                                                width: width*0.59,
+                                                                child: Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Container(
+                                                                          child:
+                                                                              Text(
+                                                                                docs[index]['team name'],
+                                                                            style: TextStyle(
+                                                                                color: kTextColorDark,
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.w600),
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                      Container(
-                                                                        height: height*0.068,
-                                                                        width: width *
-                                                                            0.4,
-                                                                        child:
-                                                                            Text(
-                                                                          docs[index]
-                                                                              [
-                                                                              'about'],
-                                                                          style: TextStyle(
-                                                                              color: kTextColorLight,
-                                                                              fontSize: 11,
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              fontWeight: FontWeight.w500),
+                                                                        Container(
+                                                                          height: height*0.068,
+                                                                          width: width *
+                                                                              0.4,
+                                                                          child:
+                                                                              Text(
+                                                                            docs[index]
+                                                                                [
+                                                                                'about'],
+                                                                            style: TextStyle(
+                                                                                color: kTextColorLight,
+                                                                                fontSize: 11,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                fontWeight: FontWeight.w500),
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-
-                                                                  ClipOval(
-                                                                    child:
-                                                                        Material(
-                                                                      color:
-                                                                          kContainerColorPrimary, // Button color
-                                                                      child:
-                                                                          InkWell(
-                                                                        splashColor:
-                                                                            kButtonColorSecondary, // Splash color
-                                                                        onTap:
-                                                                            () {
-                                                                          FirebaseFirestore
-                                                                              .instance
-                                                                              .collection('cart items')
-                                                                              .doc(uid)
-                                                                              .collection("my cart")
-                                                                              .doc(docs[index]['timestamp'])
-                                                                              .delete();
-                                                                        },
-                                                                        child: SizedBox(
-                                                                            width: width *
-                                                                                0.11,
-                                                                            height: width *
-                                                                                0.11,
-                                                                            child:
-                                                                                Icon(LineIcons.trash)),
-                                                                      ),
+                                                                      ],
                                                                     ),
-                                                                  )
-                                                                ],
+                                                                    Center(
+                                                                      child: ClipOval(
+                                                                        child:
+                                                                            Material(
+                                                                          color:
+                                                                              kContainerColorPrimary, // Button color
+                                                                          child:
+                                                                              InkWell(
+                                                                            splashColor:
+                                                                                kButtonColorSecondary, // Splash color
+                                                                            onTap:
+                                                                                () {
+                                                                              FirebaseFirestore
+                                                                                  .instance
+                                                                                  .collection('cart items')
+                                                                                  .doc(uid)
+                                                                                  .collection("my cart")
+                                                                                  .doc(docs[index]['timestamp'])
+                                                                                  .delete();
+                                                                            },
+                                                                            child: SizedBox(
+                                                                                width: width *
+                                                                                    0.11,
+                                                                                height: width *
+                                                                                    0.11,
+                                                                                child:
+                                                                                    Icon(LineIcons.trash)),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ),
                                                               Divider(),
-                                                              Row(
-                                                                children: [
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
+                                                              SizedBox(
+                                                                width: width*0.59,
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
 
-                                                                      Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            LineIcons.clock,
-                                                                            color:
-                                                                                kTextColorLight,
-                                                                            size:
-                                                                                18,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Text(
-                                                                            docs[index]['time'],
-                                                                            style: TextStyle(
-                                                                                color: kTextColorLight,
-                                                                                fontSize: 12,
-                                                                                fontWeight: FontWeight.w500),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            LineIcons.calendar,
-                                                                            color:
-                                                                                kTextColorLight,
-                                                                            size:
-                                                                                18,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Text(
-                                                                            docs[index]['date'],
-                                                                            style: TextStyle(
-                                                                                color: kTextColorLight,
-                                                                                fontSize: 12,
-                                                                                fontWeight: FontWeight.w500),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color:
-                                                                          kButtonColorSecondary,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              15),
+                                                                        Row(
+                                                                          children: [
+                                                                            Icon(
+                                                                              LineIcons.clock,
+                                                                              color:
+                                                                                  kTextColorLight,
+                                                                              size:
+                                                                                  18,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width:
+                                                                                  5,
+                                                                            ),
+                                                                            Text(
+                                                                              docs[index]['time'],
+                                                                              style: TextStyle(
+                                                                                  color: kTextColorLight,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Icon(
+                                                                              LineIcons.calendar,
+                                                                              color:
+                                                                                  kTextColorLight,
+                                                                              size:
+                                                                                  18,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width:
+                                                                                  5,
+                                                                            ),
+                                                                            Text(
+                                                                              docs[index]['date'],
+                                                                              style: TextStyle(
+                                                                                  color: kTextColorLight,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
                                                                     ),
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          left:
-                                                                              14,
-                                                                          right:
-                                                                              14,
-                                                                          top:
-                                                                              8,
-                                                                          bottom:
-                                                                              8),
+                                                                    Divider(
+                                                                      thickness: 2,
+                                                                    ),
+                                                                    Container(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color:
+                                                                            kButtonColorSecondary,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                15),
+                                                                      ),
                                                                       child:
-                                                                          Text(
-                                                                        "₹${docs[index]['fee']}",
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                12,
-                                                                            fontWeight:
-                                                                                FontWeight.w600),
+                                                                          Padding(
+                                                                        padding: const EdgeInsets
+                                                                                .only(
+                                                                            left:
+                                                                                14,
+                                                                            right:
+                                                                                14,
+                                                                            top:
+                                                                                8,
+                                                                            bottom:
+                                                                                8),
+                                                                        child:
+                                                                            Text(
+                                                                          "₹${docs[index]['fee']}",
+                                                                          style: TextStyle(
+                                                                              fontSize:
+                                                                                  12,
+                                                                              fontWeight:
+                                                                                  FontWeight.w600),
+                                                                        ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
 
                                                               // SizedBox(height: 4,),

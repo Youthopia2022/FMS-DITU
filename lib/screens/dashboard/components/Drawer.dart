@@ -196,15 +196,15 @@ class _SideDrawerState extends State<SideDrawer> {
                       
                       InkWell(
                           onTap: () => onItemPressed(context, index: 4),
-                          child: SvgPicture.asset("assets/images/fb.svg",height: height*0.04,)),
-                      SizedBox(width: width*0.02,),
+                          child: SvgPicture.asset("assets/images/fb.svg",height: height*0.04,color: kTextColorDark,)),
+                      SizedBox(width: width*0.03,),
                       InkWell(
                           onTap: () => onItemPressed(context, index: 5),
-                          child: SvgPicture.asset("assets/images/insta.svg",height: height*0.04,)),
-                      SizedBox(width: width*0.02,),
+                          child: SvgPicture.asset("assets/images/insta.svg",height: height*0.04,color: kTextColorDark,)),
+                      SizedBox(width: width*0.03,),
                       InkWell(
                           onTap: () => onItemPressed(context, index: 6),
-                          child: SvgPicture.asset("assets/images/twitter.svg",height: height*0.04,)),
+                          child: SvgPicture.asset("assets/images/twitter.svg",height: height*0.04,color: kTextColorDark,)),
                     ],
                   ),
                   SizedBox(height: height*0.03)
@@ -234,6 +234,9 @@ class _SideDrawerState extends State<SideDrawer> {
         break;
       case 3:
         FirebaseAuth.instance.signOut();
+        EventRecord.email = "";
+        EventRecord.name = "";
+        EventRecord.gender = "";
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;
