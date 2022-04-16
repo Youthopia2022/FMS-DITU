@@ -143,6 +143,7 @@ class _DashboardBodyState extends State<DashboardBody> {
             print("game ${EventRecord.gamingEvent.length}");
             print("debate ${EventRecord.debateEvent.length}");
           }
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
