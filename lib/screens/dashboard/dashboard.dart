@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_offline/flutter_offline.dart';
+import 'package:fms_ditu/components/NoInternet.dart';
+import 'package:fms_ditu/components/loader.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/cart/cart.dart';
 import 'package:fms_ditu/screens/dashboard/components/BottomNavigationBar.dart';
@@ -76,7 +79,21 @@ class _dashboardState extends State<dashboard> {
                 style: TextStyle(color: kTextColorDark,fontWeight: FontWeight.w600,fontSize: 18),
               )),
             ),
-            body: _tabList[_selectedIndex],
+            body: Builder(
+              builder: (BuildContext context) {
+                return OfflineBuilder(
+                    connectivityBuilder: (
+                        BuildContext context,
+                        ConnectivityResult connectivity,
+                        Widget child,
+                        ){
+                      final connected = connectivity != ConnectivityResult.none;
+                      return !connected?NoInternet():_tabList[_selectedIndex];
+                    },
+                  child: Container()
+                );
+              },
+            ),
             bottomNavigationBar: BottomNavBar(
               update: _update,
               openDrawer: _openDrawer,
@@ -84,3 +101,5 @@ class _dashboardState extends State<dashboard> {
             endDrawer: SideDrawer()));
   }
 }
+
+
