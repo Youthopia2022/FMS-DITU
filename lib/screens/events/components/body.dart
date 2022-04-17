@@ -110,28 +110,29 @@ class _EventsBodyState extends State<EventsBody> {
       child: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          Expanded(
-            child: Container(
-              color: (kBackgroundColor),
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                buildEventPoster(height, width),
-                const SizedBox(height: 20.0),
-                buildEventDetails(),
-                const SizedBox(height: 8),
-                description(),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    addToCartButton(size, isSoloAllowed, isLeaderRequired),
-                    const SizedBox(width: 12),
-                    registerButton(size, isSoloAllowed, isLeaderRequired),
-                  ],
-                )
-              ]),
-            ),
+          // Expanded(
+          //   child:
+          Container(
+            color: (kBackgroundColor),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              buildEventPoster(height, width),
+              const SizedBox(height: 20.0),
+              buildEventDetails(),
+              const SizedBox(height: 8),
+              description(),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  addToCartButton(size, isSoloAllowed, isLeaderRequired),
+                  const SizedBox(width: 12),
+                  registerButton(size, isSoloAllowed, isLeaderRequired),
+                ],
+              )
+            ]),
           ),
+          // ),
         ],
       ),
     );
@@ -295,7 +296,7 @@ class _EventsBodyState extends State<EventsBody> {
       ElevatedButton(
         onPressed: () {
           if (isSoloAllowed) {
-            //add event to cart
+            addToCartInFirestore();
             infoPopUp("Succesfully added to cart");
             //add for failure
           } else {
@@ -319,7 +320,8 @@ class _EventsBodyState extends State<EventsBody> {
       ElevatedButton(
         onPressed: () {
           if (isSoloAllowed) {
-            infoPopUp("Redirecting to payments page");
+            infoPopUp(
+                "Redirecting to payments page"); //redirect to payments page
             //add for failure
           } else {
             teamRegistrationPopUp("Make Payment", isLeaderRequired);
@@ -457,7 +459,7 @@ class _EventsBodyState extends State<EventsBody> {
                           height: 300,
                           width: 200,
                           child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               itemCount: _cardList.length,
                               itemBuilder: (context, index) {
                                 if (index <= maxMembers) {
@@ -487,8 +489,10 @@ class _EventsBodyState extends State<EventsBody> {
                             FloatingActionButton(
                               onPressed: () {
                                 setState(() {
-                                  count++;
-                                  _cardList.add(_card());
+                                  if (count < maxMembers) {
+                                    count++;
+                                    _cardList.add(_card());
+                                  }
                                   if (count > maxMembers) {
                                     // disable ebutton
                                   }
@@ -523,7 +527,11 @@ class _EventsBodyState extends State<EventsBody> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                message == "Add to cart"
+                                    ? addToCartInFirestore()
+                                    : null; //redirect to make payments page
+                              },
                               child: Text(
                                 message,
                                 style: const TextStyle(
