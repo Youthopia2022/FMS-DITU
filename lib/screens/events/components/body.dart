@@ -2,16 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fms_ditu/API/eventDetails.dart';
 import 'package:fms_ditu/API/event_records.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:flutter/src/services/platform_channel.dart';
 
+import '../../../API/cartSum.dart';
 import '../../../constants.dart';
 
 // ignore: camel_case_types
 class EventsBody extends StatefulWidget {
   EventsBody({Key? key, required this.list}) : super(key: key);
-
-  // Map<String, dynamic> obj;
 
   final EventDetails list;
 
@@ -21,12 +23,21 @@ class EventsBody extends StatefulWidget {
 
 // ignore: camel_case_types
 class _EventsBodyState extends State<EventsBody> {
+  // static const platform = const MethodChannel("razorpay_flutter");
+
+  late Razorpay _razorpay;
+
   static var auth = FirebaseAuth.instance;
   static User? user = auth.currentUser;
   String uid = user!.uid;
 
   var count = 0;
   bool written = false;
+
+  String teamLeaderId = "";
+  String teamName = "";
+  List<String> teamMembers = [];
+
   final _formKey = GlobalKey<FormState>();
 
   static late int minMembers;
@@ -44,7 +55,7 @@ class _EventsBodyState extends State<EventsBody> {
   final List<String> participantsDetail = ["124", "123", "5"];
 
   late final String _imageURL = " ";
-  String teamName = "Pta nhi"; //remove
+  // String teamName = "Pta nhi"; //remove
 
   addToCartInFirestore() async {
     final auth = FirebaseAuth.instance;
@@ -60,6 +71,8 @@ class _EventsBodyState extends State<EventsBody> {
       Map<String, dynamic> data = docSnapshot.data()!;
       college = data["college"];
     }
+
+    late Razorpay _razorpay;
 
     var time = DateTime.now();
     FirebaseFirestore.instance
@@ -95,6 +108,10 @@ class _EventsBodyState extends State<EventsBody> {
     eventFee = (college == "DIT")
         ? (widget.list.eventFeeDit)
         : (widget.list.eventFeeNonDit);
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
   @override
@@ -320,8 +337,8 @@ class _EventsBodyState extends State<EventsBody> {
       ElevatedButton(
         onPressed: () {
           if (isSoloAllowed) {
-            infoPopUp(
-                "Redirecting to payments page"); //redirect to payments page
+            infoPopUp("Redirecting to payments page");
+            openCheckout(); //redirect to payments page
             //add for failure
           } else {
             teamRegistrationPopUp("Make Payment", isLeaderRequired);
@@ -423,6 +440,14 @@ class _EventsBodyState extends State<EventsBody> {
                             filled: true,
                             fillColor: kButtonColorSecondary,
                           ),
+                          onSaved: (value) => setState(() => teamName = value!),
+                          validator: (value) {
+                            if (value!.length! < 1) {
+                              return "Not a valid Team name";
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
                         const SizedBox(height: 12),
                         isLeaderRequired
@@ -431,7 +456,7 @@ class _EventsBodyState extends State<EventsBody> {
                                     fontSize: 12, color: kTextColorDark),
                                 cursorColor: kButtonColorPrimary,
                                 decoration: InputDecoration(
-                                  helperText: "Team Leader Participant ID",
+                                  helperText: "Team Leader's Participant ID",
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: kButtonColorPrimary),
@@ -446,12 +471,21 @@ class _EventsBodyState extends State<EventsBody> {
                                     Icons.person,
                                     color: kButtonColorPrimary,
                                   ),
-                                  hintText: "Team Leader Participant ID",
+                                  hintText: "Team Leader's Participant ID",
                                   hintStyle: const TextStyle(
                                       color: kButtonColorPrimary),
                                   filled: true,
                                   fillColor: kButtonColorSecondary,
                                 ),
+                                onSaved: (value) =>
+                                    setState(() => teamLeaderId = value!),
+                                validator: (value) {
+                                  if (value!.length != 28) {
+                                    return "Participant ID must be 28 characters long";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                               )
                             : const SizedBox(height: 0, width: 0),
                         const SizedBox(height: 12),
@@ -462,7 +496,7 @@ class _EventsBodyState extends State<EventsBody> {
                               physics: const BouncingScrollPhysics(),
                               itemCount: _cardList.length,
                               itemBuilder: (context, index) {
-                                if (index <= maxMembers) {
+                                if (index < (maxMembers - 1)) {
                                   // count++;
                                   return _cardList[index];
                                 } else {
@@ -491,7 +525,7 @@ class _EventsBodyState extends State<EventsBody> {
                                 setState(() {
                                   if (count < maxMembers) {
                                     count++;
-                                    _cardList.add(_card());
+                                    _cardList.add(_card(_formKey));
                                   }
                                   if (count > maxMembers) {
                                     // disable ebutton
@@ -528,6 +562,11 @@ class _EventsBodyState extends State<EventsBody> {
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                               onPressed: () {
+                                final isValid =
+                                    _formKey.currentState!.validate();
+                                if (isValid) {
+                                  _formKey.currentState!.save();
+                                }
                                 message == "Add to cart"
                                     ? addToCartInFirestore()
                                     : null; //redirect to make payments page
@@ -562,7 +601,7 @@ class _EventsBodyState extends State<EventsBody> {
     );
   }
 
-  Widget _card() {
+  Widget _card(GlobalKey<FormState> _formKey) {
     var container = Center(
         child: Padding(
       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -589,6 +628,14 @@ class _EventsBodyState extends State<EventsBody> {
           fillColor: kButtonColorSecondary,
         ),
         style: const TextStyle(fontSize: 12, color: kTextColorDark),
+        onSaved: (value) => setState(() => teamMembers.add(value!)),
+        validator: (value) {
+          if (value!.length != 28) {
+            return "Participant ID must be 28 characters long";
+          } else {
+            return null;
+          }
+        },
       ),
     ));
     return container;
@@ -600,6 +647,47 @@ class _EventsBodyState extends State<EventsBody> {
     properties.add(DoubleProperty('eventFee', eventFee));
   }
 
+  void openCheckout() async {
+    var options = {
+      'key': 'rzp_live_ILgsfZCZoFIKMb',
+      'amount': eventFee * 100,
+      'name': 'Youthopia 2022',
+      'description': 'Payment for youthopia event',
+      'retry': {'enabled': true, 'max_count': 1},
+      'send_sms_hash': true,
+      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Error: e');
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print('Success Response: $response');
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print('Error Response: $response');
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print('External SDK Response: $response');
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
 // class Question extends StatefulWidget {
 //   const Question({Key? key}) : super(key: key);
 
