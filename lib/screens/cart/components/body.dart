@@ -435,11 +435,11 @@ class _CartBodyState extends State<CartBody> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async{
     int n = EventRecord.registeredEvents.length;
 
     for (int i = 0; i < n; i++) {
-      Registration(
+      await Registration(
               EventRecord.registeredEvents[i].teamLeader,
               EventRecord.registeredEvents[i].teamName,
               EventRecord.registeredEvents[i].teamMember,
@@ -448,7 +448,7 @@ class _CartBodyState extends State<CartBody> {
               EventRecord.registeredEvents[i].time)
           .globalRegisterInFirestore();
 
-      Registration(
+      await Registration(
               EventRecord.registeredEvents[i].teamLeader,
               EventRecord.registeredEvents[i].teamName,
               EventRecord.registeredEvents[i].teamMember,
