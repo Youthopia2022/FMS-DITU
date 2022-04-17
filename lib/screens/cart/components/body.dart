@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fms_ditu/API/cartSum.dart';
+import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/API/registration.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:line_icons/line_icons.dart';
@@ -46,8 +47,8 @@ class _CartBodyState extends State<CartBody> {
 
   Future carSum(var data) async {
     double total = 0;
-    for(int i=0;i<data.length;i++){
-      total +=  data[i]['fee'];
+    for (int i = 0; i < data.length; i++) {
+      total += data[i]['fee'];
     }
     CartSum.total = total;
   }
@@ -99,6 +100,13 @@ class _CartBodyState extends State<CartBody> {
                               itemCount: docs.length, //list view declaration
                               padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
                               itemBuilder: (BuildContext context, int index) {
+                                EventRecord.registeredEvents.add(Registration(
+                                    uid,
+                                    docs[index]['team name'],
+                                    docs[index]['participantID'],
+                                    "",
+                                    docs[index]['date'],
+                                    docs[index]['time']));
                                 return Column(
                                   children: [
                                     Padding(
@@ -145,7 +153,8 @@ class _CartBodyState extends State<CartBody> {
                                                                           5),
                                                               child:
                                                                   Image.network(
-                                                                    docs[index]['image'],
+                                                                docs[index]
+                                                                    ['image'],
                                                                 fit: BoxFit
                                                                     .cover,
                                                               ),
@@ -162,12 +171,15 @@ class _CartBodyState extends State<CartBody> {
                                                                     .start,
                                                             children: [
                                                               SizedBox(
-                                                                width: width*0.59,
+                                                                width: width *
+                                                                    0.59,
                                                                 child: Row(
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
                                                                   children: [
                                                                     Column(
                                                                       crossAxisAlignment:
@@ -177,7 +189,7 @@ class _CartBodyState extends State<CartBody> {
                                                                         Container(
                                                                           child:
                                                                               Text(
-                                                                                docs[index]['team name'],
+                                                                            docs[index]['team name'],
                                                                             style: TextStyle(
                                                                                 color: kTextColorDark,
                                                                                 fontSize: 15,
@@ -185,14 +197,13 @@ class _CartBodyState extends State<CartBody> {
                                                                           ),
                                                                         ),
                                                                         Container(
-                                                                          height: height*0.068,
-                                                                          width: width *
-                                                                              0.4,
+                                                                          height:
+                                                                              height * 0.068,
+                                                                          width:
+                                                                              width * 0.4,
                                                                           child:
                                                                               Text(
-                                                                            docs[index]
-                                                                                [
-                                                                                'about'],
+                                                                            docs[index]['about'],
                                                                             style: TextStyle(
                                                                                 color: kTextColorLight,
                                                                                 fontSize: 11,
@@ -203,7 +214,8 @@ class _CartBodyState extends State<CartBody> {
                                                                       ],
                                                                     ),
                                                                     Center(
-                                                                      child: ClipOval(
+                                                                      child:
+                                                                          ClipOval(
                                                                         child:
                                                                             Material(
                                                                           color:
@@ -214,21 +226,12 @@ class _CartBodyState extends State<CartBody> {
                                                                                 kButtonColorSecondary, // Splash color
                                                                             onTap:
                                                                                 () {
-                                                                              FirebaseFirestore
-                                                                                  .instance
-                                                                                  .collection('cart items')
-                                                                                  .doc(uid)
-                                                                                  .collection("my cart")
-                                                                                  .doc(docs[index]['timestamp'])
-                                                                                  .delete();
+                                                                              FirebaseFirestore.instance.collection('cart items').doc(uid).collection("my cart").doc(docs[index]['timestamp']).delete();
                                                                             },
                                                                             child: SizedBox(
-                                                                                width: width *
-                                                                                    0.11,
-                                                                                height: width *
-                                                                                    0.11,
-                                                                                child:
-                                                                                    Icon(LineIcons.trash)),
+                                                                                width: width * 0.11,
+                                                                                height: width * 0.11,
+                                                                                child: Icon(LineIcons.trash)),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -238,35 +241,31 @@ class _CartBodyState extends State<CartBody> {
                                                               ),
                                                               Divider(),
                                                               SizedBox(
-                                                                width: width*0.59,
+                                                                width: width *
+                                                                    0.59,
                                                                 child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
                                                                   children: [
                                                                     Column(
                                                                       crossAxisAlignment:
                                                                           CrossAxisAlignment
                                                                               .start,
                                                                       children: [
-
                                                                         Row(
                                                                           children: [
                                                                             Icon(
                                                                               LineIcons.clock,
-                                                                              color:
-                                                                                  kTextColorLight,
-                                                                              size:
-                                                                                  18,
+                                                                              color: kTextColorLight,
+                                                                              size: 18,
                                                                             ),
                                                                             SizedBox(
-                                                                              width:
-                                                                                  5,
+                                                                              width: 5,
                                                                             ),
                                                                             Text(
                                                                               docs[index]['time'],
-                                                                              style: TextStyle(
-                                                                                  color: kTextColorLight,
-                                                                                  fontSize: 12,
-                                                                                  fontWeight: FontWeight.w500),
+                                                                              style: TextStyle(color: kTextColorLight, fontSize: 12, fontWeight: FontWeight.w500),
                                                                             ),
                                                                           ],
                                                                         ),
@@ -274,28 +273,23 @@ class _CartBodyState extends State<CartBody> {
                                                                           children: [
                                                                             Icon(
                                                                               LineIcons.calendar,
-                                                                              color:
-                                                                                  kTextColorLight,
-                                                                              size:
-                                                                                  18,
+                                                                              color: kTextColorLight,
+                                                                              size: 18,
                                                                             ),
                                                                             SizedBox(
-                                                                              width:
-                                                                                  5,
+                                                                              width: 5,
                                                                             ),
                                                                             Text(
                                                                               docs[index]['date'],
-                                                                              style: TextStyle(
-                                                                                  color: kTextColorLight,
-                                                                                  fontSize: 12,
-                                                                                  fontWeight: FontWeight.w500),
+                                                                              style: TextStyle(color: kTextColorLight, fontSize: 12, fontWeight: FontWeight.w500),
                                                                             ),
                                                                           ],
                                                                         ),
                                                                       ],
                                                                     ),
                                                                     Divider(
-                                                                      thickness: 2,
+                                                                      thickness:
+                                                                          2,
                                                                     ),
                                                                     Container(
                                                                       decoration:
@@ -303,13 +297,11 @@ class _CartBodyState extends State<CartBody> {
                                                                         color:
                                                                             kButtonColorSecondary,
                                                                         borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                15),
+                                                                            BorderRadius.circular(15),
                                                                       ),
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsets
-                                                                                .only(
+                                                                        padding: const EdgeInsets.only(
                                                                             left:
                                                                                 14,
                                                                             right:
@@ -322,10 +314,8 @@ class _CartBodyState extends State<CartBody> {
                                                                             Text(
                                                                           "₹${docs[index]['fee']}",
                                                                           style: TextStyle(
-                                                                              fontSize:
-                                                                                  12,
-                                                                              fontWeight:
-                                                                                  FontWeight.w600),
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.w600),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -375,7 +365,6 @@ class _CartBodyState extends State<CartBody> {
                                     fontWeight: FontWeight.w500),
                               ),
 
-
                               //TODO: RazerPay Gateway
                               Padding(
                                 padding:
@@ -415,10 +404,7 @@ class _CartBodyState extends State<CartBody> {
                   );
           }
         });
-
   }
-
-
 
   @override
   void dispose() {
@@ -429,7 +415,7 @@ class _CartBodyState extends State<CartBody> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_live_ILgsfZCZoFIKMb',
-      'amount': CartSum.total*100,
+      'amount': CartSum.total * 100,
       'name': 'Youthopia 2022',
       'description': 'Payment for youthopia event',
       'retry': {'enabled': true, 'max_count': 1},
@@ -448,6 +434,27 @@ class _CartBodyState extends State<CartBody> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    int n = EventRecord.registeredEvents.length;
+
+    for (int i = 0; i < n; i++) {
+      Registration(
+              EventRecord.registeredEvents[i].teamLeader,
+              EventRecord.registeredEvents[i].teamName,
+              EventRecord.registeredEvents[i].teamMember,
+              EventRecord.registeredEvents[i].eventName,
+              EventRecord.registeredEvents[i].eventDate,
+              EventRecord.registeredEvents[i].time)
+          .globalRegisterInFirestore();
+
+      Registration(
+              EventRecord.registeredEvents[i].teamLeader,
+              EventRecord.registeredEvents[i].teamName,
+              EventRecord.registeredEvents[i].teamMember,
+              EventRecord.registeredEvents[i].eventName,
+              EventRecord.registeredEvents[i].eventDate,
+              EventRecord.registeredEvents[i].time)
+          .registerInFirestore();
+    }
     print('Success Response: $response');
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
@@ -455,9 +462,6 @@ class _CartBodyState extends State<CartBody> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-
-
-
     print('Error Response: $response');
     Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message!,
