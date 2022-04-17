@@ -64,6 +64,7 @@ class _CartBodyState extends State<CartBody> {
             .collection("my cart")
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          EventRecord.registeredEvents.removeRange(0, EventRecord.registeredEvents.length);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const loader();
           } else {
@@ -107,6 +108,7 @@ class _CartBodyState extends State<CartBody> {
                                     "",
                                     docs[index]['date'],
                                     docs[index]['time']));
+                                print(EventRecord.registeredEvents.length);
                                 return Column(
                                   children: [
                                     Padding(
@@ -455,6 +457,15 @@ class _CartBodyState extends State<CartBody> {
               EventRecord.registeredEvents[i].time)
           .registerInFirestore();
     }
+
+
+    Stream data = Stream.value(FirebaseFirestore.instance
+        .collection('cart items')
+        .doc(uid)
+        .collection("my cart")
+        .snapshots());
+
+
     print('Success Response: $response');
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
