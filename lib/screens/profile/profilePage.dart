@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fms_ditu/API/event_records.dart';
@@ -155,22 +156,28 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 8,
                 child: VerticalDivider(),
               ),
-              Text(
-                "Branch: ${docs['branch'].toString()}",
-                style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    color: kTextColorDark),
+              SizedBox(
+                child: Text(
+                  "College: ${docs['college'].toString()}",
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                      color: kTextColorDark),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(
-            "College: ${docs['college'].toString()}",
-            style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-                color: kTextColorDark),
+          SizedBox(
+            child: Text(
+              "Branch: ${docs['branch'].toString()}",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: kTextColorDark),
+            ),
           ),
           const SizedBox(
             height: 32,
