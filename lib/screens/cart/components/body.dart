@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fms_ditu/API/cartSum.dart';
+import 'package:fms_ditu/API/registration.dart';
 import 'package:fms_ditu/constants.dart';
-import 'package:fms_ditu/screens/payment/RazorPay.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rive/rive.dart';
@@ -66,10 +66,9 @@ class _CartBodyState extends State<CartBody> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const loader();
           } else {
-
             final docs = snapshot.data!.docs;
             carSum(docs);
-            return docs.length == 0
+            return docs.isEmpty
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -456,6 +455,9 @@ class _CartBodyState extends State<CartBody> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
+
+
+
     print('Error Response: $response');
     Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message!,
