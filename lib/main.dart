@@ -41,12 +41,15 @@ class MyApp extends StatelessWidget {
       title: 'FMS DITU',
       home: SafeArea(
         child: SplashScreen(
-            seconds: 2,
+            seconds: 3,
             navigateAfterSeconds: StreamBuilder(
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
                   return const dashboard();
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
                 } else {
                   return const SignIn();
                 }
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
             image: new Image.asset('assets/images/youthopiaLogo.png'),
             backgroundColor: Colors.white,
             loadingText: Text(
-              "Ankit Jailwal | Ayush Santri | Shubhi Agarwal",
+              "Ankit Jailwal | Ayush Santri | Shubhi Agrawal",
               style: TextStyle(fontSize: 10),
             ),
             styleTextUnderTheLoader: new TextStyle(),

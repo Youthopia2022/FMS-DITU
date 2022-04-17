@@ -91,13 +91,24 @@ class _BodyState extends State<Body> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 40),
-                child: const Text(
-                  "Welcome to Youthopia!",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                      color: Colors.black),
+                margin: const EdgeInsets.only(left: 30, top: 50),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: RichText(
+                      text: const TextSpan(
+                        text: "Welcome to",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: Colors.black,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: '\nYouthopia!',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 50)),
+                        ],
+                      )),
                 ),
               ),
               Container(
@@ -184,7 +195,7 @@ class _BodyState extends State<Body> {
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 17),
                     hintText: "Phone number",
-                    prefixIcon: Icon(Icons.phone),
+                    prefixIcon: Icon(Icons.whatsapp),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
@@ -264,13 +275,14 @@ class _BodyState extends State<Body> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20),
-                width: MediaQuery.of(context).size.width / 1.4,
+                width: MediaQuery.of(context).size.width / 1.3,
                 child: GroupButton(
                   buttons: const [
                     "1st year",
                     "2nd year",
                     "3rd year",
-                    "4th year"
+                    "4th year",
+                    "5th year"
                   ],
                   onSelected: (i, selected) {
                     _year = "${i + 1} year";

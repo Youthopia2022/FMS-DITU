@@ -2,7 +2,7 @@
     package="com.fms_ditu.fms_ditu">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="fms_ditu"
+        android:label="Youthopia22"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

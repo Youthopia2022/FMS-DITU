@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fms_ditu/screens/resetpassword/resetpassword.dart';
 import 'package:fms_ditu/screens/signup/signup.dart';
 
@@ -16,6 +17,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   late String _email;
   late String _password;
+  bool _loader = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -30,9 +32,17 @@ class _BodyState extends State<Body> {
 
   startAuthentication() async {
     final user = FirebaseAuth.instance;
-    await user.signInWithEmailAndPassword(email: _email, password: _password);
-    Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const dashboard()));
-
+    try {
+      await user.signInWithEmailAndPassword(email: _email, password: _password);
+      Navigator.pushReplacement((context),
+          MaterialPageRoute(builder: (context) => const dashboard()));
+    } catch (err) {
+      setState(() {
+        _loader = !_loader;
+      });
+      print(err);
+      Fluttertoast.showToast(msg: "Invalid credentials. Please try again");
+    }
   }
 
   @override
@@ -106,9 +116,6 @@ class _BodyState extends State<Body> {
                       borderRadius: BorderRadius.all(Radius.circular(25))),
                 ),
                 validator: (value) {
-                  if (value?.isEmpty == true || value!.length < 6) {
-                    return "generate strong password";
-                  }
                   return null;
                 },
                 onSaved: (value) {
@@ -125,26 +132,41 @@ class _BodyState extends State<Body> {
                 color: kButtonColorPrimary,
               ),
               child: TextButton(
+                style: ButtonStyle(
+                  overlayColor : MaterialStateProperty.all(Colors.transparent),
+                ),
                 onPressed: () {
+                  setState(() {
+                    _loader = !_loader;
+                  });
                   validateForm();
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "Login",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_outlined,
-                      color: Colors.white,
-                      size: 29,
-                    ),
-                  ],
-                ),
+                child: !_loader
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            "Login",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_outlined,
+                            color: Colors.white,
+                            size: 29,
+                          ),
+                        ],
+                      )
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.06,
+                        height: MediaQuery.of(context).size.width * 0.06,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
             ),
             TextButton(
@@ -171,7 +193,10 @@ class _BodyState extends State<Body> {
                   const Text("Don't have an account?"),
                   TextButton(
                       onPressed: () {
-                       Navigator.pushReplacement((context), MaterialPageRoute(builder: (context) => const SignUp()));
+                        Navigator.pushReplacement(
+                            (context),
+                            MaterialPageRoute(
+                                builder: (context) => const SignUp()));
                       },
                       child: const Text("Sign up"))
                 ],

@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: kTextColorDark),
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.copy,
                   size: 20,
                 )
@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 16),
           Text(
-            "Mobile Number: ${docs['phone number']!.toString()}",
+            "Mobile Number: ${docs['phone number'].toString()}",
             style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
@@ -172,13 +172,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 18,
                 color: kTextColorDark),
           ),
-          SizedBox(
+          const SizedBox(
             height: 32,
-            child: Divider(
-              thickness: 1,
-              indent: 20,
-              endIndent: (MediaQuery.of(context).size.width) - 20, //not working
-            ),
           ),
           const Text(
             "Registered Events",
@@ -229,6 +224,9 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 setState(() {
                   logOut();
+                  EventRecord.email = "";
+                  EventRecord.name = "";
+                  EventRecord.gender = "";
                   Navigator.pushReplacement((context),
                       MaterialPageRoute(builder: (context) => const SignIn()));
                 });

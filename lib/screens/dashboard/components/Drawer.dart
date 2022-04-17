@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/components/DrawerItem.dart';
 import 'package:fms_ditu/screens/signin/signin.dart';
 import 'package:rive/rive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -25,11 +27,11 @@ class _SideDrawerState extends State<SideDrawer> {
   static var auth = FirebaseAuth.instance;
   static User? user = auth.currentUser;
   String uid = user!.uid;
-  @override
-  void initState() {
-    getUserData();
-    super.initState();
-  }
+
+  static const _websiteUrl = "http://youthopia.dituniversity.co.in/";
+  static const _instaUrl = "https://www.instagram.com/ditu.youthopia/";
+  static const _fbUrl = "https://www.facebook.com/ditu.youthopia";
+  static const _twitterUrl = "https://twitter.com/ditu_youthopia";
 
   Future<void> getUserData() async {
     if (EventRecord.gender.isEmpty ||
@@ -41,6 +43,17 @@ class _SideDrawerState extends State<SideDrawer> {
       EventRecord.email = data?.entries.elementAt(5).value;
       EventRecord.name = data?.entries.elementAt(6).value;
       EventRecord.gender = data?.entries.elementAt(1).value;
+    }
+  }
+
+  Future<void> _launchInBrowser(String url) async {
+    if (!await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    )) {
+      throw 'Could not launch $url';
     }
   }
 
@@ -170,14 +183,26 @@ class _SideDrawerState extends State<SideDrawer> {
                   DrawerItem(
                       name: 'Log out',
                       icon: Icons.logout,
-                      onPressed: () => onItemPressed(context, index: 4)),
+                      onPressed: () => onItemPressed(context, index: 3)),
                   Spacer(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Todo: Social media handles
+                      
+                      InkWell(
+                          onTap: () => onItemPressed(context, index: 4),
+                          child: SvgPicture.asset("assets/images/fb.svg",height: height*0.04,color: kTextColorDark,)),
+                      SizedBox(width: width*0.03,),
+                      InkWell(
+                          onTap: () => onItemPressed(context, index: 5),
+                          child: SvgPicture.asset("assets/images/insta.svg",height: height*0.04,color: kTextColorDark,)),
+                      SizedBox(width: width*0.03,),
+                      InkWell(
+                          onTap: () => onItemPressed(context, index: 6),
+                          child: SvgPicture.asset("assets/images/twitter.svg",height: height*0.04,color: kTextColorDark,)),
                     ],
-                  )
+                  ),
+                  SizedBox(height: height*0.03)
                 ],
               ),
             ),
@@ -200,17 +225,24 @@ class _SideDrawerState extends State<SideDrawer> {
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;
       case 2:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const SignIn()));
+        _launchInBrowser(_websiteUrl);
         break;
       case 3:
+        FirebaseAuth.instance.signOut();
+        EventRecord.email = "";
+        EventRecord.name = "";
+        EventRecord.gender = "";
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;
       case 4:
-        FirebaseAuth.instance.signOut();
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const SignIn()));
+        _launchInBrowser(_fbUrl);
+        break;
+      case 5:
+        _launchInBrowser(_instaUrl);
+        break;
+      case 6:
+        _launchInBrowser(_twitterUrl);
         break;
     }
   }
