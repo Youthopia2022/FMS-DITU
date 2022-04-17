@@ -82,6 +82,7 @@ class _BodyState extends State<Body> {
       });
     } catch (err) {
       setState(() {
+        _showValidation = false;
         _progress = false;
       });
       print(err);
