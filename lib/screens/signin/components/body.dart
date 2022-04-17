@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
           MaterialPageRoute(builder: (context) => const dashboard()));
     } catch (err) {
       setState(() {
-        _loader = !_loader;
+        _loader = false;
       });
       print(err);
       Fluttertoast.showToast(msg: "Invalid credentials. Please try again");
@@ -137,7 +137,7 @@ class _BodyState extends State<Body> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _loader = !_loader;
+                    _loader =  true;
                   });
                   validateForm();
                 },

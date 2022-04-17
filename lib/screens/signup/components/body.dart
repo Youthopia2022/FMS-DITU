@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fms_ditu/API/event_records.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/dashboard/dashboard.dart';
@@ -28,6 +29,7 @@ class _BodyState extends State<Body> {
   late Timer timer;
   late String _phone;
   late bool _showValidation = false;
+  late bool _progress = false;
 
   onSubmit() {
     final validate = _formKey.currentState!.validate();
@@ -44,39 +46,50 @@ class _BodyState extends State<Body> {
   startAuthentication() async {
     final auth = FirebaseAuth.instance;
 
-    await auth
-        .createUserWithEmailAndPassword(email: _email, password: _password)
-        .then((value) async {
-      User? user = auth.currentUser;
-      await user!.sendEmailVerification();
+    try {
+      await auth
+          .createUserWithEmailAndPassword(email: _email, password: _password)
+          .then((value) async {
+        User? user = auth.currentUser;
+        await user!.sendEmailVerification();
 
-      timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
-        user = auth.currentUser;
-        await user!.reload();
+        timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
+          user = auth.currentUser;
+          await user!.reload();
 
-        if (user!.emailVerified) {
-          String uid = user!.uid;
+          if (user!.emailVerified) {
+            String uid = user!.uid;
 
-          await FirebaseFirestore.instance.collection("users").doc(uid).set({
-            "username": _username,
-            "email": _email,
-            "year": _year,
-            "branch": _branch,
-            "gender": _gender,
-            "phone number": _phone,
-            "college" : _college
-          });
-          //set uid in DatabaseService
-          // DatabaseService(uid: uid);
+            await FirebaseFirestore.instance.collection("users").doc(uid).set({
+              "username": _username,
+              "email": _email,
+              "year": _year,
+              "branch": _branch,
+              "gender": _gender,
+              "phone number": _phone,
+              "college": _college
+            });
+            //set uid in DatabaseService
+            // DatabaseService(uid: uid);
 
-          EventRecord.name = _username;
-          EventRecord.email = _email;
-          EventRecord.gender = _gender;
-          Navigator.pushReplacement((context),
-              MaterialPageRoute(builder: (context) => const dashboard()));
-        }
+            EventRecord.name = _username;
+            EventRecord.email = _email;
+            EventRecord.gender = _gender;
+            Navigator.pushReplacement((context),
+                MaterialPageRoute(builder: (context) => const dashboard()));
+          }
+        });
       });
-    });
+    } catch (err) {
+      setState(() {
+        _showValidation = false;
+        _progress = false;
+      });
+      print(err);
+      if(err.toString() == "[firebase_auth/email-already-in-use] The email address is already in use by another account.") {
+        Fluttertoast.showToast(msg: "Email address already registered");
+      }
+    }
   }
 
   var items = ['Male', 'Female', 'Others'];
@@ -96,19 +109,19 @@ class _BodyState extends State<Body> {
                   alignment: Alignment.topLeft,
                   child: RichText(
                       text: const TextSpan(
-                        text: "Welcome to",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Colors.black,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: '\nYouthopia!',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 50)),
-                        ],
-                      )),
+                    text: "Welcome to",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '\nYouthopia!',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 50)),
+                    ],
+                  )),
                 ),
               ),
               Container(
@@ -358,25 +371,38 @@ class _BodyState extends State<Body> {
                 ),
                 child: TextButton(
                   onPressed: () {
+                    setState(() {
+                      _progress = true;
+                    });
                     onSubmit();
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Submit",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_outlined,
-                        color: Colors.white,
-                        size: 29,
-                      ),
-                    ],
-                  ),
+                  child: !_progress
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Submit",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_outlined,
+                              color: Colors.white,
+                              size: 29,
+                            ),
+                          ],
+                        )
+                      : SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.06,
+                          height: MediaQuery.of(context).size.width * 0.06,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
               const SizedBox(
