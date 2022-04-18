@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fms_ditu/API/event_records.dart';
+import 'package:fms_ditu/API/registration.dart';
 import 'package:fms_ditu/constants.dart';
 import 'package:fms_ditu/screens/profile/profileWidget.dart';
 import 'package:fms_ditu/screens/profile/user.dart';
@@ -32,8 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
     await FirebaseAuth.instance.signOut();
   }
 
-  List<String> names = ["Robo soccer", "Sherlocked"];
-
   Map<String, dynamic> udList = {};
 
   String copiedID = UserPreferences.myUser.id
@@ -62,6 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
             EventRecord.name = udList['username'];
             EventRecord.email = udList['email'];
             EventRecord.gender = udList['gender'];
+            EventRecord.number = udList['phone number'];
             return Scaffold(
               body: ListView(
                 physics: const BouncingScrollPhysics(),
@@ -155,22 +156,28 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 8,
                 child: VerticalDivider(),
               ),
-              Text(
-                "Branch: ${docs['branch'].toString()}",
-                style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    color: kTextColorDark),
+              SizedBox(
+                child: Text(
+                  "College: ${docs['college'].toString()}",
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                      color: kTextColorDark),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(
-            "College: ${docs['college'].toString()}",
-            style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-                color: kTextColorDark),
+          SizedBox(
+            child: Text(
+              "Branch: ${docs['branch'].toString()}",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: kTextColorDark),
+            ),
           ),
           const SizedBox(
             height: 32,
@@ -185,35 +192,63 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       );
 
-  Widget registeredEvents() => ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: names.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: kButtonColorPrimary,
-            foregroundColor: kButtonColorSecondary,
-            child: IconButton(
-                onPressed: () {
-                  //call registered event page
-                },
-                icon: const Icon(Icons.people_rounded)),
-          ),
-          trailing: CircleAvatar(
-            backgroundColor: kButtonColorPrimary,
-            foregroundColor: kButtonColorSecondary,
-            child: IconButton(
-              onPressed: () {
-                //call events page
+  Widget registeredEvents() => StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("Registered Event")
+            .doc("User personal")
+            .collection(uid)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.hasData) {
+            final docs = snapshot.data!.docs;
+            return ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: docs.length,
+              itemBuilder: (context, index) {
+                if (docs[index]['isPayed'] == true) {
+                  Registration(
+                      docs[index]['team leader'],
+                      docs[index]['team name'],
+                      docs[index]['team member'],
+                      docs[index]['event name'],
+                      docs[index]['date'],
+                      docs[index]['time'],
+                      docs[index]['timestamp'],
+                      true)
+                      .globalRegisterInFirestore();
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: kButtonColorPrimary,
+                      foregroundColor: kButtonColorSecondary,
+                      child: IconButton(
+                          onPressed: () {
+                            //call registered event page
+                          },
+                          icon: const Icon(Icons.people_rounded)),
+                    ),
+                    trailing: CircleAvatar(
+                      backgroundColor: kButtonColorPrimary,
+                      foregroundColor: kButtonColorSecondary,
+                      child: IconButton(
+                        onPressed: () {
+                          //call events page
+                        },
+                        icon: const Icon(Icons.arrow_circle_right),
+                      ),
+                    ),
+                    title: Text(docs[index]['event name']),
+                  );
+                }
+                return Container();
               },
-              icon: const Icon(Icons.arrow_circle_right),
-            ),
-          ),
-          title: Text(names[index]),
-        );
-      });
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      );
 
   Widget logoutButton() => ButtonTheme(
         height: MediaQuery.of(context).size.height * 0.5,
@@ -227,6 +262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   EventRecord.email = "";
                   EventRecord.name = "";
                   EventRecord.gender = "";
+                  EventRecord.number = "";
                   Navigator.pushReplacement((context),
                       MaterialPageRoute(builder: (context) => const SignIn()));
                 });
