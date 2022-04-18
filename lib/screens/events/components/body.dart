@@ -9,6 +9,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter/src/services/platform_channel.dart';
 
 import '../../../API/cartSum.dart';
+import '../../../API/registration.dart';
 import '../../../constants.dart';
 
 // ignore: camel_case_types
@@ -84,12 +85,17 @@ class _EventsBodyState extends State<EventsBody> {
       "image": imageURL,
       "about": about,
       "fee": eventFee,
+      "eventname" : eventName,
       "date": eventDate,
       "time": eventTime,
       "timestamp": time.toString(),
       "team name": teamName,
       "participantID": participantsDetail,
     });
+
+    Registration(uid, teamName, participantsDetail, eventName, eventDate, eventTime,
+            time.toString(), false)
+        .registerInFirestore();
   }
 
   @override
@@ -444,7 +450,7 @@ class _EventsBodyState extends State<EventsBody> {
                           ),
                           onSaved: (value) => setState(() => teamName = value!),
                           validator: (value) {
-                            if (value!.length! < 1) {
+                            if (value!.isEmpty) {
                               return "Not a valid Team name";
                             } else {
                               return null;

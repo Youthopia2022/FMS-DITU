@@ -8,30 +8,34 @@ class Registration {
   final String eventName;
   final String eventDate;
   final String time;
+  final bool isPayed;
+  final String timestamp;
 
-  Registration(this.teamLeader, this.teamName, this.teamMember, this.eventName, this.eventDate, this.time);
+  Registration(this.teamLeader, this.teamName, this.teamMember, this.eventName, this.eventDate, this.time, this.timestamp, this.isPayed);
 
-  registerInFirestore() {
+  registerInFirestore() async{
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance.collection("Registered Event").doc("User personal").collection(uid).doc(eventName).set({
+    await FirebaseFirestore.instance.collection("Registered Event").doc("User personal").collection(uid).doc(timestamp).set({
       "team leader" : teamLeader,
       "team name" : teamName,
       "team member" : teamMember,
       "event name" : eventName,
+      "isPayed" : isPayed,
       "date" : eventDate,
-      "time" : time
+      "time" : time,
+      "timestamp" : timestamp
     });
   }
 
-  globalRegisterInFirestore() {
-    var timer = DateTime.now();
-    FirebaseFirestore.instance.collection("Registered Event").doc("For judges").collection(eventName).doc(timer.toString()).set({
+  globalRegisterInFirestore() async{
+    await FirebaseFirestore.instance.collection("Registered Event").doc("For judges").collection(eventName).doc(timestamp).set({
       "team leader" : teamLeader,
       "team name" : teamName,
       "team member" : teamMember,
       "event name" : eventName,
       "date" : eventDate,
-      "time" : time
+      "time" : time,
+      "timestamp" : timestamp
     });
   }
 }

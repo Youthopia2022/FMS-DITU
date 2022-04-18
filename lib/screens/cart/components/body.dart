@@ -21,9 +21,11 @@ class CartBody extends StatefulWidget {
 }
 
 class _CartBodyState extends State<CartBody> {
-  static const platform = const MethodChannel("razorpay_flutter");
+  static const platform = MethodChannel("razorpay_flutter");
 
   late Razorpay _razorpay;
+  late bool _register = false;
+
   @override
   void initState() {
     getUID();
@@ -77,9 +79,9 @@ class _CartBodyState extends State<CartBody> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(15),
-                        child: Container(
+                        child: SizedBox(
                           height: height * 0.4,
-                          child: RiveAnimation.asset('assets/rive/cart.riv'),
+                          child: const RiveAnimation.asset('assets/rive/cart.riv'),
                         ),
                       ),
                       const Text(
@@ -99,21 +101,18 @@ class _CartBodyState extends State<CartBody> {
                       Expanded(
                           child: ListView.builder(
                               itemCount: docs.length, //list view declaration
-                              padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
+                              padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
                               itemBuilder: (BuildContext context, int index) {
-                                EventRecord.registeredEvents.add(Registration(
-                                    uid,
-                                    docs[index]['team name'],
-                                    docs[index]['participantID'],
-                                    "",
-                                    docs[index]['date'],
-                                    docs[index]['time']));
+                                if(_register == true) {
+                                  FirebaseFirestore.instance.collection("Registered Event").doc("User personal").collection(uid).doc(docs[index]['timestamp']).update({"isPayed" : true});
+                                  FirebaseFirestore.instance.collection('cart items').doc(uid).collection("my cart").doc(docs[index]['timestamp']).delete();
+                                }
                                 print(EventRecord.registeredEvents.length);
                                 return Column(
                                   children: [
                                     Padding(
                                       padding:
-                                          EdgeInsets.only(left: 5, right: 5),
+                                          const EdgeInsets.only(left: 5, right: 5),
                                       child: Container(
                                         width: width,
                                         decoration: BoxDecoration(
@@ -123,12 +122,12 @@ class _CartBodyState extends State<CartBody> {
                                               color:
                                                   Colors.grey.withOpacity(0.5),
                                               blurRadius: 5.0,
-                                              offset: Offset(0, 3),
+                                              offset: const Offset(0, 3),
                                             ),
                                           ],
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               top: 10,
                                               bottom: 10,
                                               left: 15,
@@ -192,7 +191,7 @@ class _CartBodyState extends State<CartBody> {
                                                                           child:
                                                                               Text(
                                                                             docs[index]['team name'],
-                                                                            style: TextStyle(
+                                                                            style: const TextStyle(
                                                                                 color: kTextColorDark,
                                                                                 fontSize: 15,
                                                                                 fontWeight: FontWeight.w600),
@@ -206,7 +205,7 @@ class _CartBodyState extends State<CartBody> {
                                                                           child:
                                                                               Text(
                                                                             docs[index]['about'],
-                                                                            style: TextStyle(
+                                                                            style: const TextStyle(
                                                                                 color: kTextColorLight,
                                                                                 fontSize: 11,
                                                                                 overflow: TextOverflow.ellipsis,
@@ -228,12 +227,14 @@ class _CartBodyState extends State<CartBody> {
                                                                                 kButtonColorSecondary, // Splash color
                                                                             onTap:
                                                                                 () {
+                                                                                  FirebaseFirestore.instance.collection("Registered Event").doc("For judges").collection(docs[index]['eventname']).doc(docs[index]['timestamp']).delete();
+                                                                              FirebaseFirestore.instance.collection("Registered Event").doc("User personal").collection(uid).doc(docs[index]['timestamp']).delete();
                                                                               FirebaseFirestore.instance.collection('cart items').doc(uid).collection("my cart").doc(docs[index]['timestamp']).delete();
                                                                             },
                                                                             child: SizedBox(
                                                                                 width: width * 0.11,
                                                                                 height: width * 0.11,
-                                                                                child: Icon(LineIcons.trash)),
+                                                                                child: const Icon(LineIcons.trash)),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -241,7 +242,7 @@ class _CartBodyState extends State<CartBody> {
                                                                   ],
                                                                 ),
                                                               ),
-                                                              Divider(),
+                                                              const Divider(),
                                                               SizedBox(
                                                                 width: width *
                                                                     0.59,
@@ -257,39 +258,39 @@ class _CartBodyState extends State<CartBody> {
                                                                       children: [
                                                                         Row(
                                                                           children: [
-                                                                            Icon(
+                                                                            const Icon(
                                                                               LineIcons.clock,
                                                                               color: kTextColorLight,
                                                                               size: 18,
                                                                             ),
-                                                                            SizedBox(
+                                                                            const SizedBox(
                                                                               width: 5,
                                                                             ),
                                                                             Text(
                                                                               docs[index]['time'],
-                                                                              style: TextStyle(color: kTextColorLight, fontSize: 12, fontWeight: FontWeight.w500),
+                                                                              style: const TextStyle(color: kTextColorLight, fontSize: 12, fontWeight: FontWeight.w500),
                                                                             ),
                                                                           ],
                                                                         ),
                                                                         Row(
                                                                           children: [
-                                                                            Icon(
+                                                                            const Icon(
                                                                               LineIcons.calendar,
                                                                               color: kTextColorLight,
                                                                               size: 18,
                                                                             ),
-                                                                            SizedBox(
+                                                                            const SizedBox(
                                                                               width: 5,
                                                                             ),
                                                                             Text(
                                                                               docs[index]['date'],
-                                                                              style: TextStyle(color: kTextColorLight, fontSize: 12, fontWeight: FontWeight.w500),
+                                                                              style: const TextStyle(color: kTextColorLight, fontSize: 12, fontWeight: FontWeight.w500),
                                                                             ),
                                                                           ],
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                    Divider(
+                                                                    const Divider(
                                                                       thickness:
                                                                           2,
                                                                     ),
@@ -315,7 +316,7 @@ class _CartBodyState extends State<CartBody> {
                                                                         child:
                                                                             Text(
                                                                           "₹${docs[index]['fee']}",
-                                                                          style: TextStyle(
+                                                                          style: const TextStyle(
                                                                               fontSize: 12,
                                                                               fontWeight: FontWeight.w600),
                                                                         ),
@@ -348,11 +349,11 @@ class _CartBodyState extends State<CartBody> {
                               })),
                       Container(
                         width: width,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: kButtonColorPrimary,
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20))),
+                                topRight: const Radius.circular(20))),
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 15, right: 10, top: 5),
@@ -361,7 +362,7 @@ class _CartBodyState extends State<CartBody> {
                             children: [
                               Text(
                                 "₹${CartSum.total}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 22,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
@@ -385,8 +386,8 @@ class _CartBodyState extends State<CartBody> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Text("Pay with"),
-                                        SizedBox(
+                                        const Text("Pay with"),
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Image.asset(
@@ -417,7 +418,7 @@ class _CartBodyState extends State<CartBody> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_live_ILgsfZCZoFIKMb',
-      'amount': CartSum.total * 100,
+      'amount': 1*100,
       'name': 'Youthopia 2022',
       'description': 'Payment for youthopia event',
       'retry': {'enabled': true, 'max_count': 1},
@@ -435,36 +436,10 @@ class _CartBodyState extends State<CartBody> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async{
-    int n = EventRecord.registeredEvents.length;
-
-    for (int i = 0; i < n; i++) {
-      await Registration(
-              EventRecord.registeredEvents[i].teamLeader,
-              EventRecord.registeredEvents[i].teamName,
-              EventRecord.registeredEvents[i].teamMember,
-              EventRecord.registeredEvents[i].eventName,
-              EventRecord.registeredEvents[i].eventDate,
-              EventRecord.registeredEvents[i].time)
-          .globalRegisterInFirestore();
-
-      await Registration(
-              EventRecord.registeredEvents[i].teamLeader,
-              EventRecord.registeredEvents[i].teamName,
-              EventRecord.registeredEvents[i].teamMember,
-              EventRecord.registeredEvents[i].eventName,
-              EventRecord.registeredEvents[i].eventDate,
-              EventRecord.registeredEvents[i].time)
-          .registerInFirestore();
-    }
-
-
-    Stream data = Stream.value(FirebaseFirestore.instance
-        .collection('cart items')
-        .doc(uid)
-        .collection("my cart")
-        .snapshots());
-
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    setState(() {
+      _register = true;
+    });
 
     print('Success Response: $response');
     Fluttertoast.showToast(
