@@ -54,7 +54,7 @@ class _EventsBodyState extends State<EventsBody> {
   final List<Widget> _cardList = [];
   final List<String> participantsDetail = ["124", "123", "5"];
 
-  late final String _imageURL = " ";
+  late String imageURL = "";
   // String teamName = "Pta nhi"; //remove
 
   addToCartInFirestore() async {
@@ -81,7 +81,7 @@ class _EventsBodyState extends State<EventsBody> {
         .collection("my cart")
         .doc(time.toString())
         .set({
-      "image": _imageURL,
+      "image": imageURL,
       "about": about,
       "fee": eventFee,
       "date": eventDate,
@@ -108,6 +108,8 @@ class _EventsBodyState extends State<EventsBody> {
     eventFee = (college == "DIT")
         ? (widget.list.eventFeeDit)
         : (widget.list.eventFeeNonDit);
+    imageURL = widget.list.image;
+
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -155,12 +157,12 @@ class _EventsBodyState extends State<EventsBody> {
     );
   }
 
-  Widget buildEventPoster(double height, double width) => const ClipRRect(
-        borderRadius: BorderRadius.only(
+  Widget buildEventPoster(double height, double width) => ClipRRect(
+        borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(12.0),
             bottomRight: Radius.circular(12.0)),
         child: Image(
-          image: AssetImage('assets/images/test_poster.jpg'),
+          image: AssetImage(imageURL),
           alignment: Alignment.center,
         ),
       );
@@ -608,7 +610,7 @@ class _EventsBodyState extends State<EventsBody> {
       child: TextFormField(
         cursorColor: kButtonColorPrimary,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: -10),
+          // contentPadding: const EdgeInsets.symmetric(vertical: -10),
           helperText: "Enter Participant ID",
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: kButtonColorPrimary),
