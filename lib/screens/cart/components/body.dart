@@ -418,12 +418,12 @@ class _CartBodyState extends State<CartBody> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_live_ILgsfZCZoFIKMb',
-      'amount': 1*100,
+      'amount': CartSum.total*100,
       'name': 'Youthopia 2022',
       'description': 'Payment for youthopia event',
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
-      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+      'prefill': {'contact': EventRecord.number, 'email': EventRecord.email},
       'external': {
         'wallets': ['paytm']
       }

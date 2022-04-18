@@ -62,6 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
             EventRecord.name = udList['username'];
             EventRecord.email = udList['email'];
             EventRecord.gender = udList['gender'];
+            EventRecord.number = udList['phone number'];
             return Scaffold(
               body: ListView(
                 physics: const BouncingScrollPhysics(),
@@ -261,6 +262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   EventRecord.email = "";
                   EventRecord.name = "";
                   EventRecord.gender = "";
+                  EventRecord.number = "";
                   Navigator.pushReplacement((context),
                       MaterialPageRoute(builder: (context) => const SignIn()));
                 });
