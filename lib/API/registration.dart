@@ -8,9 +8,10 @@ class Registration {
   final String eventName;
   final String eventDate;
   final String time;
+  final bool isPayed;
   final String timestamp;
 
-  Registration(this.teamLeader, this.teamName, this.teamMember, this.eventName, this.eventDate, this.time, this.timestamp);
+  Registration(this.teamLeader, this.teamName, this.teamMember, this.eventName, this.eventDate, this.time, this.timestamp, this.isPayed);
 
   registerInFirestore() async{
     String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -19,6 +20,7 @@ class Registration {
       "team name" : teamName,
       "team member" : teamMember,
       "event name" : eventName,
+      "isPayed" : isPayed,
       "date" : eventDate,
       "time" : time,
       "timestamp" : timestamp

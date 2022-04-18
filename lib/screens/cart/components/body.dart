@@ -104,16 +104,9 @@ class _CartBodyState extends State<CartBody> {
                               padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
                               itemBuilder: (BuildContext context, int index) {
                                 if(_register == true) {
+                                  FirebaseFirestore.instance.collection("Registered Event").doc("User personal").collection(uid).doc(docs[index]['timestamp']).update({"isPayed" : true});
                                   FirebaseFirestore.instance.collection('cart items').doc(uid).collection("my cart").doc(docs[index]['timestamp']).delete();
                                 }
-                                EventRecord.registeredEvents.add(Registration(
-                                    uid,
-                                    docs[index]['team name'],
-                                    docs[index]['participantID'],
-                                    "",
-                                    docs[index]['date'],
-                                    docs[index]['time'],
-                                docs[index]['timestamp']));
                                 print(EventRecord.registeredEvents.length);
                                 return Column(
                                   children: [

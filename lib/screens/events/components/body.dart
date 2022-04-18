@@ -94,11 +94,8 @@ class _EventsBodyState extends State<EventsBody> {
     });
 
     Registration(uid, teamName, participantsDetail, eventName, eventDate, eventTime,
-            time.toString())
+            time.toString(), false)
         .registerInFirestore();
-    Registration(uid, teamName, participantsDetail, eventName, eventDate, eventTime,
-        time.toString())
-        .globalRegisterInFirestore();
   }
 
   @override
