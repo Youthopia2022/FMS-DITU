@@ -9,6 +9,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter/src/services/platform_channel.dart';
 
 import '../../../API/cartSum.dart';
+import '../../../API/registration.dart';
 import '../../../constants.dart';
 
 // ignore: camel_case_types
@@ -84,12 +85,20 @@ class _EventsBodyState extends State<EventsBody> {
       "image": _imageURL,
       "about": about,
       "fee": eventFee,
+      "eventname" : eventName,
       "date": eventDate,
       "time": eventTime,
       "timestamp": time.toString(),
       "team name": teamName,
       "participantID": participantsDetail,
     });
+
+    Registration(uid, teamName, participantsDetail, eventName, eventDate, eventTime,
+            time.toString())
+        .registerInFirestore();
+    Registration(uid, teamName, participantsDetail, eventName, eventDate, eventTime,
+        time.toString())
+        .globalRegisterInFirestore();
   }
 
   @override
