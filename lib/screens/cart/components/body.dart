@@ -24,6 +24,8 @@ class _CartBodyState extends State<CartBody> {
   static const platform = const MethodChannel("razorpay_flutter");
 
   late Razorpay _razorpay;
+  late bool _register = false;
+
   @override
   void initState() {
     getUID();
@@ -101,6 +103,9 @@ class _CartBodyState extends State<CartBody> {
                               itemCount: docs.length, //list view declaration
                               padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
                               itemBuilder: (BuildContext context, int index) {
+                                if(_register == true) {
+                                  FirebaseFirestore.instance.collection('cart items').doc(uid).collection("my cart").doc(docs[index]['timestamp']).delete();
+                                }
                                 EventRecord.registeredEvents.add(Registration(
                                     uid,
                                     docs[index]['team name'],
@@ -417,7 +422,7 @@ class _CartBodyState extends State<CartBody> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_live_ILgsfZCZoFIKMb',
-      'amount': CartSum.total * 100,
+      'amount': 1*100,
       'name': 'Youthopia 2022',
       'description': 'Payment for youthopia event',
       'retry': {'enabled': true, 'max_count': 1},
@@ -435,36 +440,10 @@ class _CartBodyState extends State<CartBody> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async{
-    int n = EventRecord.registeredEvents.length;
-
-    for (int i = 0; i < n; i++) {
-      await Registration(
-              EventRecord.registeredEvents[i].teamLeader,
-              EventRecord.registeredEvents[i].teamName,
-              EventRecord.registeredEvents[i].teamMember,
-              EventRecord.registeredEvents[i].eventName,
-              EventRecord.registeredEvents[i].eventDate,
-              EventRecord.registeredEvents[i].time)
-          .globalRegisterInFirestore();
-
-      await Registration(
-              EventRecord.registeredEvents[i].teamLeader,
-              EventRecord.registeredEvents[i].teamName,
-              EventRecord.registeredEvents[i].teamMember,
-              EventRecord.registeredEvents[i].eventName,
-              EventRecord.registeredEvents[i].eventDate,
-              EventRecord.registeredEvents[i].time)
-          .registerInFirestore();
-    }
-
-
-    Stream data = Stream.value(FirebaseFirestore.instance
-        .collection('cart items')
-        .doc(uid)
-        .collection("my cart")
-        .snapshots());
-
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    setState(() {
+      _register = true;
+    });
 
     print('Success Response: $response');
     Fluttertoast.showToast(

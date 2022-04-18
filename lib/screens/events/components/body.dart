@@ -442,7 +442,7 @@ class _EventsBodyState extends State<EventsBody> {
                           ),
                           onSaved: (value) => setState(() => teamName = value!),
                           validator: (value) {
-                            if (value!.length! < 1) {
+                            if (value!.isEmpty) {
                               return "Not a valid Team name";
                             } else {
                               return null;
