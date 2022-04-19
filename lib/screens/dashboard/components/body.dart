@@ -40,100 +40,102 @@ class _DashboardBodyState extends State<DashboardBody> {
             int n = docs.length;
             print("Snapshottt ${snapshot.data!.docs[0]['category']}");
             print(n);
-            for (int i = 0; i < n; i++) {
-              if (docs[i]['isTopEvent'] == true) {
-                EventRecord.topEvent.add(EventDetails(
-                    docs[i]['event name'],
-                    docs[i]['venue'],
-                    docs[i]['about'],
-                    docs[i]['club'],
-                    docs[i]['date'].toString(),
-                    (1.0 * docs[i]['eventFeeDIT']),
-                    (1.0 * docs[i]['eventFeeNonDIT']),
-                    docs[i]['image'],
-                    docs[i]['isTopEvent'],
-                    (1.0 * docs[i]['max_member']),
-                    (1.0 * docs[i]['min_member']),
-                    docs[i]['time'],
-                    docs[i]['category']));
-                // eventDetails.addEntries(newEntries)
-              }
-              if (docs[i]['category'] == "Technical") {
-                EventRecord.technicalEvent.add(EventDetails(
-                    docs[i]['event name'],
-                    docs[i]['venue'],
-                    docs[i]['about'],
-                    docs[i]['club'],
-                    docs[i]['date'].toString(),
-                    (1.0 * docs[i]['eventFeeDIT']),
-                    (1.0 * docs[i]['eventFeeNonDIT']),
-                    docs[i]['image'],
-                    docs[i]['isTopEvent'],
-                    (1.0 * docs[i]['max_member']),
-                    (1.0 * docs[i]['min_member']),
-                    docs[i]['time'],
-                    docs[i]['category']));
-              } else if (docs[i]['category'] == "Informal") {
-                EventRecord.informalEvent.add(EventDetails(
-                    docs[i]['event name'],
-                    docs[i]['venue'],
-                    docs[i]['about'],
-                    docs[i]['club'],
-                    docs[i]['date'].toString(),
-                    (1.0 * docs[i]['eventFeeDIT']),
-                    (1.0 * docs[i]['eventFeeNonDIT']),
-                    docs[i]['image'],
-                    docs[i]['isTopEvent'],
-                    (1.0 * docs[i]['max_member']),
-                    (1.0 * docs[i]['min_member']),
-                    docs[i]['time'],
-                    docs[i]['category']));
-              } else if (docs[i]['category'] == "Debate and Declamation" ||
-                  docs[i]['category'] == "Debate") {
-                EventRecord.debateEvent.add(EventDetails(
-                    docs[i]['event name'],
-                    docs[i]['venue'],
-                    docs[i]['about'],
-                    docs[i]['club'],
-                    docs[i]['date'].toString(),
-                    (1.0 * docs[i]['eventFeeDIT']),
-                    (1.0 * docs[i]['eventFeeNonDIT']),
-                    docs[i]['image'],
-                    docs[i]['isTopEvent'],
-                    (1.0 * docs[i]['max_member']),
-                    (1.0 * docs[i]['min_member']),
-                    docs[i]['time'],
-                    docs[i]['category']));
-              } else if (docs[i]['category'] == "Gaming") {
-                EventRecord.gamingEvent.add(EventDetails(
-                    docs[i]['event name'],
-                    docs[i]['venue'],
-                    docs[i]['about'],
-                    docs[i]['club'],
-                    docs[i]['date'].toString(),
-                    (1.0 * docs[i]['eventFeeDIT']),
-                    (1.0 * docs[i]['eventFeeNonDIT']),
-                    docs[i]['image'],
-                    docs[i]['isTopEvent'],
-                    (1.0 * docs[i]['max_member']),
-                    (1.0 * docs[i]['min_member']),
-                    docs[i]['time'],
-                    docs[i]['category']));
-              } else if (docs[i]['category'] == "Cultural") {
-                EventRecord.culturalEvent.add(EventDetails(
-                    docs[i]['event name'],
-                    docs[i]['venue'],
-                    docs[i]['about'],
-                    docs[i]['club'],
-                    docs[i]['date'].toString(),
-                    (1.0 * docs[i]['eventFeeDIT']),
-                    (1.0 * docs[i]['eventFeeNonDIT']),
-                    docs[i]['image'],
-                    docs[i]['isTopEvent'],
-                    (1.0 * docs[i]['max_member']),
-                    (1.0 * docs[i]['min_member']),
-                    docs[i]['time'],
-                    docs[i]['category']));
+            if(EventRecord.culturalEvent.isEmpty){
+              for (int i = 0; i < n; i++) {
+                if (docs[i]['isTopEvent'] == true) {
+                  EventRecord.topEvent.add(EventDetails(
+                      docs[i]['event name'],
+                      docs[i]['venue'],
+                      docs[i]['about'],
+                      docs[i]['club'],
+                      docs[i]['date'].toString(),
+                      (1.0 * docs[i]['eventFeeDIT']),
+                      (1.0 * docs[i]['eventFeeNonDIT']),
+                      docs[i]['image'],
+                      docs[i]['isTopEvent'],
+                      (1.0 * docs[i]['max_member']),
+                      (1.0 * docs[i]['min_member']),
+                      docs[i]['time'],
+                      docs[i]['category']));
+                  // eventDetails.addEntries(newEntries)
+                }
+                if (docs[i]['category'] == "Technical" || docs[i]['category'] == "technical") {
+                  EventRecord.technicalEvent.add(EventDetails(
+                      docs[i]['event name'],
+                      docs[i]['venue'],
+                      docs[i]['about'],
+                      docs[i]['club'],
+                      docs[i]['date'].toString(),
+                      (1.0 * docs[i]['eventFeeDIT']),
+                      (1.0 * docs[i]['eventFeeNonDIT']),
+                      docs[i]['image'],
+                      docs[i]['isTopEvent'],
+                      (1.0 * docs[i]['max_member']),
+                      (1.0 * docs[i]['min_member']),
+                      docs[i]['time'],
+                      docs[i]['category']));
+                } else if (docs[i]['category'] == "Informal" || docs[i]['category'] == "informal") {
+                  EventRecord.informalEvent.add(EventDetails(
+                      docs[i]['event name'],
+                      docs[i]['venue'],
+                      docs[i]['about'],
+                      docs[i]['club'],
+                      docs[i]['date'].toString(),
+                      (1.0 * docs[i]['eventFeeDIT']),
+                      (1.0 * docs[i]['eventFeeNonDIT']),
+                      docs[i]['image'],
+                      docs[i]['isTopEvent'],
+                      (1.0 * docs[i]['max_member']),
+                      (1.0 * docs[i]['min_member']),
+                      docs[i]['time'],
+                      docs[i]['category']));
+                } else if (docs[i]['category'] == "Debate and Declamation" ||
+                    docs[i]['category'] == "Debate" || docs[i]['category'] == "debate") {
+                  EventRecord.debateEvent.add(EventDetails(
+                      docs[i]['event name'],
+                      docs[i]['venue'],
+                      docs[i]['about'],
+                      docs[i]['club'],
+                      docs[i]['date'].toString(),
+                      (1.0 * docs[i]['eventFeeDIT']),
+                      (1.0 * docs[i]['eventFeeNonDIT']),
+                      docs[i]['image'],
+                      docs[i]['isTopEvent'],
+                      (1.0 * docs[i]['max_member']),
+                      (1.0 * docs[i]['min_member']),
+                      docs[i]['time'],
+                      docs[i]['category']));
+                } else if (docs[i]['category'] == "Gaming" || docs[i]['category'] == "gaming") {
+                  EventRecord.gamingEvent.add(EventDetails(
+                      docs[i]['event name'],
+                      docs[i]['venue'],
+                      docs[i]['about'],
+                      docs[i]['club'],
+                      docs[i]['date'].toString(),
+                      (1.0 * docs[i]['eventFeeDIT']),
+                      (1.0 * docs[i]['eventFeeNonDIT']),
+                      docs[i]['image'],
+                      docs[i]['isTopEvent'],
+                      (1.0 * docs[i]['max_member']),
+                      (1.0 * docs[i]['min_member']),
+                      docs[i]['time'],
+                      docs[i]['category']));
+                } else if (docs[i]['category'] == "Cultural" || docs[i]['category'] == "cultural") {
+                  EventRecord.culturalEvent.add(EventDetails(
+                      docs[i]['event name'],
+                      docs[i]['venue'],
+                      docs[i]['about'],
+                      docs[i]['club'],
+                      docs[i]['date'].toString(),
+                      (1.0 * docs[i]['eventFeeDIT']),
+                      (1.0 * docs[i]['eventFeeNonDIT']),
+                      docs[i]['image'],
+                      docs[i]['isTopEvent'],
+                      (1.0 * docs[i]['max_member']),
+                      (1.0 * docs[i]['min_member']),
+                      docs[i]['time'],
+                      docs[i]['category']));
+                }
               }
             }
             print("Tech ${EventRecord.technicalEvent.length}");
@@ -418,7 +420,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         itemBuilder: (context, index) => Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(
+                            GestureDetector(  
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -439,7 +441,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                       borderRadius: BorderRadius.circular(5),
                                       child: Image.network(
                                         EventRecord.informalEvent[index].image,
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.cover,
                                       )),
                                 )),
                           ],

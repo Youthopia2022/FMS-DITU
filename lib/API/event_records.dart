@@ -13,6 +13,7 @@ class EventRecord {
   static String name = "";
   static String email = "";
   static String gender = "";
+  static String number = "";
 
   factory EventRecord() {
     return _singleton;

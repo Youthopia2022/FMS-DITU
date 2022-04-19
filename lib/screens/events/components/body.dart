@@ -277,7 +277,9 @@ class _EventsBodyState extends State<EventsBody> {
                     width: 20,
                   ),
                   Container(
+                    width: MediaQuery.of(context).size.width*0.5,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Icon(
                           Icons.handyman,
@@ -286,13 +288,16 @@ class _EventsBodyState extends State<EventsBody> {
                         const SizedBox(
                           width: 4,
                         ),
-                        Text(
-                          organizer,
-                          textAlign: TextAlign.end,
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: kTextColorDark),
+                        Container(
+                          child: Text(
+                            organizer,
+                            textAlign: TextAlign.end,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: kTextColorDark),
+                          ),
                         ),
                       ],
                     ),
@@ -665,7 +670,7 @@ class _EventsBodyState extends State<EventsBody> {
       'description': 'Payment for youthopia event',
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
-      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+      'prefill': {'contact': EventRecord.number, 'email': EventRecord.email},
       'external': {
         'wallets': ['paytm']
       }

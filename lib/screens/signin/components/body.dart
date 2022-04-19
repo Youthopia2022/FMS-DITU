@@ -28,6 +28,11 @@ class _BodyState extends State<Body> {
       _formKey.currentState!.save();
       startAuthentication();
     }
+    else {
+      setState(() {
+        _loader = false;
+      });
+    }
   }
 
   startAuthentication() async {
@@ -137,7 +142,8 @@ class _BodyState extends State<Body> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _loader =  true;
+                    _loader = true;
+
                   });
                   validateForm();
                 },

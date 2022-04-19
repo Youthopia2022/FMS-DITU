@@ -43,6 +43,7 @@ class _SideDrawerState extends State<SideDrawer> {
       EventRecord.email = data?.entries.elementAt(5).value;
       EventRecord.name = data?.entries.elementAt(6).value;
       EventRecord.gender = data?.entries.elementAt(1).value;
+      EventRecord.number = data?.entries.elementAt(3).value;
     }
   }
 
@@ -232,6 +233,7 @@ class _SideDrawerState extends State<SideDrawer> {
         EventRecord.email = "";
         EventRecord.name = "";
         EventRecord.gender = "";
+        EventRecord.number = "";
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const SignIn()));
         break;
