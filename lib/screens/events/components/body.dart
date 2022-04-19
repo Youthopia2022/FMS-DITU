@@ -50,6 +50,7 @@ class _EventsBodyState extends State<EventsBody> {
   static late String eventTime;
   static late double eventFee;
   static late String about;
+  bool verified = false;
   var college;
 
   final List<Widget> _cardList = [];
@@ -85,7 +86,7 @@ class _EventsBodyState extends State<EventsBody> {
       "image": imageURL,
       "about": about,
       "fee": eventFee,
-      "eventname" : eventName,
+      "eventname": eventName,
       "date": eventDate,
       "time": eventTime,
       "timestamp": time.toString(),
@@ -93,8 +94,8 @@ class _EventsBodyState extends State<EventsBody> {
       "participantID": participantsDetail,
     });
 
-    Registration(uid, teamName, participantsDetail, eventName, eventDate, eventTime,
-            time.toString(), false)
+    Registration(uid, teamName, participantsDetail, eventName, eventDate,
+            eventTime, time.toString(), false)
         .registerInFirestore();
   }
 
@@ -168,7 +169,8 @@ class _EventsBodyState extends State<EventsBody> {
             bottomLeft: Radius.circular(12.0),
             bottomRight: Radius.circular(12.0)),
         child: Image(
-          image: AssetImage(imageURL),
+          height: MediaQuery.of(context).size.height * 0.5,
+          image: NetworkImage(imageURL),
           alignment: Alignment.center,
         ),
       );
@@ -275,7 +277,9 @@ class _EventsBodyState extends State<EventsBody> {
                     width: 20,
                   ),
                   Container(
+                    width: MediaQuery.of(context).size.width*0.5,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Icon(
                           Icons.handyman,
@@ -284,13 +288,16 @@ class _EventsBodyState extends State<EventsBody> {
                         const SizedBox(
                           width: 4,
                         ),
-                        Text(
-                          organizer,
-                          textAlign: TextAlign.end,
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: kTextColorDark),
+                        Container(
+                          child: Text(
+                            organizer,
+                            textAlign: TextAlign.end,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: kTextColorDark),
+                          ),
                         ),
                       ],
                     ),
@@ -574,10 +581,10 @@ class _EventsBodyState extends State<EventsBody> {
                                     _formKey.currentState!.validate();
                                 if (isValid) {
                                   _formKey.currentState!.save();
+                                  message == "Add to cart"
+                                      ? addToCartInFirestore()
+                                      : null; //redirect to make payments page
                                 }
-                                message == "Add to cart"
-                                    ? addToCartInFirestore()
-                                    : null; //redirect to make payments page
                               },
                               child: Text(
                                 message,
