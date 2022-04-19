@@ -387,12 +387,10 @@ class _CartBodyState extends State<CartBody> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         const Text("Pay with"),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
+                                        const SizedBox(width: 5,),
                                         Image.asset(
-                                          'assets/images/upi.png',
-                                          width: width * 0.12,
+                                          'assets/images/razorpay.png',
+                                          width: width * 0.18,
                                         )
                                       ],
                                     ),

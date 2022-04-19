@@ -420,7 +420,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         itemBuilder: (context, index) => Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(  
+                            GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                       context,
