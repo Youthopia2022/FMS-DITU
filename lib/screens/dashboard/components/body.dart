@@ -420,7 +420,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         itemBuilder: (context, index) => Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(
+                            GestureDetector(  
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -441,7 +441,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                       borderRadius: BorderRadius.circular(5),
                                       child: Image.network(
                                         EventRecord.informalEvent[index].image,
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.cover,
                                       )),
                                 )),
                           ],
