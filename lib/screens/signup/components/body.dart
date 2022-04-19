@@ -23,7 +23,7 @@ class _BodyState extends State<Body> {
   late String _email;
   late String _gender = "Male";
   late String _password;
-  late String _year;
+  late String _year = "";
   late String _branch;
   late String _college = "DIT";
   late Timer timer;
@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
   onSubmit() {
     final validate = _formKey.currentState!.validate();
 
-    if (validate == true) {
+    if (validate == true && _year != "") {
       setState(() {
         _showValidation = true;
       });
@@ -43,6 +43,7 @@ class _BodyState extends State<Body> {
     }
     else {
       setState(() {
+        Fluttertoast.showToast(msg: "please select year", gravity: ToastGravity.TOP);
         _progress = false;
       });
     }
