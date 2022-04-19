@@ -275,7 +275,9 @@ class _EventsBodyState extends State<EventsBody> {
                     width: 20,
                   ),
                   Container(
+                    width: MediaQuery.of(context).size.width*0.5,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Icon(
                           Icons.handyman,
@@ -284,13 +286,16 @@ class _EventsBodyState extends State<EventsBody> {
                         const SizedBox(
                           width: 4,
                         ),
-                        Text(
-                          organizer,
-                          textAlign: TextAlign.end,
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: kTextColorDark),
+                        Container(
+                          child: Text(
+                            organizer,
+                            textAlign: TextAlign.end,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: kTextColorDark),
+                          ),
                         ),
                       ],
                     ),
