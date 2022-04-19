@@ -41,6 +41,11 @@ class _BodyState extends State<Body> {
       _formKey.currentState!.save();
       startAuthentication();
     }
+    else {
+      setState(() {
+        _progress = false;
+      });
+    }
   }
 
   startAuthentication() async {
@@ -125,7 +130,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width / 1.5,
+                width: double.infinity,
                 margin: const EdgeInsets.only(top: 20, bottom: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -419,7 +424,7 @@ class _BodyState extends State<Body> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "OTP ",
+                          "verification mail ",
                           style: TextStyle(
                               color: kButtonColorPrimary,
                               fontWeight: FontWeight.bold),
