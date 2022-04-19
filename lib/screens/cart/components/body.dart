@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -422,9 +424,9 @@ class _CartBodyState extends State<CartBody> {
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
       'prefill': {'contact': EventRecord.number, 'email': EventRecord.email},
-      'external': {
-        'wallets': ['paytm']
-      }
+      // 'external': {
+      //   'wallets': ['paytm']
+      // }
     };
 
     try {
@@ -446,9 +448,11 @@ class _CartBodyState extends State<CartBody> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    print('Error Response: $response');
+    var errorData = jsonDecode(response.message.toString());
+    print('Error Response: ${errorData}');
+
     Fluttertoast.showToast(
-        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+        msg: "ERROR: " + response.code.toString() + " - " + errorData['error']['description']!,
         toastLength: Toast.LENGTH_SHORT);
   }
 
